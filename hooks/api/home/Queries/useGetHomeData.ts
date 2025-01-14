@@ -35,7 +35,6 @@ const emptySearchQuery: SearchOfferQueryParameterData = {
     year_manufactured: '',
 }
 
-// but can be achieved using a styling library like Nativewind.
 export function useGetHomeData() {
     
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -91,6 +90,7 @@ export function useGetHomeData() {
 
     const shouldSearch = !!debouncedSearchTerm || !!debouncedPaginationCursor;
     
+    //must be called manually in view
     const {data, isLoading, hasNextPage, fetchNextPage} = useInfiniteQuery(
         {
             //if one of debounced parameters change,then re-run the query with updated values
@@ -171,7 +171,7 @@ async function getSearchSuggestionsApi({
     shippable_to,
     user_current_syrian_city,
     user_has_legal_car_papers,
-    year_manufactured
+    year_manufactured,
 }: SearchOfferQueryParameterData) {
     try {
         
@@ -199,6 +199,9 @@ async function getSearchSuggestionsApi({
         );
 
         const search_url = `${HOME_URI}/${queryString}`;
+        
+        console.log(search);
+        
         
         const response = await apiClient
                                 .get<SearchCarOfferPaginationResultData>

@@ -5,7 +5,7 @@ import { BASE_URI } from "@/constants/api";
 
 export const apiClient = axios.create({
     baseURL: BASE_URI,
-    // withCredentials: true,
+    withCredentials: true,
     timeout: 6000,
     // withXSRFToken: true,
     // xsrfCookieName: "XSRF-TOKEN",

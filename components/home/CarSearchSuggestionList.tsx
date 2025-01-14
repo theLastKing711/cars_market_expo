@@ -16,6 +16,8 @@ const CarSearchSuggestionList = ({
   fetchNextPage,
   isLoading,
 }: CarSearchSuggestionList) => {
+  console.log(items);
+
   const renderItem: ListRenderItem<CarListData> | null | undefined = ({
     item: {
       id,

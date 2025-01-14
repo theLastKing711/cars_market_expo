@@ -41,7 +41,7 @@ const Home = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      height: "100%", // fill whole screen height
+      height: "100%", // fill the whole screen height
       justifyContent: "center",
       alignItems: "center",
       //   height: 600,
@@ -92,15 +92,24 @@ const Home = () => {
   //   const shouldShowSuggestionList = isSearchFocused || !!searchQueryParam;
 
   return (
-    <View></View>
-    // <View style={styles.container}>
-    //   <CarSearchSuggestionList
-    //     items={carSearchSuggestions}
-    //     hasNextPage={hasNextPage}
-    //     fetchNextPage={fetchNextPage}
-    //     isLoading={isLoading}
-    //   />
-    // </View>
+    <View style={styles.container}>
+      <View style={{ zIndex: 4 }}>
+        <Searchbar
+          style={{ marginTop: 15 }}
+          placeholder="ابحث عن منتج"
+          onFocus={() => onSearchFocus()}
+          onBlur={() => onSearchBlur()}
+          value={search}
+          onChangeText={onSearchValueUpdate}
+        />
+      </View>
+      {/* <CarSearchSuggestionList
+        items={carSearchSuggestions}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        isLoading={isLoading}
+      /> */}
+    </View>
   );
 };
 

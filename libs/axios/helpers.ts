@@ -22,36 +22,51 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
         if(typeof currentValue !== "string")
         {
+            
             const query = currentValue.reduce(
                 (prevArray, currentArrayItem) => {
+
+                    console.log(prevArray);
+                    
+                    
+                    if(prevArray != "")
+                    {
+                        return `${prevArray}&${currentKeyAsString}[]=${currentArrayItem}`;
+                    }
+
                     if(index == 0)
                     {
-                        
-                        if(prev == "")
-                        {
-                            return `${prev}?${currentKeyAsString}[]=${currentArrayItem}`;
-                        }
-
-                        return `${prev}&${currentKeyAsString}[]=${currentArrayItem}`;
+                        return `?${currentKeyAsString}[]=${currentArrayItem}`;
                     }
 
                     return `${prevArray}&${currentKeyAsString}[]=${currentArrayItem}`;
                 }
                 , 
-                ""
+                prev
             );
 
             return query;
         }
 
-        if(prev == "" && currentValue != "")
+        if(prev == "" && currentValue == "")
+            {
+                return prev;
+            }
+    
+
+        if(index == 0)
         {
-            return `?${currentKeyAsString}=${currentValue}`;
+            if(currentValue != "")
+            {
+                console.log(currentValue, "sex");
+                
+                return `?${currentKeyAsString}=${currentValue}`;
+            }
         }
 
-        if(prev == "" && currentValue == "")
+        if(prev == "" && currentValue != "")
         {
-            return prev;
+            return `${prev}&${currentKeyAsString}=${currentValue}`;
         }
 
         if(prev != "" && currentValue != "")
@@ -62,6 +77,9 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
         return prev;
 
     }, "");
+    
+    console.log(stringQueryParm);
+    
 
     return stringQueryParm;
 
