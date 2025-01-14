@@ -1,5 +1,9 @@
 {
   "expo": {
+    "extra": {
+      "supportsRTL": true,
+      "forcesRTL": true
+    },
     "name": "cars_market_expo",
     "slug": "cars_market_expo",
     "version": "1.0.0",
@@ -32,7 +36,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
