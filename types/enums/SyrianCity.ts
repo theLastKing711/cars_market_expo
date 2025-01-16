@@ -129,7 +129,7 @@ export enum SyrianCity {
 }
 
 
-const syrianCityLookup: Record<SyrianCity, string> = {
+export const SYRIANCITYLOOKUP: Record<SyrianCity, string> = {
     [SyrianCity.Aleppo]: "حلب",
     [SyrianCity.Damascus]: "دمشق",
     [SyrianCity.Homs]: "حمص",
@@ -193,8 +193,8 @@ const syrianCityLookup: Record<SyrianCity, string> = {
     [SyrianCity.AlThawrah]: "الثورة",
     [SyrianCity.Yabroud]: "يبرود",
     [SyrianCity.Zabadani]: "الزبداني"
-};
+}
 
-export const syrianCitiesList = 
-    (Object.values(SyrianCity) as SyrianCity[])
-    .map((city, index) => ({id: city, title: syrianCityLookup[city]}));
+// export const SYRIANCITYLIST = 
+//     (Object.values(SyrianCity) as SyrianCity[])
+//     .map((city, index) => ({id: city, title: SYRIANCITYLOOKUP[city]}));

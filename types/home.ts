@@ -12,6 +12,10 @@ export type CarListData = {
     miles_travelled_in_km: number | null;
     is_used: boolean | null;
     fuel_type: FuelType | null;
+    car_sell_location: SyrianCity | null,
+    is_kassah: boolean | null;
+    is_khalyeh: boolean | null;
+    is_faragha_jahzeh: boolean | null;
     shippable_to: Array<ShippableToCityData>;
 };
 
