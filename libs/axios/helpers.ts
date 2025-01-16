@@ -48,6 +48,13 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
             return query;
         }
 
+        if(currentValue == "")
+        {
+            console.log('empty');
+            
+            return prev;
+        }
+
         if(prev == "" && currentValue == "")
             {
                 return prev;
@@ -78,7 +85,7 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
     }, "");
     
-    console.log(stringQueryParm);
+    console.log(stringQueryParm, 'stringQueryParam');
     
 
     return stringQueryParm;

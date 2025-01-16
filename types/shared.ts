@@ -6,6 +6,7 @@ export type CursorPaginatedResult<T> = {
 
 export type PaginatedResult<T> = {
     data: T[];
+    next_page_url: string | null;
 }
 
 export type InifinteQueryPageParam = {

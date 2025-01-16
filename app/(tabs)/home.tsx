@@ -1,8 +1,9 @@
+import CarSearchResultCard from "@/components/home/CarSearchResultCard";
+import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import CarSearchSuggestionList from "@/components/home/CarSearchSuggestionList";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import { ListRenderItem, ScrollView, StyleSheet, View } from "react-native";
-import { Chip, useTheme } from "react-native-paper";
-import { Searchbar } from "react-native-paper";
+import { Chip, Searchbar, useTheme } from "react-native-paper";
 
 const Home = () => {
   const {
@@ -41,10 +42,11 @@ const Home = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      height: "100%", // fill the whole screen height
-      justifyContent: "center",
-      alignItems: "center",
+      // height: "100%", // fill the whole screen height
+      // justifyContent: "center",
+      // alignItems: "center",
       //   height: 600,
+      paddingTop: 71,
       backgroundColor: theme.colors.surface,
       position: "relative",
     },
@@ -93,16 +95,24 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{ zIndex: 4 }}>
+      <View style={{ paddingHorizontal: 16 }}>
         <Searchbar
-          style={{ marginTop: 15 }}
-          placeholder="ابحث عن منتج"
+          placeholder="ابحث عن سيارة"
           onFocus={() => onSearchFocus()}
           onBlur={() => onSearchBlur()}
           value={search}
           onChangeText={onSearchValueUpdate}
         />
       </View>
+      <CarSearchResultCardList
+        items={carSearchSuggestions}
+        renderItem={({ item }) => (
+          <CarSearchResultCard item={item} onFavourite={() => {}} />
+        )}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        isLoading={isLoading}
+      />
       {/* <CarSearchSuggestionList
         items={carSearchSuggestions}
         hasNextPage={hasNextPage}

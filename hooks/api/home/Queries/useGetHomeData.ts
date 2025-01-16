@@ -8,6 +8,7 @@ import { HOME_URI } from '@/constants/api';
 import { apiClient } from "@/libs/axios/config";
 import { buildQueryParamsString } from '@/libs/axios/helpers';
 import { SearchCarOfferPaginationResultData, SearchOfferQueryParameterData } from "@/types/home";
+import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useLocalSearchParams } from "expo-router";
@@ -29,10 +30,11 @@ const emptySearchQuery: SearchOfferQueryParameterData = {
     miles_travelled_in_km_to: '',
     price_from: '',
     price_to: '',
-    shippable_to: [],
+    year_manufactured: '',
     user_current_syrian_city: '',
     user_has_legal_car_papers: '',
-    year_manufactured: '',
+    is_used: '',
+    shippable_to: [],
 }
 
 export function useGetHomeData() {
@@ -61,10 +63,11 @@ export function useGetHomeData() {
         miles_travelled_in_km_to,
         price_from,
         price_to,
-        shippable_to,
         user_current_syrian_city,
         user_has_legal_car_papers,
-        year_manufactured
+        year_manufactured,
+        is_used,
+        shippable_to,
      } =
      useLocalSearchParams<SearchOfferQueryParameterData>();
 
@@ -96,10 +99,10 @@ export function useGetHomeData() {
             //if one of debounced parameters change,then re-run the query with updated values
             //(enabled must be true also => one of the values in not empty)
             queryKey: ['home', debouncedSearchTerm, debouncedPaginationCursor],
-            // if we pass ({pageParam}) to query fn parameters there might be a problem for some reasom
-            queryFn :() => getSearchSuggestionsApi({
+            // page param is in the defenition of queryfn and it takes its type from initalPageParam as seen below
+            queryFn :({pageParam}) => getSearchSuggestionsApi({
                 search,
-                page,
+                page: pageParam || '',
                 car_label_origin,
                 car_sell_location,
                 faragha_jahzeh,
@@ -111,16 +114,19 @@ export function useGetHomeData() {
                 miles_travelled_in_km_to,
                 price_from,
                 price_to,
-                shippable_to,
-                user_current_syrian_city,
                 user_has_legal_car_papers,
+                user_current_syrian_city,
                 year_manufactured,
+                is_used,
+                shippable_to,
             }),
             enabled: shouldSearch,
             getNextPageParam: (lastPageParam, pages) => {
-                return lastPageParam.next_page || undefined;
+                const nextPage = lastPageParam?.next_page ? lastPageParam?.next_page.toString() : undefined; 
+
+                return nextPage;
             },
-            initialPageParam: undefined,
+            initialPageParam: null as InifinteQueryPageParam['pageParam'],
         },
     );
 
@@ -155,8 +161,8 @@ export function useGetHomeData() {
 }
   
 async function getSearchSuggestionsApi({
-    search,
     page,
+    search,
     car_label_origin,
     car_sell_location,
     faragha_jahzeh,
@@ -168,10 +174,11 @@ async function getSearchSuggestionsApi({
     miles_travelled_in_km_to,
     price_from,
     price_to,
-    shippable_to,
     user_current_syrian_city,
     user_has_legal_car_papers,
     year_manufactured,
+    is_used,
+    shippable_to,
 }: SearchOfferQueryParameterData) {
     try {
         
@@ -179,7 +186,7 @@ async function getSearchSuggestionsApi({
         buildQueryParamsString<SearchOfferQueryParameterData>(
             [
                 {key: "search", value: search},
-                {key: "page", value: page},
+                {key: "page", value: page || ''},
                 {key: "car_label_origin", value: car_label_origin},
                 {key: "car_sell_location", value: car_sell_location},
                 {key: "faragha_jahzeh", value: faragha_jahzeh}, 
@@ -191,26 +198,37 @@ async function getSearchSuggestionsApi({
                 {key: "miles_travelled_in_km_to", value: miles_travelled_in_km_to},
                 {key: "price_from", value: price_from},
                 {key: "price_to", value: price_to},
-                {key: "shippable_to", value: shippable_to},
                 {key: "user_current_syrian_city", value: user_current_syrian_city},
                 {key: "user_has_legal_car_papers", value: user_has_legal_car_papers},
                 {key: "year_manufactured", value: year_manufactured},
+                {key: "is_used", value: is_used},
+                {key: "shippable_to", value: shippable_to},
+
             ]
         );
 
         const search_url = `${HOME_URI}/${queryString}`;
         
-        console.log(search);
-        
-        
         const response = await apiClient
                                 .get<SearchCarOfferPaginationResultData>
                                 (search_url);
+        console.log('next page url', response.data.next_page_url);
+        
+
+        const next_page = 
+            response.data.next_page_url
+            ?
+            (response.data.current_page + 1).toString()
+            :
+            null
+
+        console.log(next_page, next_page);
+        
 
         return {
             data: response.data.data,
-            next_page: response.data.current_page,
-            total: 10
+            next_page,
+            // total: 10
         }
         
     }

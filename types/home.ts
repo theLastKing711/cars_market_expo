@@ -1,3 +1,4 @@
+import { FuelType } from "./enums/FuelType";
 import { PagiantionQueryParameter } from "./shared";
 
 export type CarListData = {
@@ -9,6 +10,8 @@ export type CarListData = {
     car_price: number | null;
     car_import_type: ImportType | null;
     miles_travelled_in_km: number | null;
+    is_used: boolean | null;
+    fuel_type: FuelType | null;
     shippable_to: Array<ShippableToCityData>;
 };
 
@@ -22,6 +25,7 @@ export type SearchCarOfferPaginationResultData = {
     data: Array<CarListData>;
     current_page: number;
     per_page: number;
+    next_page_url: string | null;
     total: number;
 };
 
@@ -35,6 +39,7 @@ export type ShippableToCityData = {
 };
 
 export type SearchOfferQueryParameterData = {
+    page:string;
     search: string;
     user_current_syrian_city: string;
     manufacturer_id: string;
@@ -42,7 +47,6 @@ export type SearchOfferQueryParameterData = {
     price_to: string;
     car_sell_location: string;
     year_manufactured: string;
-    fuel_type: string;
     car_label_origin: string;
     miles_travelled_in_km: string;
     miles_travelled_in_km_from: string;
@@ -50,8 +54,10 @@ export type SearchOfferQueryParameterData = {
     user_has_legal_car_papers: string;
     faragha_jahzeh: string;
     import_type: string;
+    fuel_type: string;
+    is_used: string;
     shippable_to: Array<string>;
-} & PagiantionQueryParameter;
+};
 
 // export type SearchOfferQueryParameterData = {
 //     search?: string;
@@ -74,7 +80,7 @@ export type SearchOfferQueryParameterData = {
 
 export type Color = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 export type Currency = 1 | 2;
-export type FuelType = 1 | 2 | 3;
+// export type FuelType = 1 | 2 | 3;
 export type Gender = 1 | 2;
 export type ImportType = 1 | 2 | 3 | 4 | 5 | 6;
 export type Latest = 1;
