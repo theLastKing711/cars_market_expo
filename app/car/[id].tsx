@@ -1,86 +1,121 @@
-import VariantSection from "@/components/product/VariantSection";
-import VariantValueImage from "@/components/product/VariantValueImage";
-import { useGetProductDetails } from "@/hooks/api/products/Queries/useGetProductDetails";
+import HaveFeatureSection, {
+  HaveFeatureSectionProps,
+} from "@/components/carOfferDetails/HaveFeatureSection";
+import MainListSection, {
+  MainListSectionProps,
+} from "@/components/carOfferDetails/mainListSection/MainListSection";
+import MainListSectionItem, {
+  MainListSectionItemProps,
+} from "@/components/carOfferDetails/mainListSection/MainListSectionItem";
+import MainListSectionRow from "@/components/carOfferDetails/mainListSection/MainListSectionRow";
+import { MainSection } from "@/components/carOfferDetails/MainSection";
+import PriceSection from "@/components/carOfferDetails/PriceSection";
+import { SectionContainer } from "@/components/carOfferDetails/SectionContainer";
+import ShippableToSection from "@/components/carOfferDetails/ShippableToSection";
+import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
+import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import { View } from "react-native";
+import React from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Divider, Icon, List, Text, useTheme } from "react-native-paper";
 
-const ProductDetails = () => {
-  const { id, firstVariantValueId, secondVariantValueId, thirdVariantValueId } =
-    useLocalSearchParams<{
-      id: string;
-      firstVariantValueId?: string;
-      secondVariantValueId?: string;
-      thirdVariantValueId?: string;
-    }>();
+const CarOfferDetails = () => {
+  const { id } = useLocalSearchParams<{
+    id: string;
+  }>();
 
-  const { data, isLoading } = useGetProductDetails(id);
+  const theme = useTheme();
 
-  //   console.log("data", data);
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.surface,
+      position: "relative",
+    },
+  });
 
-  const variants = data?.data.variants || [];
+  const { data, isLoading } = useGetCarOfferDetails(id);
 
-  const isVariantValueSelected = (id: number) => {
-    if (firstVariantValueId != null) {
-      return firstVariantValueId == id.toString();
-    }
-    if (secondVariantValueId != null) {
-      return secondVariantValueId == id.toString();
-    }
-    if (thirdVariantValueId != null) {
-      return thirdVariantValueId == id.toString();
-    }
-    return false;
-  };
+  const shippable_to_cites = data?.data.shippable_to || [];
 
-  const selectVariantValue = (id: number, variantId: number) => {};
+  const haveFeaturesItems: HaveFeatureSectionProps["items"] = [
+    {
+      label: "خالية العلام",
+      is_checked: data?.data.is_khalyeh,
+    },
+    {
+      label: "قصة",
+      is_checked: data?.data.is_kassah,
+    },
+    {
+      label: "جاهزة للفراغة",
+      is_checked: data?.data.is_faragha_jahzeh,
+    },
+  ];
 
-  const variant_sections = variants.map((variant, variantIndex) => (
-    <VariantSection
-      key={variant.id}
-      variant={variant}
-      renderItem={(variantValue) => (
-        <VariantValueImage
-          key={variantValue.id}
-          variantValue={variantValue}
-          isSelected={isVariantValueSelected(variantValue.id)}
-          onSelection={(id) => selectVariantValue(id, variant.id)}
-        />
-      )}
-    />
-  ));
+  const mainListSectionItemProps: MainListSectionProps["items"] = [
+    {
+      icon: "car",
+      label: "الشركة المصنعة",
+      text: data?.data.manufacturer_name_en,
+    },
+    {
+      icon: "car",
+      label: "السعر",
+      text: `${data?.data.car_price} $`,
+    },
+    {
+      icon: "fuel",
+      label: "الوقود",
+      text: data?.data.fuel_type,
+    },
+    {
+      icon: "car",
+      label: "الاستعمال",
+      text: data?.data.is_new_car ? "جديدة" : "مستعملة",
+    },
+  ];
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          padding: 20,
-          backgroundColor: "white",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 40,
-        }}
-      >
-        <Image
-          source={{
-            //width 700 with 'crop' => 'pad'
-            uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
-            // 700 width
-            // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
-          }}
+    <ScrollView>
+      <View style={styles.container}>
+        <View
           style={{
-            width: "100%",
-            maxWidth: 700, // width of the image, can be disorted if we set it greater than this value which is the image width
-            aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
-            resizeMode: "contain",
+            padding: 20,
+            paddingBottom: 0,
             backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
           }}
+        >
+          <Image
+            source={{
+              //width 700 with 'crop' => 'pad'
+              uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
+              // 700 width
+              // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
+            }}
+            style={{
+              width: "100%",
+              maxWidth: 700, // width of the image, can be disorted if we set it greater than this value which is the image width
+              aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
+              resizeMode: "contain",
+              backgroundColor: "white",
+            }}
+          />
+        </View>
+        <MainSection
+          title={data?.data.manufacturer_name_en}
+          location={data?.data.car_label_origin}
         />
+        <PriceSection price={data?.data.car_price} />
+        <MainListSection items={mainListSectionItemProps} />
+        <HaveFeatureSection items={haveFeaturesItems} />
+        <ShippableToSection cities={shippable_to_cites} />
       </View>
-      {variant_sections}
-    </View>
+    </ScrollView>
   );
 };
 
-export default ProductDetails;
+export default CarOfferDetails;

@@ -18,8 +18,6 @@ const CarSearchResultCardList = ({
   fetchNextPage,
   isLoading,
 }: CarSearchResultCardList) => {
-  console.log(items);
-
   //   const renderItem: ListRenderItem<CarListData> | null | undefined = ({
   //     item: {
   //       id,
@@ -79,7 +77,7 @@ const CarSearchResultCardList = ({
         onEndReached={fetchNextPage}
         ListFooterComponent={loadingComponent}
         style={{ paddingHorizontal: 16 }}
-        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
       ></FlatList>
     </View>
   );

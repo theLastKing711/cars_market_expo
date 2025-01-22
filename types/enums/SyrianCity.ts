@@ -1,7 +1,11 @@
 import { ListData } from "../shared";
 
 export enum SyrianCity {
-    Aleppo = 1,
+
+
+    All = 0,
+    
+    Aleppo,
 
     Damascus,
 
@@ -126,10 +130,12 @@ export enum SyrianCity {
     AlNabk,
 
     AynAlArab,
+
 }
 
 
 export const SYRIANCITYLOOKUP: Record<SyrianCity, string> = {
+    [SyrianCity.All]: "حميع المحافظات السورية",
     [SyrianCity.Aleppo]: "حلب",
     [SyrianCity.Damascus]: "دمشق",
     [SyrianCity.Homs]: "حمص",

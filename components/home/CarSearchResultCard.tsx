@@ -1,6 +1,7 @@
 import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
 import { SYRIANCITYLOOKUP } from "@/types/enums/SyrianCity";
 import { CarListData } from "@/types/home";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Card, IconButton, Text, Tooltip } from "react-native-paper";
@@ -26,13 +27,13 @@ const styles = StyleSheet.create({
   },
   contentColumn: {
     flex: 1,
-    gap: 8,
+    gap: 12,
   },
 });
 
 const CarSearchResultCard = ({
   item: {
-    car_import_type,
+    // car_import_type,
     car_price,
     id,
     manufacturer_id,
@@ -87,30 +88,43 @@ const CarSearchResultCard = ({
       ? "جاهزة عالفراغة"
       : "-";
   return (
-    <Card>
-      <Card.Cover source={{ uri: "https://picsum.photos/200/300" }} />
+    <Card
+      onPress={() => {
+        router.push({
+          pathname: "/car/[id]",
+          params: {
+            id,
+          },
+        });
+      }}
+    >
+      <Card.Cover
+        source={{ uri: "https://picsum.photos/200/300" }}
+        style={{ height: 300 }}
+      />
       <Card.Title
         title={title}
-        titleVariant="titleLarge"
+        titleVariant="titleMedium"
         subtitle={car_price_text}
-        subtitleVariant="headlineLarge"
+        subtitleVariant="headlineMedium"
         style={styles.titleContainer}
         titleStyle={styles.title}
+        titleNumberOfLines={2}
       />
       <Card.Content style={styles.contentContainer}>
         <View style={styles.contentColumn}>
-          <Text variant="bodyLarge">{car_sell_location_text}</Text>
-          <Text variant="bodyLarge">{miles_travelled_in_km_text}</Text>
-          <Text variant="bodyLarge">{is_khalyeh_text}</Text>
+          <Text>{car_sell_location_text}</Text>
+          <Text>{miles_travelled_in_km_text}</Text>
+          <Text>{is_khalyeh_text}</Text>
         </View>
         <View style={styles.contentColumn}>
-          <Text variant="bodyLarge">{is_used_text}</Text>
+          <Text>{is_used_text}</Text>
           <Text>{is_is_faragha_jahzeh_text}</Text>
-          <Text variant="bodyLarge">{fuel_type_text}</Text>
-          <Text variant="bodyLarge">{is_kassah_text}</Text>
+          <Text>{fuel_type_text}</Text>
+          <Text>{is_kassah_text}</Text>
         </View>
       </Card.Content>
-      <Card.Actions style={{ flexDirection: "row-reverse" }}>
+      <Card.Actions style={{ flexDirection: "row-reverse", paddingTop: 16 }}>
         <Tooltip title="أضف إلى عربة التسوق">
           <IconButton icon={{ source: "cart-outline", direction: "rtl" }} />
         </Tooltip>

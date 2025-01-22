@@ -10,13 +10,12 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <QueryClientProvider client={queryClient}>
-        {/* <CartProvider> */}
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="/car/[id]" />
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="index" />
         </Stack>
-        {/* </CartProvider> */}
       </QueryClientProvider>
     </PaperProvider>
   );
