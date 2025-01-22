@@ -91,3 +91,19 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
     return stringQueryParm;
 
 }
+
+
+
+export function rowPartition<T>(items: T[], rowItemsCount: number = 2): T[][] {
+
+    return items.reduce((prev, current, index) => {
+        if (index % rowItemsCount == 0) {
+          prev.push([]);
+        }
+    
+        prev[Math.floor(index / rowItemsCount)].push(current);
+    
+        return prev;
+      }, [] as T[][]);
+
+}

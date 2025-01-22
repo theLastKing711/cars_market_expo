@@ -61,14 +61,14 @@ const CarOfferDetails = () => {
       text: data?.data.manufacturer_name_en,
     },
     {
-      icon: "car",
-      label: "السعر",
-      text: `${data?.data.car_price} $`,
+      icon: "road",
+      label: "قاطعة",
+      text: `${data?.data.miles_travelled_in_km} (km/كم)`,
     },
     {
       icon: "fuel",
       label: "الوقود",
-      text: data?.data.fuel_type,
+      text: data?.data.fuel_type ? FUELTYPELOOKUP[data?.data.fuel_type] : "-",
     },
     {
       icon: "car",

@@ -4,21 +4,14 @@ import MainListSectionRow from "./MainListSectionRow";
 import MainListSectionItem, {
   MainListSectionItemProps,
 } from "./MainListSectionItem";
+import { rowPartition } from "@/libs/axios/helpers";
 
 export type MainListSectionProps = {
   items: MainListSectionItemProps[];
 };
 
 const MainListSection = ({ items }: MainListSectionProps) => {
-  const rowPartitionedItems = items.reduce((prev, current, index) => {
-    if (index % 2 == 0) {
-      prev.push([]);
-    }
-
-    prev[Math.floor(index / 2)].push(current);
-
-    return prev;
-  }, [] as MainListSectionItemProps[][]);
+  const rowPartitionedItems = rowPartition(items);
 
   return (
     <SectionContainer>
