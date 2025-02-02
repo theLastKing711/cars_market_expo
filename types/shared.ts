@@ -28,20 +28,20 @@ export type PagiantionQueryParameter = {
 
 
 export type ListData = {
-id: number;
-title: string;
+    id: number;
+    title: string;
 };
 
 export type CreateFilePathData = {
-url: string;
-public_id: string;
+    url: string;
+    public_id: string;
 };
 export type FilePathData = {
-url: string;
+    url: string;
 };
 export type ShowFileData = {
-uid: number;
-url: string;
+    uid: number;
+    url: string;
 };
 export type UpdateFileData = {
     uid: number | null;
@@ -50,7 +50,17 @@ export type UpdateFileData = {
 export type UploadFileData = {
     file: any;
 };
+
+export type SelectItem = {
+    id: string;
+    value: string;
+}
+
 export type UploadFileResponseData = {
     url: string;
     public_id: string;
 };
+
+export type FilePublicIdPathParameterData = {
+    public_id: string;
+}

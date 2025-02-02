@@ -1,7 +1,7 @@
 import { TransmissionType } from '../enums/TransmissionType';
 import { Color } from '../enums/Color';
 import { SyrianCity } from '../enums/SyrianCity';
-import { FuelType } from '../enums/FuelType';
+// import { FuelType } from '../enums/FuelType';
 import { ShippableToCityData } from '../home';
 export type CarOfferDetailsRespnseData = {
     id: number;
@@ -15,7 +15,7 @@ export type CarOfferDetailsRespnseData = {
     // car_import_type: ImportType | null;
     miles_travelled_in_km: number | null;
     is_new_car: boolean | null;
-    fuel_type: FuelType | null;
+    fuel_type: number | null;
     car_sell_location: SyrianCity | null;
     is_kassah: boolean | null;
     is_khalyeh: boolean | null;

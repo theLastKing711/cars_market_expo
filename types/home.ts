@@ -1,4 +1,3 @@
-import { FuelType } from "./enums/FuelType";
 import { SyrianCity } from "./enums/SyrianCity";
 import { PagiantionQueryParameter } from "./shared";
 
@@ -12,7 +11,7 @@ export type CarListData = {
     // car_import_type: ImportType | null;
     miles_travelled_in_km: number | null;
     is_used: boolean | null;
-    fuel_type: FuelType | null;
+    fuel_type: number | null;
     car_sell_location: SyrianCity | null,
     is_kassah: boolean | null;
     is_khalyeh: boolean | null;
@@ -37,8 +36,7 @@ export type SearchCarOfferPaginationResultData = {
 export type SearchCarOfferResponseData = {
     paginated_cars_search_result: SearchCarOfferPaginationResultData;
     user_city_cars: Array<any>;
-}
-;
+};
 export type ShippableToCityData = {
     city: SyrianCity;
 };

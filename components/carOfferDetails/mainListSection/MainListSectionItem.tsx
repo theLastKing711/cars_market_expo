@@ -17,10 +17,8 @@ const MainListSectionItem = ({
 }: MainListSectionItemProps) => {
   const theme = useTheme();
 
-  const paddingBottom = isLastItem ? 0 : 16;
-
   return (
-    <View style={{ flex: 1, flexDirection: "row", gap: 4, paddingBottom }}>
+    <View style={{ flex: 1, flexDirection: "row", gap: 4 }}>
       <View style={{ flexDirection: "row", gap: 4 }}>
         <Icon size={24} source={icon} />
       </View>

@@ -1,6 +1,7 @@
 import HaveFeatureSection, {
   HaveFeatureSectionProps,
 } from "@/components/carOfferDetails/HaveFeatureSection";
+import ImagesCarouselSection from "@/components/carOfferDetails/ImagesCarouselSection";
 import MainListSection, {
   MainListSectionProps,
 } from "@/components/carOfferDetails/mainListSection/MainListSection";
@@ -13,7 +14,7 @@ import PriceSection from "@/components/carOfferDetails/PriceSection";
 import { SectionContainer } from "@/components/carOfferDetails/SectionContainer";
 import ShippableToSection from "@/components/carOfferDetails/ShippableToSection";
 import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
-import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
+import { FUELTYPELIST } from "@/types/enums/FuelType";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
@@ -68,43 +69,24 @@ const CarOfferDetails = () => {
     {
       icon: "fuel",
       label: "الوقود",
-      text: data?.data.fuel_type ? FUELTYPELOOKUP[data?.data.fuel_type] : "-",
+      text: data?.data.fuel_type
+        ? FUELTYPELIST.find((x) => parseInt(x._id) == data.data.fuel_type)
+            ?.value
+        : "-",
+      // text: data?.data.fuel_type ? FUELTYPELOOKUP[data?.data.fuel_type] : "-",
     },
     {
       icon: "car",
       label: "الاستعمال",
       text: data?.data.is_new_car ? "جديدة" : "مستعملة",
+      isLastItem: true,
     },
   ];
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View
-          style={{
-            padding: 20,
-            paddingBottom: 0,
-            backgroundColor: "white",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={{
-              //width 700 with 'crop' => 'pad'
-              uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
-              // 700 width
-              // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
-            }}
-            style={{
-              width: "100%",
-              maxWidth: 700, // width of the image, can be disorted if we set it greater than this value which is the image width
-              aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
-              resizeMode: "contain",
-              backgroundColor: "white",
-            }}
-          />
-        </View>
+        <ImagesCarouselSection />
         <MainSection
           title={data?.data.manufacturer_name_en}
           location={data?.data.car_label_origin}

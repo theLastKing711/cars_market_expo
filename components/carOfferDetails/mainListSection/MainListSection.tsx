@@ -11,12 +11,12 @@ export type MainListSectionProps = {
 };
 
 const MainListSection = ({ items }: MainListSectionProps) => {
-  const rowPartitionedItems = rowPartition(items);
+  const { rowPartitionedItems, isLastRow } = rowPartition(items);
 
   return (
     <SectionContainer>
       {rowPartitionedItems.map((row, index) => (
-        <MainListSectionRow key={index}>
+        <MainListSectionRow key={index} isLastRow={isLastRow(index)}>
           {row.map((item, itemIndex) => (
             <MainListSectionItem
               key={index + itemIndex}

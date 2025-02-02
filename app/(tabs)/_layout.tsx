@@ -43,6 +43,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="عرض جديد"
+        options={{
+          title: "عرض جديد",
+          tabBarIcon: ({ color, focused }) => (
+            /* @tutinfo The <CODE>focused</CODE> param allows us to change a tab's icon and label behavior when it is active and inactive.*/
+            <Ionicons
+              name={focused ? "home-sharp" : "home-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="explore"
         options={{
           title: "Explore",
