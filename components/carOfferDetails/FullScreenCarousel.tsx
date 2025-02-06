@@ -1,7 +1,7 @@
 import { UploadFileResponseData } from "@/types/shared";
 import { Image } from "expo-image";
 import React from "react";
-import { useWindowDimensions, View } from "react-native";
+import { SafeAreaView, useWindowDimensions, View } from "react-native";
 import { IconButton, Text, useTheme } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 
@@ -36,11 +36,7 @@ const FullScreenCarousel = ({
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <Carousel
         style={{ flex: 1 }}
         loop
@@ -60,6 +56,9 @@ const FullScreenCarousel = ({
                 backgroundColor: theme.colors.surface,
                 justifyContent: "center",
                 alignItems: "center",
+                // paddingHorizontal: 20,
+                // paddingVertical: 30,
+                paddingHorizontal: 20,
               }}
             >
               <Image
@@ -79,28 +78,28 @@ const FullScreenCarousel = ({
                   backgroundColor: theme.colors.surface,
                 }}
               />
-            </View>
-            <View
-              style={{
-                position: "absolute",
-                top: 40,
-                left: 0,
-                right: 0,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                //   backgroundColor: theme.colors.surface,
-              }}
-            >
-              <IconButton
-                size={48}
-                icon={{ source: "close", direction: "rtl" }}
-                onPress={onCloseButtonClicked}
-              />
-              <IconButton
-                size={48}
-                icon={{ source: "trash-can", direction: "rtl" }}
-                onPress={() => onDeleteButtonClicked(item)}
-              />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 20,
+                  left: 0,
+                  right: 0,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  //   backgroundColor: theme.colors.surface,
+                }}
+              >
+                <IconButton
+                  size={48}
+                  icon={{ source: "close", direction: "rtl" }}
+                  onPress={onCloseButtonClicked}
+                />
+                <IconButton
+                  size={48}
+                  icon={{ source: "trash-can", direction: "rtl" }}
+                  onPress={() => onDeleteButtonClicked(item)}
+                />
+              </View>
             </View>
             <View
               style={{

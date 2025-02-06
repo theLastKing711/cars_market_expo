@@ -1,3 +1,4 @@
+import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 import { SyrianCity } from "./enums/SyrianCity";
 import { PagiantionQueryParameter } from "./shared";
 
@@ -43,6 +44,7 @@ export type ShippableToCityData = {
 
 export type SearchOfferQueryParameterData = {
     page:string;
+    model: string;
     search: string;
     user_current_syrian_city: string;
     manufacturer_id: string;
@@ -55,11 +57,40 @@ export type SearchOfferQueryParameterData = {
     miles_travelled_in_km_from: string;
     miles_travelled_in_km_to: string;
     user_has_legal_car_papers: string;
-    faragha_jahzeh: string;
     import_type: string;
     fuel_type: string;
     is_used: string;
     shippable_to: Array<string>;
+    transmission: string;
+    is_new_car: string;
+    is_faragha_jahzeh: string;
+    is_khalyeh: string;
+    is_kassah: string;
+};
+
+export type SearchState = {
+    page: ListItem[];
+    model: string;
+    search: ListItem[];
+    user_current_syrian_city: ListItem[];
+    manufacturer_id: ListItem[];
+    price_from: string;
+    price_to: string;
+    car_sell_location: string;
+    year_manufactured: string;
+    car_label_origin: string;
+    miles_travelled_in_km: string;
+    miles_travelled_in_km_from: string;
+    miles_travelled_in_km_to: string;
+    user_has_legal_car_papers: string;
+    faragha_jahzeh: string;
+    import_type: string;
+    fuel_type: ListItem[];
+    is_used: string;
+    shippable_to: string;
+    transmission: ListItem[];
+    is_faragha_jahzeh: ListItem[];
+    is_khalyeh: ListItem[];
 };
 
 // export type SearchOfferQueryParameterData = {

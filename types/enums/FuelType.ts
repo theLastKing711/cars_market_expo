@@ -1,4 +1,4 @@
-import { GetReactPaperListItemsListByObject } from "@/libs/axios/helpers";
+import { GetReactPaperListItemsListByObject, GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject } from "@/libs/axios/helpers";
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 
 const FUELTYPE = {
@@ -10,6 +10,10 @@ const FUELTYPE = {
 export const FUELTYPELIST: ListItem[] = 
   GetReactPaperListItemsListByObject(FUELTYPE);
 
+
+export const FUELTYPELISTSEGMENTEDBUTTONS = 
+GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(FUELTYPE);
+  
 // export const FUELTYPELIST: ListItem[] = [
 //   {
 //     _id: '1',

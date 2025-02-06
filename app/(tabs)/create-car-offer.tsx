@@ -1,4 +1,3 @@
-import CustomPaperSelect from "@/components/ui/CustomPaperSelect";
 import ExpoImagesGrid from "@/components/ui/expo-image/ExpoImagesGrid";
 import { REACTPAPERBOOLLIST } from "@/constants/libs";
 import { useCreateCarOffer } from "@/hooks/api/car/mutations/useCreateCarOffer";
@@ -27,6 +26,8 @@ import { ImageManipulator } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
+import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
+import CustomPaperSelect from "@/components/ui/react-native-paper/CustomPaperSelect";
 const styles = StyleSheet.create({
   textInput: {
     marginBottom: 16,
@@ -93,7 +94,12 @@ const CreateCarOffer = () => {
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
-    createCarOffer(createCarOfferRequestData);
+    console.log("form data", createCarOfferRequestData);
+
+    createCarOffer(createCarOfferRequestData, {
+      onSuccess: () => alert("success"),
+      onError: () => alert("error"),
+    });
   };
 
   const pickImage = async () => {
@@ -128,17 +134,12 @@ const CreateCarOffer = () => {
           }
         )
       );
-      console.log("out");
-
       const imagesFormData = getFormDataFromImages(manipulatedImagesUris);
-
-      // const imagesFormData = getFormDataFromImages(result.assets);
 
       uploadCarImages(imagesFormData, {
         onSuccess: (data) => {
           const newImages = [...data.data];
-          openImageViewr();
-          console.log(newImages);
+          // openImageViewr();
           setImages(newImages);
         },
         onError: (data) => alert("failed"),
@@ -186,7 +187,7 @@ const CreateCarOffer = () => {
             paddingBottom: 90,
           }}
         >
-          <Controller
+          {/* <Controller
             control={control}
             rules={{
               required: {
@@ -231,6 +232,21 @@ const CreateCarOffer = () => {
               />
             )}
             name="manufacturere_name_en"
+          /> */}
+          <Controller
+            name="manufacturer_id"
+            control={control}
+            render={({
+              field: { onChange, onBlur, value = [] as ListItem[] },
+            }) => (
+              <CustomPaperSelect
+                label="الشركة المصنعة"
+                value={value}
+                arrayList={CARMANUFACTURERLIST}
+                hideSearchBar={false}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
@@ -262,7 +278,7 @@ const CreateCarOffer = () => {
               field: { onChange, onBlur, value = [] as ListItem[] },
             }) => (
               <CustomPaperSelect
-                label="هل السيارة جديدة"
+                label="هل السيارة جديدة(غير مستعملة)؟"
                 value={value}
                 arrayList={REACTPAPERBOOLLIST}
                 onChange={onChange}
@@ -356,7 +372,7 @@ const CreateCarOffer = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.textInput}
-                placeholder="كم كيلومتر قاطعة؟"
+                placeholder="كم كيلو متر قاطعة السيارة (العداد)"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -370,7 +386,7 @@ const CreateCarOffer = () => {
               field: { onChange, onBlur, value = [] as ListItem[] },
             }) => (
               <CustomPaperSelect
-                label="هل الفراغة جاهزة ؟"
+                label="هل السيارة جاهزة للفراغة؟"
                 value={value}
                 arrayList={REACTPAPERBOOLLIST}
                 onChange={onChange}

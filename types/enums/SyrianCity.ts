@@ -1,205 +1,209 @@
-import { ListData } from "../shared";
 
-export enum SyrianCity {
+// export enum SyrianCity {
+
+import { GetReactPaperListItemsListByObject } from "@/libs/axios/helpers";
+import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 
 
-    All = 0,
+//     All = 0,
     
-    Aleppo,
+//     Aleppo,
 
-    Damascus,
+//     Damascus,
 
-    Homs,
+//     Homs,
 
-    Hammah,
+//     Hammah,
 
-    Latakia,
+//     Latakia,
 
-    Raqqa,
+//     Raqqa,
 
-    DierElZor,
+//     DierElZor,
 
-    AlHasaka,
+//     AlHasaka,
 
-    Qamishli,
+//     Qamishli,
 
-    Tartus,
+//     Tartus,
 
-    Douma,
+//     Douma,
 
-    AlSuwayda,
+//     AlSuwayda,
 
-    Quneitra,
+//     Quneitra,
 
-    AlbuKamal,
+//     AlbuKamal,
 
-    Afrin,
+//     Afrin,
 
-    AlAtarib,
+//     AlAtarib,
 
-    Azaz,
+//     Azaz,
 
-    AlBab,
+//     AlBab,
 
-    Baniyas,
+//     Baniyas,
 
-    Darayya,
+//     Darayya,
 
-    Duraykish,
+//     Duraykish,
 
-    Fiq,
+//     Fiq,
 
-    AlHaffah,
+//     AlHaffah,
 
-    Izra,
+//     Izra,
 
-    Jableh,
+//     Jableh,
 
-    Jarabulus,
+//     Jarabulus,
 
-    JisrAlShughur,
+//     JisrAlShughur,
 
-    MaaratAlNuman,
+//     MaaratAlNuman,
 
-    AlMalikiyah,
+//     AlMalikiyah,
 
-    Manbij,
+//     Manbij,
 
-    Masyaf,
+//     Masyaf,
 
-    Mayadin,
+//     Mayadin,
 
-    Mhardeh,
+//     Mhardeh,
 
-    AlMukharram,
+//     AlMukharram,
 
-    Qardaha,
+//     Qardaha,
 
-    Qatana,
+//     Qatana,
 
-    Qudsaya,
+//     Qudsaya,
 
-    AlQusayer,
+//     AlQusayer,
 
-    AlQutayfah,
+//     AlQutayfah,
 
-    RasAlAyn,
+//     RasAlAyn,
 
-    AlRastan,
+//     AlRastan,
 
-    AlSafira,
+//     AlSafira,
 
-    Safita,
+//     Safita,
 
-    Salamiyah,
+//     Salamiyah,
 
-    Salkhad,
+//     Salkhad,
 
-    AlSanamayn,
+//     AlSanamayn,
 
-    Salqin,
+//     Salqin,
 
-    AlShaykhBadr,
+//     AlShaykhBadr,
 
-    AlSuqaylabiyah,
+//     AlSuqaylabiyah,
 
-    Tadmur,
+//     Tadmur,
 
-    TellAbyad,
+//     TellAbyad,
 
-    Taldou,
+//     Taldou,
 
-    Talalakh,
+//     Talalakh,
 
-    AlTall,
+//     AlTall,
 
-    AlThawrah,
+//     AlThawrah,
 
-    Yabroud,
+//     Yabroud,
 
-    Zabadani,
+//     Zabadani,
 
-    Daraa,
+//     Daraa,
 
-    Idleb,
+//     Idleb,
 
-    Ariha,
+//     Ariha,
 
-    DayrHafir,
+//     DayrHafir,
 
-    AlNabk,
+//     AlNabk,
 
-    AynAlArab,
+//     AynAlArab,
 
+// }
+
+  export const SYRIANCITY = {
+    "0": "حميع المحافظات السورية",
+    '1': "حلب",
+    '2': "دمشق",
+    '3': "حمص",
+    '4': "حماة",
+    '5': "اللاذقية",
+    '6': "الرقة",
+    '7': "دير الزور",
+    '8': "الحسكة",
+    '9': "القامشلي",
+    '10': "طرطوس",
+    '11': "دوما",
+    '12': "إدلب",
+    '13': "درعا",
+    '14': "السويداء",
+    '15': "القنيطرة",
+    '16': "البوكمال",
+    '17': "عفرين",
+    '18': "أريحا",
+    '19': "اﻷتارب",
+    '20': "عين العرب",
+    '21': "عزاز",
+    '22': "الباب",
+    '23': "بانياس",
+    '24': "داريا",
+    '25': "دير حافر",
+    '26': "دريكيش",
+    '27': "فيق",
+    '28': "الهفا",
+    '29': "أزرع",
+    '30': "جبلة",
+    '31': "جرابلس",
+    '32': "جسر الشغور",
+    '33': "معرة النعمان",
+    '34': "المالكية",
+    '35': "منبج",
+    '36': "مصياف",
+    '37': "الميادين",
+    '38': "مجردة",
+    '39': "المخرم",
+    '40': "النبك",
+    '41': "القرداحة",
+    '42': "قطنا",
+    '43': "قدسيا",
+    '44': "القصير",
+    '45': "القطيقة",
+    '46': "رأس العين",
+    '47': "الرستن",
+    '48': "السفيرة",
+    '49': "صافيتا",
+    '50': "سلمية",
+    '51': "صلخد",
+    '52': "الصنمين",
+    '53': "سلقين",
+    '54': "الشيخ بدر",
+    '55': "السقيلبية",
+    '56': "تدمر",
+    '57': "تل أبيض",
+    '58': "تلدو",
+    '59': "تلكلخ",
+    '60': "التل",
+    '61': "الثورة",
+    '62': "يبرود",
+    '63': "الزبداني"
 }
 
-
-export const SYRIANCITYLOOKUP: Record<SyrianCity, string> = {
-    [SyrianCity.All]: "حميع المحافظات السورية",
-    [SyrianCity.Aleppo]: "حلب",
-    [SyrianCity.Damascus]: "دمشق",
-    [SyrianCity.Homs]: "حمص",
-    [SyrianCity.Hammah]: "حماة",
-    [SyrianCity.Latakia]: "اللاذقية",
-    [SyrianCity.Raqqa]: "الرقة",
-    [SyrianCity.DierElZor]: "دير الزور",
-    [SyrianCity.AlHasaka]: "الحسكة",
-    [SyrianCity.Qamishli]: "القامشلي",
-    [SyrianCity.Tartus]: "طرطوس",
-    [SyrianCity.Douma]: "دوما",
-    [SyrianCity.Idleb]: "إدلب",
-    [SyrianCity.Daraa]: "درعا",
-    [SyrianCity.AlSuwayda]: "السويداء",
-    [SyrianCity.Quneitra]: "القنيطرة",
-    [SyrianCity.AlbuKamal]: "البوكمال",
-    [SyrianCity.Afrin]: "عفرين",
-    [SyrianCity.Ariha]: "أريحا",
-    [SyrianCity.AlAtarib]: "اﻷتارب",
-    [SyrianCity.AynAlArab]: "عين العرب",
-    [SyrianCity.Azaz]: "عزاز",
-    [SyrianCity.AlBab]: "الباب",
-    [SyrianCity.Baniyas]: "بانياس",
-    [SyrianCity.Darayya]: "داريا",
-    [SyrianCity.DayrHafir]: "دير حافر",
-    [SyrianCity.Duraykish]: "دريكيش",
-    [SyrianCity.Fiq]: "فيق",
-    [SyrianCity.AlHaffah]: "الهفا",
-    [SyrianCity.Izra]: "أزرع",
-    [SyrianCity.Jableh]: "جبلة",
-    [SyrianCity.Jarabulus]: "جرابلس",
-    [SyrianCity.JisrAlShughur]: "جسر الشغور",
-    [SyrianCity.MaaratAlNuman]: "معرة النعمان",
-    [SyrianCity.AlMalikiyah]: "المالكية",
-    [SyrianCity.Manbij]: "منبج",
-    [SyrianCity.Masyaf]: "مصياف",
-    [SyrianCity.Mayadin]: "الميادين",
-    [SyrianCity.Mhardeh]: "مجردة",
-    [SyrianCity.AlMukharram]: "المخرم",
-    [SyrianCity.AlNabk]: "النبك",
-    [SyrianCity.Qardaha]: "القرداحة",
-    [SyrianCity.Qatana]: "قطنا",
-    [SyrianCity.Qudsaya]: "قدسيا",
-    [SyrianCity.AlQusayer]: "القصير",
-    [SyrianCity.AlQutayfah]: "القطيقة",
-    [SyrianCity.RasAlAyn]: "رأس العين",
-    [SyrianCity.AlRastan]: "الرستن",
-    [SyrianCity.AlSafira]: "السفيرة",
-    [SyrianCity.Safita]: "صافيتا",
-    [SyrianCity.Salamiyah]: "سلمية",
-    [SyrianCity.Salkhad]: "صلخد",
-    [SyrianCity.AlSanamayn]: "الصنمين",
-    [SyrianCity.Salqin]: "سلقين",
-    [SyrianCity.AlShaykhBadr]: "الشيخ بدر",
-    [SyrianCity.AlSuqaylabiyah]: "السقيلبية",
-    [SyrianCity.Tadmur]: "تدمر",
-    [SyrianCity.TellAbyad]: "تل أبيض",
-    [SyrianCity.Taldou]: "تلدو",
-    [SyrianCity.Talalakh]: "تلكلخ",
-    [SyrianCity.AlTall]: "التل",
-    [SyrianCity.AlThawrah]: "الثورة",
-    [SyrianCity.Yabroud]: "يبرود",
-    [SyrianCity.Zabadani]: "الزبداني"
-}
+export const SYRIANCITYlIST: ListItem[] = 
+  GetReactPaperListItemsListByObject(SYRIANCITY);
 
 // export const SYRIANCITYLIST = 
 //     (Object.values(SyrianCity) as SyrianCity[])

@@ -1,7 +1,10 @@
+import CarSearchFilterModal from "@/components/home/CarSearchFilterModal";
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import CarSearchSuggestionList from "@/components/home/CarSearchSuggestionList";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
+import { router } from "expo-router";
+import { useState } from "react";
 import { ListRenderItem, ScrollView, StyleSheet, View } from "react-native";
 import { Chip, Searchbar, useTheme } from "react-native-paper";
 
@@ -14,7 +17,6 @@ const Home = () => {
     page,
     car_label_origin,
     car_sell_location,
-    faragha_jahzeh,
     fuel_type,
     import_type,
     manufacturer_id,
@@ -27,12 +29,24 @@ const Home = () => {
     user_current_syrian_city,
     user_has_legal_car_papers,
     year_manufactured,
+    searchState,
+    updateSearchStateItem,
     fetchNextPage,
     onSearchFocus,
     onSearchBlur,
     onSearchValueUpdate,
     onPageValueUpdate,
   } = useGetHomeData();
+
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  const closeFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
 
   const theme = useTheme();
 
@@ -93,6 +107,10 @@ const Home = () => {
 
   //   const shouldShowSuggestionList = isSearchFocused || !!searchQueryParam;
 
+  const goToCarSearchFilterPage = () => {
+    router.push({ pathname: "/car-search-filter" });
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ paddingHorizontal: 16 }}>
@@ -102,6 +120,7 @@ const Home = () => {
           onBlur={() => onSearchBlur()}
           value={search}
           onChangeText={onSearchValueUpdate}
+          onPress={goToCarSearchFilterPage}
         />
       </View>
       <CarSearchResultCardList
@@ -113,6 +132,13 @@ const Home = () => {
         fetchNextPage={fetchNextPage}
         isLoading={isLoading}
       />
+      {/* <CarSearchFilterModal
+        isVisible={isFilterModalOpen}
+        onFilter={() => {}}
+        onSearchButtonClicked={() => {}}
+        searchData={searchState}
+        updateSearchData={updateSearchStateItem}
+      /> */}
       {/* <CarSearchSuggestionList
         items={carSearchSuggestions}
         hasNextPage={hasNextPage}

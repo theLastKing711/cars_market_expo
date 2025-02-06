@@ -10,3 +10,22 @@ export const REACTPAPERBOOLLIST: ListItem[] = [
         value: 'لا'
     }
 ]
+
+export const REACTPAPERBOOLSEGMENTEDBUTTONS= [
+    {
+        value: '1',
+        label: 'نعم'
+    },
+    {
+        value: '0',
+        label: 'لا'
+    }
+]
+
+export const REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION= [
+    ...REACTPAPERBOOLSEGMENTEDBUTTONS,
+    {
+        value: '-1',
+        label: 'غير محدد'
+    }
+]

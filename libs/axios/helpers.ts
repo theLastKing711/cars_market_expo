@@ -197,7 +197,7 @@ export function getListItemsFirstValueAsBoolean(listItems?: ListItem[])
 
 }
 
-export function getSelectListItemValue(items: ListItem[])
+export function getSelectListItemStringValue(items: ListItem[])
 {
     return items?.length > 0 ? items[0].value : "";
 }
@@ -220,8 +220,6 @@ export function getSelectListItemValue(items: ListItem[])
 
 
 export function GetReactPaperListItemsListByObject(obj: Record<string, string>) {
-
-    const x = {id: 25};
     
     const listItems: ListItem[] = Object.entries(obj).map( ([key, value]) => {
         const item: ListItem = {
@@ -233,6 +231,46 @@ export function GetReactPaperListItemsListByObject(obj: Record<string, string>) 
 
     return listItems
     
+}
+
+export function GetReactPaperSegmentedButtonsByObject(obj: Record<string, string>) {
+    
+    const listItems = Object.entries(obj).map( ([key, value]) => {
+        const item = {
+            label: value,
+            value: key
+        }
+        return item;
+    } );
+
+    return listItems
+    
+}
+
+export function GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(obj: Record<string, string>) {
+    
+    const listItems = GetReactPaperSegmentedButtonsByObject(obj);
+
+    return [...listItems, {value: "-1", label: "غير محدد"}];
+    
+}
+
+export function getListItemFromString(listItems: ListItem[], value: string)
+{
+    return listItems.filter(item => item._id === value)!;
+}
+
+export function getListItemsFromArray(listItems: ListItem[], values: string[])
+{
+    const ids = listItems.map(x => x._id); 
+    return listItems.filter(item => ids.includes(item._id));
+}
+
+export function getStringValueFromListItems(listItems: ListItem[], value: string) {
+
+    alert(listItems.find(item => item._id === value)?.value);
+    
+    return listItems.find(item => item._id === value)?.value || '';
 }
 
 export function  getFormDataFromImages( assets:  ImagePickerAsset[]) {

@@ -2,7 +2,7 @@ import { ListItem } from "react-native-paper-select/lib/typescript/interface/pap
 import { getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
 
 export type CreateCarOfferForm = {
-    manufacturer_id?: number;
+    manufacturer_id: ListItem[];
     manufacturer_name_ar: string;
     manufacturere_name_en: string;
     model?: string;
@@ -33,7 +33,7 @@ export type CreateCarOfferRequestData = {
 
 export function getCarOfferRequestFromForm(createCarOfferForm: CreateCarOfferForm) {
     const createCarOfferRequest: CreateCarOfferRequestData = {
-        manufacturer_id: 1,
+        manufacturer_id: getListItemsFirstValueAsNumber(createCarOfferForm.manufacturer_id),
         manufacturer_name_ar: createCarOfferForm.manufacturer_name_ar,
         manufacturere_name_en: createCarOfferForm.manufacturere_name_en,
         model: createCarOfferForm.model,

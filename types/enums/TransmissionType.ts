@@ -1,4 +1,4 @@
-import { GetReactPaperListItemsListByObject } from "@/libs/axios/helpers";
+import { GetReactPaperListItemsListByObject, GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject } from "@/libs/axios/helpers";
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface"
 
 
@@ -10,6 +10,8 @@ export const TRANSMISSION = {
 export const TRANSMISSIONLIST: ListItem[] = 
   GetReactPaperListItemsListByObject(TRANSMISSION);
 
+export const TRANSMISSIONSEGMENTEDBUTTONS = 
+  GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(TRANSMISSION);
 
 // export const TRANSMISSIONLIST: ListItem[] = [
 //   {
