@@ -8,7 +8,7 @@ import { HOME_URI } from '@/constants/api';
 
 import { apiClient } from "@/libs/axios/config";
 import { buildQueryParamsString } from '@/libs/axios/helpers';
-import { SearchCarOfferPaginationResultData, SearchOfferQueryParameterData, SearchState } from "@/types/home";
+import { SearchCarOfferPaginationResultData, SearchCarOfferQueryParameterData, SearchState } from "@/types/home";
 import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
@@ -18,7 +18,7 @@ import { useState } from "react";
 import { ListItem } from 'react-native-paper-select/lib/typescript/interface/paperSelect.interface';
 
 
-const emptySearchQuery: SearchOfferQueryParameterData = {
+const emptySearchQuery: SearchCarOfferQueryParameterData = {
     search: '',
     page: '',
     car_label_origin: '',
@@ -30,7 +30,6 @@ const emptySearchQuery: SearchOfferQueryParameterData = {
     model: '',
     is_faragha_jahzeh: '',
     transmission: '',
-    miles_travelled_in_km: '',
     miles_travelled_in_km_from: '',
     miles_travelled_in_km_to: '',
     price_from: '',
@@ -64,7 +63,6 @@ export function useGetHomeData() {
         fuel_type,
         import_type,
         manufacturer_id,
-        miles_travelled_in_km,
         miles_travelled_in_km_from,
         miles_travelled_in_km_to,
         price_from,
@@ -73,7 +71,7 @@ export function useGetHomeData() {
         user_has_legal_car_papers,
         year_manufactured,
         is_used,
-        shippable_to,
+        shippable_to = [],
         model,
         is_new_car,
         is_faragha_jahzeh,
@@ -81,7 +79,7 @@ export function useGetHomeData() {
         is_kassah,
         transmission
      } =
-     useGlobalSearchParams<SearchOfferQueryParameterData>();
+     useGlobalSearchParams<SearchCarOfferQueryParameterData>();
 
      const [searchState, setSearchState] = useState<SearchState>({
         car_label_origin: '',
@@ -93,7 +91,6 @@ export function useGetHomeData() {
         is_khalyeh: [],
         is_used: '',
         manufacturer_id: [],
-        miles_travelled_in_km: '',
         miles_travelled_in_km_from: '',
         miles_travelled_in_km_to: '',
         model: '',
@@ -115,7 +112,7 @@ export function useGetHomeData() {
         setSearchState(newSearchState);
      };
 
-    //  const updateSearchParams = (searchParam: Partial<SearchOfferQueryParameterData>) => {
+    //  const updateSearchParams = (searchParam: Partial<SearchCarOfferQueryParameterData>) => {
     //     router.setParams({...})
     //  }
      
@@ -134,7 +131,7 @@ export function useGetHomeData() {
         router.setParams({page: next_page})
     };
 
-    const updateCarFilterQueryParams = (queryData: Partial<SearchOfferQueryParameterData>) => {
+    const updateCarFilterQueryParams = (queryData: Partial<SearchCarOfferQueryParameterData>) => {
         router.setParams(queryData);
     }
 
@@ -167,7 +164,6 @@ export function useGetHomeData() {
                 is_khalyeh,
                 is_kassah,
                 transmission,
-                miles_travelled_in_km,
                 miles_travelled_in_km_from,
                 miles_travelled_in_km_to,
                 price_from,
@@ -199,7 +195,6 @@ export function useGetHomeData() {
         fuel_type,
         import_type,
         manufacturer_id,
-        miles_travelled_in_km,
         miles_travelled_in_km_from,
         miles_travelled_in_km_to,
         price_from,
@@ -235,7 +230,6 @@ async function getSearchSuggestionsApi({
     fuel_type,
     import_type,
     manufacturer_id,
-    miles_travelled_in_km,
     miles_travelled_in_km_from,
     miles_travelled_in_km_to,
     price_from,
@@ -251,11 +245,11 @@ async function getSearchSuggestionsApi({
     is_kassah,
     model,
     transmission
-}: SearchOfferQueryParameterData) {
+}: SearchCarOfferQueryParameterData) {
     try {
         
         const queryString = 
-        buildQueryParamsString<SearchOfferQueryParameterData>(
+        buildQueryParamsString<SearchCarOfferQueryParameterData>(
             [
                 {key: "search", value: search},
                 {key: "page", value: page || ''},
@@ -264,7 +258,6 @@ async function getSearchSuggestionsApi({
                 {key: "fuel_type", value: fuel_type},
                 {key: "import_type", value: import_type},
                 {key: "manufacturer_id", value: manufacturer_id},
-                {key: "miles_travelled_in_km", value: miles_travelled_in_km}, 
                 {key: "miles_travelled_in_km_from", value: miles_travelled_in_km_from},
                 {key: "miles_travelled_in_km_to", value: miles_travelled_in_km_to},
                 {key: "price_from", value: price_from},

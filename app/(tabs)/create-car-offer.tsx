@@ -1,12 +1,18 @@
 import ExpoImagesGrid from "@/components/ui/expo-image/ExpoImagesGrid";
-import { REACTPAPERBOOLLIST } from "@/constants/libs";
+import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
 import { useCreateCarOffer } from "@/hooks/api/car/mutations/useCreateCarOffer";
 import {
   CreateCarOfferForm,
   getCarOfferRequestFromForm,
 } from "@/types/car/createCarOffer";
-import { FUELTYPELIST } from "@/types/enums/FuelType";
-import { TRANSMISSIONLIST } from "@/types/enums/TransmissionType";
+import {
+  FUELTYPELIST,
+  FUELTYPELISTSEGMENTEDBUTTONS,
+} from "@/types/enums/FuelType";
+import {
+  TRANSMISSIONLIST,
+  TRANSMISSIONSEGMENTEDBUTTONS,
+} from "@/types/enums/TransmissionType";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -20,14 +26,21 @@ import { Button, TextInput, useTheme } from "react-native-paper";
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
-import { getFormDataFromImages } from "@/libs/axios/helpers";
+import {
+  getFormDataFromImages,
+  getStringValueFromSegmentedButtonsList,
+} from "@/libs/axios/helpers";
 // import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { ImageManipulator } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
-import { UploadFileResponseData } from "@/types/shared";
+import {
+  PaperSegmentedButtonItem,
+  UploadFileResponseData,
+} from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import CustomPaperSelect from "@/components/ui/react-native-paper/CustomPaperSelect";
+import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 const styles = StyleSheet.create({
   textInput: {
     marginBottom: 16,
@@ -236,9 +249,7 @@ const CreateCarOffer = () => {
           <Controller
             name="manufacturer_id"
             control={control}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
+            render={({ field: { onChange, onBlur, value = [] } }) => (
               <CustomPaperSelect
                 label="الشركة المصنعة"
                 value={value}
@@ -273,20 +284,29 @@ const CreateCarOffer = () => {
           />
 
           <Controller
+            name="is_new_car"
             control={control}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="هل السيارة جديدة(غير مستعملة)؟"
+            render={({ field: { onChange, onBlur, value } }) => (
+              // <CustomPaperSelect
+              //   label="هل السيارة جديدة(غير مستعملة)؟"
+              //   value={value}
+              //   arrayList={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+              //   onChange={onChange}
+              // />
+              <CustomPaperSegmentedButtonsSection
+                title="هل السيارة جديدة(غير مستعملة)؟"
                 value={value}
-                arrayList={REACTPAPERBOOLLIST}
-                onChange={onChange}
+                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+                onValueChange={onChange}
+
+                //   value={value}
+                //   arrayList={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+                //   onChange={onChange}
               />
             )}
-            name="is_new_car"
           />
           <Controller
+            name="car_price"
             control={control}
             rules={{
               required: {
@@ -307,33 +327,9 @@ const CreateCarOffer = () => {
                 value={value?.toString()}
               />
             )}
-            name="car_price"
           />
           <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="نوع الوقود"
-                value={value}
-                arrayList={FUELTYPELIST}
-                onChange={onChange}
-              />
-            )}
             name="fuel_type"
-          />
-          <Controller
             control={control}
             rules={{
               required: {
@@ -345,19 +341,40 @@ const CreateCarOffer = () => {
                 message: "يرجى إدخال قيمة موجبة",
               },
             }}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="نوع الناقل"
+            render={({ field: { onChange, onBlur, value = [] } }) => (
+              <CustomPaperSegmentedButtonsSection
+                multiSelect
+                title="نوع الوقود"
+                buttons={FUELTYPELISTSEGMENTEDBUTTONS}
                 value={value}
-                arrayList={TRANSMISSIONLIST}
-                onChange={onChange}
+                onValueChange={onChange}
               />
             )}
-            name="transmission"
           />
           <Controller
+            name="transmission"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "يرجى إدخال قيمة في الحقل",
+              },
+              min: {
+                value: 0,
+                message: "يرجى إدخال قيمة موجبة",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="نوع الناقل"
+                value={value}
+                buttons={TRANSMISSIONSEGMENTEDBUTTONS}
+                onValueChange={onChange}
+              />
+            )}
+          />
+          <Controller
+            name="miles_travelled_in_km"
             control={control}
             rules={{
               required: {
@@ -378,47 +395,40 @@ const CreateCarOffer = () => {
                 value={value}
               />
             )}
-            name="miles_travelled_in_km"
           />
           <Controller
-            control={control}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="هل السيارة جاهزة للفراغة؟"
-                value={value}
-                arrayList={REACTPAPERBOOLLIST}
-                onChange={onChange}
-              />
-            )}
             name="is_faragha_jahzeh"
-          />
-          <Controller
             control={control}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="هل السيارة مقصوصة؟"
+            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="هل السيارة جاهزة للفراغة؟"
                 value={value}
-                arrayList={REACTPAPERBOOLLIST}
-                onChange={onChange}
+                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+                onValueChange={onChange}
               />
             )}
+          />
+          <Controller
             name="is_kassah"
+            control={control}
+            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="هل السيارة مقصوصة؟"
+                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+                value={value}
+                onValueChange={onChange}
+              />
+            )}
           />
           <Controller
             name="is_khalyeh"
             control={control}
-            render={({
-              field: { onChange, onBlur, value = [] as ListItem[] },
-            }) => (
-              <CustomPaperSelect
-                label="هل السيارة خالية العلام؟"
+            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="هل السيارة خالية العلام؟"
+                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
                 value={value}
-                arrayList={REACTPAPERBOOLLIST}
-                onChange={onChange}
+                onValueChange={onChange}
               />
             )}
           />

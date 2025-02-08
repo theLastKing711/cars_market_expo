@@ -64,3 +64,8 @@ export type UploadFileResponseData = {
 export type FilePublicIdPathParameterData = {
     public_id: string;
 }
+
+export type PaperSegmentedButtonItem = {
+    value: string;
+    label: string;
+}

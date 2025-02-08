@@ -6,6 +6,7 @@ import {
   ListItem,
   PaperSelectProps,
 } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
+import BasePaperSelect from "./BasePaperSelect";
 
 export type CustomPaperSelectProps = {
   arrayList: ListItem[];
@@ -27,15 +28,8 @@ const CustomPaperSelect = ({
   const theme = useTheme();
 
   return (
-    <PaperSelect
+    <BasePaperSelect
       // inputRef={singleSelectRef}
-      containerStyle={{
-        // backgroundColor: "red",
-        marginVertical: 0,
-        paddingVertical: 0,
-        marginBottom: 16,
-        backgroundColor: theme.colors.secondaryContainer, // is the invisible gap between form items, if we don't color it
-      }}
       // searchStyle={{
       //   backgroundColor: "red",
       // }}
@@ -55,9 +49,7 @@ const CustomPaperSelect = ({
       // errorText={gender.error}
       multiEnable={false}
       hideSearchBox={hideSearchBar}
-      textInputMode="outlined"
-      dialogCloseButtonText="إغلاق"
-      dialogDoneButtonText="تم"
+      // textInputMode="outlined"
       {...paperSelectProps}
     />
   );

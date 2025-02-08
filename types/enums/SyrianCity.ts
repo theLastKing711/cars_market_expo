@@ -202,8 +202,14 @@ import { ListItem } from "react-native-paper-select/lib/typescript/interface/pap
     '63': "الزبداني"
 }
 
+export type SyrianCityKey = keyof typeof SYRIANCITY;
+
 export const SYRIANCITYlIST: ListItem[] = 
   GetReactPaperListItemsListByObject(SYRIANCITY);
+
+export const getSyrianCityKeyFromString = (value: string) => {
+  return value as SyrianCityKey;
+}
 
 // export const SYRIANCITYLIST = 
 //     (Object.values(SyrianCity) as SyrianCity[])

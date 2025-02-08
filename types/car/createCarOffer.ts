@@ -1,19 +1,20 @@
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 import { getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
+import { PaperSegmentedButtonItem } from "../shared";
 
 export type CreateCarOfferForm = {
     manufacturer_id: ListItem[];
     manufacturer_name_ar: string;
     manufacturere_name_en: string;
     model?: string;
-    is_new_car: ListItem[];
     car_price: string;
-    fuel_type: ListItem[];
-    transmission?: ListItem[];
+    fuel_type: string[];
+    transmission?: string;
     miles_travelled_in_km: string;
-    is_faragha_jahzeh?: ListItem[];
-    is_kassah?: ListItem[];
-    is_khalyeh?: ListItem[];
+    is_new_car: string;
+    is_faragha_jahzeh?: string;
+    is_kassah?: string;
+    is_khalyeh?: string;
 };
 
 export type CreateCarOfferRequestData = {
@@ -31,20 +32,33 @@ export type CreateCarOfferRequestData = {
     is_khalyeh: boolean | null;
 }
 
-export function getCarOfferRequestFromForm(createCarOfferForm: CreateCarOfferForm) {
+export function getCarOfferRequestFromForm({
+    car_price,
+    fuel_type,
+    is_new_car,
+    manufacturer_id,
+    manufacturer_name_ar,
+    manufacturere_name_en,
+    miles_travelled_in_km,
+    is_faragha_jahzeh,
+    is_kassah,
+    is_khalyeh,
+    model,
+    transmission
+}: CreateCarOfferForm) {
     const createCarOfferRequest: CreateCarOfferRequestData = {
-        manufacturer_id: getListItemsFirstValueAsNumber(createCarOfferForm.manufacturer_id),
-        manufacturer_name_ar: createCarOfferForm.manufacturer_name_ar,
-        manufacturere_name_en: createCarOfferForm.manufacturere_name_en,
-        model: createCarOfferForm.model,
-        miles_travelled_in_km: parseInt(createCarOfferForm.miles_travelled_in_km),
-        transmission: getListItemsFirstValueAsNumber(createCarOfferForm.transmission),
-        fuel_type: getListItemsFirstValueAsNumberOrNull(createCarOfferForm.fuel_type),
-        car_price: parseInt(createCarOfferForm.car_price),
-        is_faragha_jahzeh: getListItemsFirstValueAsBooleanOrNull(createCarOfferForm.is_faragha_jahzeh),
-        is_kassah: getListItemsFirstValueAsBooleanOrNull(createCarOfferForm.is_kassah),
-        is_khalyeh: getListItemsFirstValueAsBooleanOrNull(createCarOfferForm.is_khalyeh),
-        is_new_car: getListItemsFirstValueAsBoolean(createCarOfferForm.is_new_car),
+        manufacturer_id: getListItemsFirstValueAsNumber(manufacturer_id),
+        manufacturer_name_ar: manufacturer_name_ar,
+        manufacturere_name_en: manufacturere_name_en,
+        model: model,
+        miles_travelled_in_km: parseInt(miles_travelled_in_km),
+        transmission: transmission ? parseInt(transmission): null,
+        fuel_type:  1,
+        car_price: parseInt(car_price),
+        is_faragha_jahzeh: Boolean(is_faragha_jahzeh),
+        is_kassah: Boolean(is_kassah),
+        is_khalyeh: Boolean(is_khalyeh),
+        is_new_car: Boolean(is_new_car),
     }
     
     return createCarOfferRequest;

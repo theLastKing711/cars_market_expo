@@ -1,3 +1,4 @@
+import { PaperSegmentedButtonItem } from "@/types/shared";
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 
 export const REACTPAPERBOOLLIST: ListItem[] = [
@@ -11,7 +12,7 @@ export const REACTPAPERBOOLLIST: ListItem[] = [
     }
 ]
 
-export const REACTPAPERBOOLSEGMENTEDBUTTONS= [
+export const REACTPAPERBOOLSEGMENTEDBUTTONS: PaperSegmentedButtonItem[] = [
     {
         value: '1',
         label: 'نعم'

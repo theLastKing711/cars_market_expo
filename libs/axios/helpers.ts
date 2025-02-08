@@ -1,3 +1,4 @@
+import { PaperSegmentedButtonItem } from './../../types/shared';
 import { ImageResult } from 'expo-image-manipulator';
 import { ImagePickerAsset, ImagePickerResult, ImagePickerSuccessResult } from './../../node_modules/expo-image-picker/build/ImagePicker.types.d';
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
@@ -235,7 +236,7 @@ export function GetReactPaperListItemsListByObject(obj: Record<string, string>) 
 
 export function GetReactPaperSegmentedButtonsByObject(obj: Record<string, string>) {
     
-    const listItems = Object.entries(obj).map( ([key, value]) => {
+    const listItems: PaperSegmentedButtonItem[] = Object.entries(obj).map( ([key, value]) => {
         const item = {
             label: value,
             value: key
@@ -260,18 +261,61 @@ export function getListItemFromString(listItems: ListItem[], value: string)
     return listItems.filter(item => item._id === value)!;
 }
 
-export function getListItemsFromArray(listItems: ListItem[], values: string[])
+export function getListItemsFromStringArray(listItems: ListItem[], values: string[])
 {
-    const ids = listItems.map(x => x._id); 
-    return listItems.filter(item => ids.includes(item._id));
+    // const ids = listItems.map(x => x._id); 
+    return listItems.filter(item => values.includes(item._id));
 }
 
 export function getStringValueFromListItems(listItems: ListItem[], value: string) {
 
-    alert(listItems.find(item => item._id === value)?.value);
-    
     return listItems.find(item => item._id === value)?.value || '';
 }
+
+export function getStringListValuesFromListItems(listItems: ListItem[], values: string[]) {
+
+    return listItems.filter(item => values.includes(item._id)).map(item => item.value) || [];
+}
+
+
+export function getPaperSelectListItemsText (listItems: ListItem[], items: string[]) {
+
+    const values = getStringListValuesFromListItems(listItems, items);
+
+    const itemsLength = values.length;
+
+    const lastItemIndex  = itemsLength - 1;
+
+    const lastItem = values[itemsLength - 1];
+
+    const numberOfValuesToShow = 3;
+    
+    return values.reduce((prev, current, index) => {
+        if (index < numberOfValuesToShow) {
+
+          if(index === lastItemIndex || index === numberOfValuesToShow - 1)
+          {
+            return prev + current; 
+          }
+
+          return prev + current + ", ";
+        }
+        if(index === numberOfValuesToShow)
+        {
+          const extraItems = (itemsLength - numberOfValuesToShow).toString();
+          const extraString = "  +" + extraItems; 
+          return prev + extraString;
+        }
+        return prev;
+      }, "")
+    
+
+}
+
+export function getStringValueFromSegmentedButtonsList(items: PaperSegmentedButtonItem[], value: string) {
+    return items.find(item => item.value === value)?.value || '';
+}
+
 
 export function  getFormDataFromImages( assets:  ImagePickerAsset[]) {
     

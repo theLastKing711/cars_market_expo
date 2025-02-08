@@ -1,4 +1,4 @@
-import { SearchOfferQueryParameterData, SearchState } from "@/types/home";
+import { SearchCarOfferQueryParameterData, SearchState } from "@/types/home";
 import React from "react";
 import { Modal, View } from "react-native";
 import { SegmentedButtons, Text, TextInput } from "react-native-paper";
@@ -14,9 +14,9 @@ export type CarSearchFilterModalProps = {
   isVisible: boolean;
   onFilter: () => void;
   searchData: SearchState;
-  querySearchData: SearchOfferQueryParameterData;
+  querySearchData: SearchCarOfferQueryParameterData;
   updateCarFilterQueryParameter: (
-    data: Partial<SearchOfferQueryParameterData>
+    data: Partial<SearchCarOfferQueryParameterData>
   ) => void;
   updateSearchData: (searchStateItem: Partial<SearchState>) => void;
   onSearchButtonClicked: () => void;

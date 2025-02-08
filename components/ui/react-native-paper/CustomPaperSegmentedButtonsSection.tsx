@@ -15,7 +15,7 @@ const CustomPaperSegmentedButtonsSection = ({
   ...props
 }: CustomPaperSegmentedButtonsSectionProps) => {
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: 8, marginBottom: 16 }}>
       <Text variant="labelMedium">{title}</Text>
 
       <SegmentedButtons {...props} />

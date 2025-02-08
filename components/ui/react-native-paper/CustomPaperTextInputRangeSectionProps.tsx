@@ -22,6 +22,7 @@ const CustomPaperTextInputRangeSection = ({
     container: {
       backgroundColor: theme.colors.surface,
       gap: 8,
+      marginBottom: 16,
     },
     textInputsRow: {
       flexDirection: "row",
@@ -67,11 +68,11 @@ const CustomPaperTextInputRangeSection = ({
           {...sliderProps}
           // maximumTrackTintColor={theme.colors.primary}
           minimumTrackTintColor={theme.colors.primary}
-          thumbTouchSize={{
-            width: 44,
-            height: 44,
-          }}
-          trackMarks={[0, 0]}
+          // thumbTouchSize={{
+          //   width: 44,
+          //   height: 44,
+          // }}
+          // trackMarks={[0, 0]}
           // renderTrackMarkComponent={(index) => (
           //   <Slider
           //     {...startSliderProps}

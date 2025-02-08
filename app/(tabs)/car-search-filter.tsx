@@ -1,9 +1,12 @@
+import BasePaperSelect from "@/components/ui/react-native-paper/BasePaperSelect";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import CustomPaperTextInputRangeSection from "@/components/ui/react-native-paper/CustomPaperTextInputRangeSectionProps";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import {
   getListItemFromString,
+  getListItemsFromStringArray,
+  getPaperSelectListItemsText,
   getStringValueFromListItems,
 } from "@/libs/axios/helpers";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
@@ -20,6 +23,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import {
+  FAB,
   SegmentedButtons,
   Text,
   TextInput,
@@ -40,7 +44,6 @@ const CarSearchFilter = () => {
     fuel_type,
     import_type,
     manufacturer_id,
-    miles_travelled_in_km,
     miles_travelled_in_km_from,
     miles_travelled_in_km_to,
     price_from,
@@ -121,195 +124,219 @@ const CarSearchFilter = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: theme.colors.surface,
-        }}
-      >
-        <View
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
+        <SafeAreaView
           style={{
             flex: 1,
-            gap: 24,
-            paddingHorizontal: 16,
-            paddingTop: 32,
-            paddingBottom: 100,
+            backgroundColor: theme.colors.surface,
           }}
         >
-          <PaperSelect
-            containerStyle={{
-              // backgroundColor: "red",
-              marginVertical: 0,
-              paddingVertical: 0,
-              marginBottom: 0,
-              backgroundColor: theme.colors.secondaryContainer, // is the invisible gap between form items, if we don't color it
+          <View
+            style={{
+              flex: 1,
+              //   gap: 24,
+              paddingHorizontal: 16,
+              paddingTop: 32,
+              paddingBottom: 100,
             }}
-            label="الشركة المصنعة"
-            arrayList={CARMANUFACTURERLIST}
-            hideSearchBox={false}
-            value={getStringValueFromListItems(
-              CARMANUFACTURERLIST,
-              manufacturer_id
-            )}
-            onSelection={(value) =>
-              updateCarFilterQueryParams({
-                manufacturer_id: value.selectedList[0]._id,
-              })
-            }
-            multiEnable={false}
-            selectedArrayList={getListItemFromString(
-              CARMANUFACTURERLIST,
-              manufacturer_id
-            )}
-          />
-
-          <TextInput
-            placeholder="موديل"
-            value={model}
-            onChangeText={(text) => updateCarFilterQueryParams({ model: text })}
-          />
-
-          <CustomPaperTextInputRangeSection
-            title="كيلو متر قاطعة"
-            firstInputProps={{
-              value: miles_travelled_in_km_from,
-              onChangeText: (text) =>
+          >
+            <BasePaperSelect
+              label="الشركة المصنعة"
+              arrayList={CARMANUFACTURERLIST}
+              hideSearchBox={false}
+              value={getStringValueFromListItems(
+                CARMANUFACTURERLIST,
+                manufacturer_id
+              )}
+              onSelection={(value) =>
                 updateCarFilterQueryParams({
-                  miles_travelled_in_km_from: text,
-                }),
-            }}
-            secondInputProps={{
-              value: miles_travelled_in_km_to,
-              onChangeText: (text) =>
-                updateCarFilterQueryParams({ miles_travelled_in_km_to: text }),
-            }}
-            sliderProps={{
-              value: slider_miles_travelled_in_km,
-              onValueChange: onSliderMilesTravelledInKmChange,
-              step: 5000,
-              minimumValue: 0,
-              maximumValue: 1000000,
-              animationType: "spring",
-            }}
-          />
+                  manufacturer_id: value.selectedList[0]._id,
+                })
+              }
+              multiEnable={false}
+              selectedArrayList={getListItemFromString(
+                CARMANUFACTURERLIST,
+                manufacturer_id
+              )}
+            />
 
-          <CustomPaperTextInputRangeSection
-            title="السعر"
-            firstInputProps={{
-              value: price_from,
-              onChangeText: (text) =>
-                updateCarFilterQueryParams({ price_from: text }),
-            }}
-            secondInputProps={{
-              value: price_to,
-              onChangeText: (text) =>
-                updateCarFilterQueryParams({ price_to: text }),
-            }}
-            sliderProps={{
-              value: slider_prices,
-              onValueChange: onSliderPriceChange,
-              step: 500,
-              minimumValue: 0,
-              maximumValue: 100000,
-              animationType: "spring",
-            }}
-          />
+            <TextInput
+              style={{
+                marginBottom: 16,
+              }}
+              placeholder="موديل"
+              value={model}
+              onChangeText={(text) =>
+                updateCarFilterQueryParams({ model: text })
+              }
+            />
 
-          <PaperSelect
-            containerStyle={{
-              // backgroundColor: "red",
-              marginVertical: 0,
-              paddingVertical: 0,
-              marginBottom: 0,
-              backgroundColor: theme.colors.secondaryContainer, // is the invisible gap between form items, if we don't color it
-            }}
-            label="تواجد(المدينة المتواجدة فيها السيارة المعروضة للبيع)؟"
-            arrayList={SYRIANCITYlIST}
-            hideSearchBox={false}
-            value={getStringValueFromListItems(
-              SYRIANCITYlIST,
-              car_sell_location
-            )}
-            onSelection={(value) =>
-              updateCarFilterQueryParams({
-                car_sell_location: value.selectedList[0]._id,
-              })
-            }
-            multiEnable={false}
-            selectedArrayList={getListItemFromString(
-              CARMANUFACTURERLIST,
-              car_sell_location
-            )}
-          />
+            <CustomPaperTextInputRangeSection
+              title="كيلو متر قاطعة"
+              firstInputProps={{
+                value: miles_travelled_in_km_from,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({
+                    miles_travelled_in_km_from: text,
+                  }),
+              }}
+              secondInputProps={{
+                value: miles_travelled_in_km_to,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({
+                    miles_travelled_in_km_to: text,
+                  }),
+              }}
+              sliderProps={{
+                value: slider_miles_travelled_in_km,
+                onValueChange: onSliderMilesTravelledInKmChange,
+                step: 5000,
+                minimumValue: 0,
+                maximumValue: 1000000,
+                animationType: "spring",
+              }}
+            />
 
-          <CustomPaperSegmentedButtonsSection
-            title="نوغ الوقود"
-            value={fuel_type}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                fuel_type: value,
-              })
-            }
-            buttons={FUELTYPELISTSEGMENTEDBUTTONS}
-          />
-          <CustomPaperSegmentedButtonsSection
-            title="نوع الناقل"
-            value={transmission}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                transmission: value,
-              })
-            }
-            buttons={TRANSMISSIONSEGMENTEDBUTTONS}
-          />
+            <CustomPaperTextInputRangeSection
+              title="السعر"
+              firstInputProps={{
+                value: price_from,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({ price_from: text }),
+              }}
+              secondInputProps={{
+                value: price_to,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({ price_to: text }),
+              }}
+              sliderProps={{
+                value: slider_prices,
+                onValueChange: onSliderPriceChange,
+                step: 500,
+                minimumValue: 0,
+                maximumValue: 100000,
+                animationType: "spring",
+              }}
+            />
 
-          <CustomPaperSegmentedButtonsSection
-            title="السيارة جديدة(غير مستعملة)؟"
-            value={is_new_car}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                is_new_car: value,
-              })
-            }
-            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-          />
+            <BasePaperSelect
+              label="تواجد(المدينة المتواجدة فيها السيارة المعروضة للبيع)؟"
+              arrayList={SYRIANCITYlIST}
+              hideSearchBox={false}
+              value={getStringValueFromListItems(
+                SYRIANCITYlIST,
+                car_sell_location
+              )}
+              onSelection={(value) =>
+                updateCarFilterQueryParams({
+                  car_sell_location: value.selectedList[0]._id,
+                })
+              }
+              multiEnable={false}
+              selectedArrayList={getListItemFromString(
+                CARMANUFACTURERLIST,
+                car_sell_location
+              )}
+            />
 
-          <CustomPaperSegmentedButtonsSection
-            title="السيارة مقصوصة(قصة)؟"
-            value={is_kassah}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                is_kassah: value,
-              })
-            }
-            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-          />
+            <BasePaperSelect
+              label="المحافظات التي يمكن شحن السيارة لها"
+              arrayList={SYRIANCITYlIST}
+              hideSearchBox={false}
+              value={getPaperSelectListItemsText(SYRIANCITYlIST, shippable_to)}
+              onSelection={(value) =>
+                updateCarFilterQueryParams({
+                  shippable_to: value.selectedList.map((item) => item._id),
+                })
+              }
+              multiEnable={true}
+              selectedArrayList={getListItemsFromStringArray(
+                CARMANUFACTURERLIST,
+                shippable_to
+              )}
+              selectAllText="جميع المحافظات"
+            />
 
-          <CustomPaperSegmentedButtonsSection
-            title="السيارة جاهزة للفراغة؟"
-            value={is_faragha_jahzeh}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                is_faragha_jahzeh: value,
-              })
-            }
-            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-          />
+            <CustomPaperSegmentedButtonsSection
+              title="نوغ الوقود"
+              value={fuel_type}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  fuel_type: value,
+                })
+              }
+              buttons={FUELTYPELISTSEGMENTEDBUTTONS}
+            />
+            <CustomPaperSegmentedButtonsSection
+              title="نوع الناقل"
+              value={transmission}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  transmission: value,
+                })
+              }
+              buttons={TRANSMISSIONSEGMENTEDBUTTONS}
+            />
 
-          <CustomPaperSegmentedButtonsSection
-            title="السيارة خالية العلام؟"
-            value={is_khalyeh}
-            onValueChange={(value) =>
-              updateCarFilterQueryParams({
-                is_khalyeh: value,
-              })
-            }
-            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-          />
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+            <CustomPaperSegmentedButtonsSection
+              title="السيارة جديدة(غير مستعملة)؟"
+              value={is_new_car}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  is_new_car: value,
+                })
+              }
+              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+            />
+
+            <CustomPaperSegmentedButtonsSection
+              title="السيارة مقصوصة(قصة)؟"
+              value={is_kassah}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  is_kassah: value,
+                })
+              }
+              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+            />
+
+            <CustomPaperSegmentedButtonsSection
+              title="السيارة جاهزة للفراغة؟"
+              value={is_faragha_jahzeh}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  is_faragha_jahzeh: value,
+                })
+              }
+              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+            />
+
+            <CustomPaperSegmentedButtonsSection
+              title="السيارة خالية العلام؟"
+              value={is_khalyeh}
+              onValueChange={(value) =>
+                updateCarFilterQueryParams({
+                  is_khalyeh: value,
+                })
+              }
+              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+            />
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+      <View
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 100,
+          paddingHorizontal: 16,
+        }}
+      >
+        <FAB label="ابحث" />
+      </View>
+    </View>
   );
 };
 
