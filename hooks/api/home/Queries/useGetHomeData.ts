@@ -1,4 +1,3 @@
-import { Searchbar } from 'react-native-paper';
 import { HOME_URI } from '@/constants/api';
 
 // NOTE: The default React Native styling doesn't support server rendering.
@@ -8,17 +7,16 @@ import { HOME_URI } from '@/constants/api';
 
 import { apiClient } from "@/libs/axios/config";
 import { buildQueryParamsString } from '@/libs/axios/helpers';
-import { SearchCarOfferPaginationResultData, SearchCarOfferQueryParameterData, SearchState } from "@/types/home";
+import { RequiredSearchCarOfferQueryParameterData, SearchCarOfferPaginationResultData, SearchCarOfferQueryParameterData, SearchState } from "@/types/home";
 import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { router } from "expo-router";
 import { useState } from "react";
-import { ListItem } from 'react-native-paper-select/lib/typescript/interface/paperSelect.interface';
 
 
-const emptySearchQuery: SearchCarOfferQueryParameterData = {
+const emptySearchQuery: RequiredSearchCarOfferQueryParameterData = {
     search: '',
     page: '',
     car_label_origin: '',
@@ -37,7 +35,6 @@ const emptySearchQuery: SearchCarOfferQueryParameterData = {
     year_manufactured: '',
     user_current_syrian_city: '',
     user_has_legal_car_papers: '',
-    is_used: '',
     is_kassah: '',
     is_new_car: '',
     shippable_to: [],
@@ -56,61 +53,59 @@ export function useGetHomeData() {
     };
 
     const { 
-        search,
-        page,
-        car_label_origin,
-        car_sell_location,
-        fuel_type,
-        import_type,
-        manufacturer_id,
-        miles_travelled_in_km_from,
-        miles_travelled_in_km_to,
-        price_from,
-        price_to,
-        user_current_syrian_city,
-        user_has_legal_car_papers,
-        year_manufactured,
-        is_used,
+        search = '',
+        page = '',
+        car_label_origin = '',
+        car_sell_location = '',
+        fuel_type = '',
+        import_type = '',
+        manufacturer_id = '',
+        miles_travelled_in_km_from = '',
+        miles_travelled_in_km_to = '',
+        price_from = '',
+        price_to = '',
+        user_current_syrian_city = '',
+        user_has_legal_car_papers = '',
+        year_manufactured = '',
         shippable_to = [],
-        model,
-        is_new_car,
-        is_faragha_jahzeh,
-        is_khalyeh,
-        is_kassah,
-        transmission
+        model = '',
+        is_new_car = '',
+        is_faragha_jahzeh = '',
+        is_khalyeh = '',
+        is_kassah = '',
+        transmission = ''
      } =
-     useGlobalSearchParams<SearchCarOfferQueryParameterData>();
+     useLocalSearchParams<SearchCarOfferQueryParameterData>();
 
-     const [searchState, setSearchState] = useState<SearchState>({
-        car_label_origin: '',
-        car_sell_location: '',
-        faragha_jahzeh: '',
-        fuel_type: [],
-        import_type:'',
-        is_faragha_jahzeh: [],
-        is_khalyeh: [],
-        is_used: '',
-        manufacturer_id: [],
-        miles_travelled_in_km_from: '',
-        miles_travelled_in_km_to: '',
-        model: '',
-        page: [],
-        price_from: '',
-        price_to: '',
-        search: [],
-        shippable_to: '',
-        transmission: [],
-        user_current_syrian_city: [],
-        user_has_legal_car_papers: '',
-        year_manufactured: ''
+    //  const [searchState, setSearchState] = useState<SearchState>({
+    //     car_label_origin: '',
+    //     car_sell_location: '',
+    //     faragha_jahzeh: '',
+    //     fuel_type: [],
+    //     import_type:'',
+    //     is_faragha_jahzeh: [],
+    //     is_khalyeh: [],
+    //     manufacturer_id: [],
+    //     miles_travelled_in_km_from: '',
+    //     miles_travelled_in_km_to: '',
+    //     model: '',
+    //     page: [],
+    //     price_from: '',
+    //     price_to: '',
+    //     search: [],
+    //     shippable_to: '',
+    //     transmission: [],
+    //     user_current_syrian_city: [],
+    //     user_has_legal_car_papers: '',
+    //     year_manufactured: ''
 
-     });
+    //  });
 
-     const updateSearchStateItem = (searchStateItem: Partial<SearchState>) => {
-        const newSearchState = {...searchState, ...searchStateItem}
+    //  const updateSearchStateItem = (searchStateItem: Partial<SearchState>) => {
+    //     const newSearchState = {...searchState, ...searchStateItem}
 
-        setSearchState(newSearchState);
-     };
+    //     setSearchState(newSearchState);
+    //  };
 
     //  const updateSearchParams = (searchParam: Partial<SearchCarOfferQueryParameterData>) => {
     //     router.setParams({...})
@@ -126,6 +121,10 @@ export function useGetHomeData() {
             
         );
     };
+
+    const onSearchClicked = () => {
+
+    }
 
     const onPageValueUpdate = (next_page: string) => {
         router.setParams({page: next_page})
@@ -152,7 +151,7 @@ export function useGetHomeData() {
             // page param is in the defenition of queryfn and it takes its type from initalPageParam as seen below
             queryFn :({pageParam}) => getSearchSuggestionsApi({
                 search,
-                model: '',
+                model: model || '',
                 page: pageParam || '',
                 car_label_origin,
                 car_sell_location,
@@ -171,10 +170,9 @@ export function useGetHomeData() {
                 user_has_legal_car_papers,
                 user_current_syrian_city,
                 year_manufactured,
-                is_used,
                 shippable_to,
             }),
-            enabled: shouldSearch,
+            // enabled: shouldSearch, // if false it won't fetch data 
             getNextPageParam: (lastPageParam, pages) => {
                 const nextPage = lastPageParam?.next_page ? lastPageParam?.next_page.toString() : undefined; 
 
@@ -209,14 +207,11 @@ export function useGetHomeData() {
         is_khalyeh,
         is_kassah,
         transmission,
-        searchState,
-        setSearchState,
         fetchNextPage,
         onSearchFocus,
         onSearchBlur,
         onSearchValueUpdate,
         onPageValueUpdate,
-        updateSearchStateItem,
         updateCarFilterQueryParams
     }
     
@@ -237,7 +232,6 @@ async function getSearchSuggestionsApi({
     user_current_syrian_city,
     user_has_legal_car_papers,
     year_manufactured,
-    is_used,
     shippable_to,
     is_new_car,
     is_faragha_jahzeh,
@@ -245,11 +239,11 @@ async function getSearchSuggestionsApi({
     is_kassah,
     model,
     transmission
-}: SearchCarOfferQueryParameterData) {
+}: RequiredSearchCarOfferQueryParameterData) {
     try {
-        
+
         const queryString = 
-        buildQueryParamsString<SearchCarOfferQueryParameterData>(
+        buildQueryParamsString<RequiredSearchCarOfferQueryParameterData>(
             [
                 {key: "search", value: search},
                 {key: "page", value: page || ''},
@@ -265,7 +259,6 @@ async function getSearchSuggestionsApi({
                 {key: "user_current_syrian_city", value: user_current_syrian_city},
                 {key: "user_has_legal_car_papers", value: user_has_legal_car_papers},
                 {key: "year_manufactured", value: year_manufactured},
-                {key: "is_used", value: is_used},
                 {key: "shippable_to", value: shippable_to},
                 {key: "is_faragha_jahzeh", value: is_faragha_jahzeh},
                 {key: "is_khalyeh", value: is_khalyeh},
@@ -276,13 +269,26 @@ async function getSearchSuggestionsApi({
             ]
         );
 
-        const search_url = `${HOME_URI}/${queryString}`;
+        // const search_url = `${HOME_URI}/${queryString}`;
+
+        // const search_url = `${HOME_URI}?manufacturer_id=1&model=كورولا`; 
+
+        const search_url = `${HOME_URI}`;
+
+
+        alert(search_url);
         
         const response = await apiClient
                                 .get<SearchCarOfferPaginationResultData>
-                                (search_url);
+                                (search_url, {
+                                    params: {
+                                        manufacturer_id,
+                                        model
+                                    }
+                                });
         console.log('next page url', response.data.next_page_url);
         
+        console.log('next page url', response.data);
 
         const next_page = 
             response.data.next_page_url

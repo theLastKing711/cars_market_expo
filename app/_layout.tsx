@@ -28,7 +28,7 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="/car/[id]" />
-            <Stack.Screen name="create-car-offer" />
+            <Stack.Screen name="car-search-result" />
             <Stack.Screen name="car-search-filter" />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="index" />

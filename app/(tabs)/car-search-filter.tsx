@@ -4,32 +4,26 @@ import CustomPaperTextInputRangeSection from "@/components/ui/react-native-paper
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import {
+  buildQueryParamsString,
   getListItemFromString,
   getListItemsFromStringArray,
   getPaperSelectListItemsText,
   getStringValueFromListItems,
 } from "@/libs/axios/helpers";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
-import {
-  FUELTYPELIST,
-  FUELTYPELISTSEGMENTEDBUTTONS,
-} from "@/types/enums/FuelType";
+import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { SYRIANCITYlIST } from "@/types/enums/SyrianCity";
+import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
+import { RequiredSearchCarOfferQueryParameterData } from "@/types/home";
 import {
-  TRANSMISSIONLIST,
-  TRANSMISSIONSEGMENTEDBUTTONS,
-} from "@/types/enums/TransmissionType";
+  router,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+} from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import {
-  FAB,
-  SegmentedButtons,
-  Text,
-  TextInput,
-  useTheme,
-} from "react-native-paper";
-import { PaperSelect } from "react-native-paper-select";
+import { FAB, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CarSearchFilter = () => {
@@ -58,9 +52,7 @@ const CarSearchFilter = () => {
     is_faragha_jahzeh,
     is_khalyeh,
     is_kassah,
-    searchState,
     updateCarFilterQueryParams,
-    updateSearchStateItem,
     fetchNextPage,
     onSearchFocus,
     onSearchBlur,
@@ -79,6 +71,7 @@ const CarSearchFilter = () => {
       : undefined;
 
   const onSliderMilesTravelledInKmChange = (value: number[]) => {
+    //component returns undefined for second array item, first item is the end value
     const isFirstSlide = value.length === 1;
 
     if (isFirstSlide) {
@@ -120,6 +113,58 @@ const CarSearchFilter = () => {
     updateCarFilterQueryParams({
       price_from: slider_price_from.toString(),
       price_to: slider_price_to.toString(),
+    });
+  };
+
+  const navigateToSearchResultPage = () => {
+    // const queryString =
+    //   buildQueryParamsString<RequiredSearchCarOfferQueryParameterData>([
+    //     { key: "search", value: search },
+    //     { key: "page", value: page || "" },
+    //     { key: "car_label_origin", value: car_label_origin },
+    //     { key: "car_sell_location", value: car_sell_location },
+    //     { key: "fuel_type", value: fuel_type },
+    //     { key: "import_type", value: import_type },
+    //     { key: "manufacturer_id", value: manufacturer_id },
+    //     {
+    //       key: "miles_travelled_in_km_from",
+    //       value: miles_travelled_in_km_from,
+    //     },
+    //     { key: "miles_travelled_in_km_to", value: miles_travelled_in_km_to },
+    //     { key: "price_from", value: price_from },
+    //     { key: "price_to", value: price_to },
+    //     { key: "user_current_syrian_city", value: user_current_syrian_city },
+    //     { key: "user_has_legal_car_papers", value: user_has_legal_car_papers },
+    //     { key: "year_manufactured", value: year_manufactured },
+    //     { key: "shippable_to", value: shippable_to },
+    //     { key: "is_faragha_jahzeh", value: is_faragha_jahzeh },
+    //     { key: "is_khalyeh", value: is_khalyeh },
+    //     { key: "is_kassah", value: is_kassah },
+    //     { key: "is_new_car", value: is_new_car },
+    //     { key: "model", value: model },
+    //     { key: "transmission", value: transmission },
+    //   ]);
+
+    router.push({
+      pathname: "/car-search-result",
+      params: {
+        manufacturer_id,
+        model,
+        car_label_origin,
+        car_sell_location,
+        fuel_type,
+        import_type,
+        miles_travelled_in_km_from,
+        miles_travelled_in_km_to,
+        price_from,
+        user_current_syrian_city,
+        user_has_legal_car_papers,
+        year_manufactured,
+        is_faragha_jahzeh,
+        is_khalyeh,
+        is_new_car,
+        transmission,
+      },
     });
   };
 
@@ -334,7 +379,7 @@ const CarSearchFilter = () => {
           paddingHorizontal: 16,
         }}
       >
-        <FAB label="ابحث" />
+        <FAB label="ابحث" onPress={navigateToSearchResultPage} />
       </View>
     </View>
   );

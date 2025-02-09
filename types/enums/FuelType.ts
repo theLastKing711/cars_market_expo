@@ -13,6 +13,13 @@ export const FUELTYPELIST: ListItem[] =
 
 export const FUELTYPELISTSEGMENTEDBUTTONS = 
 GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(FUELTYPE);
+
+export type FuelTypeKey = keyof typeof FUELTYPE;
+
+export const FUELTYPELOOKUP = (value: number) => {
+
+  return value ? FUELTYPE[value.toString() as FuelTypeKey] : '';
+}
   
 // export const FUELTYPELIST: ListItem[] = [
 //   {

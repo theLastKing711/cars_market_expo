@@ -42,11 +42,11 @@ const CarSearchResultCard = ({
     model,
     year_manufactured,
     fuel_type,
-    is_used,
     car_sell_location,
     is_kassah,
     is_khalyeh,
     is_faragha_jahzeh,
+    is_new_car,
     shippable_to,
   },
   onFavourite,
@@ -57,7 +57,7 @@ const CarSearchResultCard = ({
 
   const title = `${manufacturer_name} ${model} ${year_manufactured}`;
 
-  const is_used_text = is_used ? "مستعملة" : "جديدة";
+  const is_new_car_text = is_new_car ? "جديدة " : "مستعملة";
 
   const car_price_text = `${car_price} $`;
 
@@ -65,14 +65,14 @@ const CarSearchResultCard = ({
     ? `${miles_travelled_in_km} km قاطعة`
     : `- km `;
 
-  const fuel_type_text = fuel_type ? FUELTYPELOOKUP[fuel_type] : "-";
+  const fuel_type_text = fuel_type ? FUELTYPELOOKUP(fuel_type) : "-";
 
   const car_sell_location_text = car_sell_location
-    ? `تواجد ${SYRIANCITYLOOKUP[car_sell_location]}`
+    ? `تواجد ${SYRIANCITYLOOKUP(car_sell_location)}`
     : "-";
 
   const is_kassah_text =
-    is_kassah == null ? "-" : is_kassah == false ? "قصة" : "نظامية)بدون قص)";
+    is_kassah == null ? "-" : is_kassah == false ? "قصة" : "غير مقصوصة";
 
   const is_khalyeh_text =
     is_kassah == null
@@ -118,7 +118,7 @@ const CarSearchResultCard = ({
           <Text>{is_khalyeh_text}</Text>
         </View>
         <View style={styles.contentColumn}>
-          <Text>{is_used_text}</Text>
+          <Text>{is_new_car_text}</Text>
           <Text>{is_is_faragha_jahzeh_text}</Text>
           <Text>{fuel_type_text}</Text>
           <Text>{is_kassah_text}</Text>

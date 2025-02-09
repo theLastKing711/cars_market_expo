@@ -11,12 +11,12 @@ export type CarListData = {
     car_price: number | null;
     // car_import_type: ImportType | null;
     miles_travelled_in_km: number | null;
-    is_used: boolean | null;
     fuel_type: number | null;
     car_sell_location: SyrianCityKey | null,
     is_kassah: boolean | null;
     is_khalyeh: boolean | null;
     is_faragha_jahzeh: boolean | null;
+    is_new_car: boolean | null;
     shippable_to: Array<ShippableToCityData>;
 };
 
@@ -41,31 +41,35 @@ export type SearchCarOfferResponseData = {
 export type ShippableToCityData = {
     city: SyrianCityKey;
 };
-
+//? in page? mean it is a query search param
+//without it, it the variable becomes a route parameter
+//i.e user/[page]
 export type SearchCarOfferQueryParameterData = {
-    page:string;
-    model: string;
-    search: string;
-    user_current_syrian_city: string;
-    manufacturer_id: string;
-    price_from: string;
-    price_to: string;
-    car_sell_location: string;
-    year_manufactured: string;
-    car_label_origin: string;
-    miles_travelled_in_km_from: string;
-    miles_travelled_in_km_to: string;
-    user_has_legal_car_papers: string;
-    import_type: string;
-    fuel_type: string;
-    is_used: string;
-    shippable_to: Array<string>;
-    transmission: string;
-    is_new_car: string;
-    is_faragha_jahzeh: string;
-    is_khalyeh: string;
-    is_kassah: string;
+    page?:string;
+    model?: string;
+    search?: string;
+    user_current_syrian_city?: string;
+    manufacturer_id?: string;
+    price_from?: string;
+    price_to?: string;
+    car_sell_location?: string;
+    year_manufactured?: string;
+    car_label_origin?: string;
+    miles_travelled_in_km_from?: string;
+    miles_travelled_in_km_to?: string;
+    user_has_legal_car_papers?: string;
+    import_type?: string;
+    fuel_type?: string;
+    shippable_to?: Array<string>;
+    transmission?: string;
+    is_new_car?: string;
+    is_faragha_jahzeh?: string;
+    is_khalyeh?: string;
+    is_kassah?: string;
 };
+
+export type RequiredSearchCarOfferQueryParameterData = 
+    Required<SearchCarOfferQueryParameterData>;
 
 export type SearchState = {
     page: ListItem[];
@@ -84,7 +88,6 @@ export type SearchState = {
     faragha_jahzeh: string;
     import_type: string;
     fuel_type: ListItem[];
-    is_used: string;
     shippable_to: string;
     transmission: ListItem[];
     is_faragha_jahzeh: ListItem[];

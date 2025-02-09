@@ -207,8 +207,8 @@ export type SyrianCityKey = keyof typeof SYRIANCITY;
 export const SYRIANCITYlIST: ListItem[] = 
   GetReactPaperListItemsListByObject(SYRIANCITY);
 
-export const getSyrianCityKeyFromString = (value: string) => {
-  return value as SyrianCityKey;
+export const SYRIANCITYLOOKUP = (value: number|string) => {
+  return value ? SYRIANCITY[value.toString() as SyrianCityKey] : '';
 }
 
 // export const SYRIANCITYLIST = 
