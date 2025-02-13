@@ -14,6 +14,7 @@ export type CustomPaperChipsListProps = {
   items: ChipItem[];
   selectedItems: string[] | string;
   onChipSelected: (id: string) => void;
+  onEmptyList: () => void;
 };
 
 const CustomPaperChipsList = ({
@@ -21,6 +22,7 @@ const CustomPaperChipsList = ({
   items,
   selectedItems,
   onChipSelected,
+  onEmptyList,
 }: CustomPaperChipsListProps) => {
   const {
     theme,
@@ -64,7 +66,7 @@ const CustomPaperChipsList = ({
               backgroundColor: getChipBackgroundColor(item.id),
             }}
             onPress={(e) => {
-              selectChipItem(item.id, onChipSelected);
+              selectChipItem(item.id, onChipSelected, onEmptyList);
             }}
             selected={isChipItemSelected(item.id)}
             selectedColor={getChipColor(item.id)}

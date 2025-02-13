@@ -1,6 +1,6 @@
 import { useTheme } from 'react-native-paper';
 
-export function useGenericChipFilter(selectedItems: string[]|string) {
+export function useGenericChipFilter(selectedItems: string | string[]) {
     const theme = useTheme();
 
  const getChipBackgroundColor = (id: string) => {
@@ -56,13 +56,21 @@ const isDefaultEmptyItem = (id: string) => {
 
 };
     
-const selectChipItem = (id: string, onChipItemSelected: (id: string) => void) => {
+const selectChipItem = (id: string, onChipItemSelected: (id: string) => void, onEmptyList:() => void) => {
     if(isDefaultEmptyItem(id))
     {
         if(isSelectedListEmpty)
         {
             return;
         }
+
+        if(onEmptyList)
+        {
+            onEmptyList?.();
+            return
+        }
+
+        return;
     }
     onChipItemSelected(id);
 }

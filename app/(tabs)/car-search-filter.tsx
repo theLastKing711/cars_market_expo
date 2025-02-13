@@ -57,6 +57,8 @@ const CarSearchFilter = () => {
     updateCarFilterQueryParams,
     updateShippableToQueryParam,
     updateCarSellLocationQueryParam,
+    emptyShippableToQueryParam,
+    emptyCarSellLocationQueryParam,
     fetchNextPage,
     onSearchFocus,
     onSearchBlur,
@@ -171,7 +173,7 @@ const CarSearchFilter = () => {
         transmission,
         shippable_to: JSON.stringify(shippable_to),
         // so we can make it in a form that is parsable to array on other page value="[1, 2]" instead of value=1,2
-        // both of which are string values
+        // both of which get passed as string to next page
       },
     });
   };
@@ -216,6 +218,7 @@ const CarSearchFilter = () => {
               items={SYRIANCITYCHIPLIST}
               selectedItems={car_sell_location}
               onChipSelected={updateCarSellLocationQueryParam}
+              onEmptyList={emptyCarSellLocationQueryParam}
               key={1}
             />
 
@@ -224,6 +227,7 @@ const CarSearchFilter = () => {
               items={SYRIANCITYCHIPLIST}
               selectedItems={shippable_to}
               onChipSelected={updateShippableToQueryParam}
+              onEmptyList={emptyShippableToQueryParam}
               key={2}
             />
 

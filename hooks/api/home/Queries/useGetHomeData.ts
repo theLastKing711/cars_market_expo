@@ -152,12 +152,6 @@ export function useGetHomeData() {
 
         if(isItemSelectedBefore)
         {
-
-            if(id === "")
-            {
-                return;
-            }
-
             const newList = query_shippable_to.filter(item => item != id);
 
             if(newList.length === 0)
@@ -179,15 +173,6 @@ export function useGetHomeData() {
             return;
         }
         
-        if(id === "")
-        {
-            updateCarFilterQueryParams(
-                {
-                    shippable_to: []
-                }
-            ); 
-        }
-        
         updateCarFilterQueryParams(
             {
                 shippable_to: [...query_shippable_to, id]
@@ -196,6 +181,21 @@ export function useGetHomeData() {
         
     }
     
+    const emptyShippableToQueryParam = () => {
+        updateCarFilterQueryParams(
+            {
+                shippable_to: []
+            }
+        );
+    }
+
+    const emptyCarSellLocationQueryParam = () => {
+        updateCarFilterQueryParams(
+            {
+                car_sell_location: ''
+            }
+        );
+    }
 
     const updateCarSellLocationQueryParam = (id: string) => {
         const isItemSelectedBefore = car_sell_location === id;
@@ -226,7 +226,7 @@ export function useGetHomeData() {
 
     // const shouldSearch = !!debouncedSearchTerm || !!debouncedPaginationCursor;
 
-    const shouldSearch = !!debouncedSearchTerm;
+    const shouldSearch = !!search  && !!debouncedSearchTerm;
 
     
     //must be called manually in view
@@ -325,6 +325,8 @@ export function useGetHomeData() {
         onPageValueUpdate,
         updateCarFilterQueryParams,
         updateShippableToQueryParam,
+        emptyShippableToQueryParam,
+        emptyCarSellLocationQueryParam,
         updateCarSellLocationQueryParam
     }
     
@@ -382,6 +384,8 @@ async function getSearchSuggestionsApi({
         //     ]
         // );
 
+        alert("hello world");
+        
         const search_url = `${HOME_URI}`;
 
         const are_miles_travelled_unchanged = 
