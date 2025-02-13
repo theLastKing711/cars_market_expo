@@ -24,6 +24,7 @@ import {
 } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import {
   Button,
   Searchbar,
@@ -32,7 +33,7 @@ import {
   useTheme,
 } from "react-native-paper";
 
-const CarSearchResult = () => {
+const CarSearchFilterMOdal = () => {
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 
   const {
@@ -82,11 +83,7 @@ const CarSearchResult = () => {
     },
   });
 
-  // const openFilterModal = () => setIsFilterModalVisible(true);
-
-  const openFilterModal = () => {
-    router.push("/car-search-filter-modal");
-  };
+  const openFilterModal = () => setIsFilterModalVisible(true);
 
   const closeFilterModal = () => setIsFilterModalVisible(false);
 
@@ -154,8 +151,8 @@ const CarSearchResult = () => {
   // console.log("carSearchSuggestion", carSearchSuggestions);
 
   return (
-    <View style={styles.container}>
-      <CarSearchFilterModal isVisible={isFilterModalVisible}>
+    <ScrollView>
+      <View style={styles.container}>
         <View
           style={{
             flex: 1,
@@ -347,22 +344,9 @@ const CarSearchResult = () => {
             buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
           />
         </View>
-      </CarSearchFilterModal>
-
-      <Text style={{ color: "red" }}>hello world</Text>
-      <Button onPress={openFilterModal}>open</Button>
-      <CarSearchResultCardList
-        items={carSearchSuggestions}
-        renderItem={({ item }) => (
-          <CarSearchResultCard item={item} onFavourite={() => {}} />
-        )}
-        isFetching={isFetching}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-        isLoading={isLoading}
-      />
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
-export default CarSearchResult;
+export default CarSearchFilterMOdal;

@@ -69,3 +69,9 @@ export type PaperSegmentedButtonItem = {
     value: string;
     label: string;
 }
+
+
+export type ChipItem = {
+    id: string;
+    name: string;
+}

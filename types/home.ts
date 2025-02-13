@@ -60,7 +60,7 @@ export type SearchCarOfferQueryParameterData = {
     user_has_legal_car_papers?: string;
     import_type?: string;
     fuel_type?: string;
-    shippable_to?: Array<string>;
+    shippable_to?: string | Array<string>;
     transmission?: string;
     is_new_car?: string;
     is_faragha_jahzeh?: string;

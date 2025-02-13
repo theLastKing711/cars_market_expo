@@ -28,8 +28,14 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="/car/[id]" />
-            <Stack.Screen name="car-search-result" />
             <Stack.Screen name="car-search-filter" />
+            <Stack.Screen name="car-search-result" />
+            <Stack.Screen
+              name="car-search-filter-modal"
+              options={{
+                presentation: "transparentModal",
+              }}
+            />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="index" />
           </Stack>

@@ -62,7 +62,7 @@ const CarSearchResultCard = ({
   const car_price_text = `${car_price} $`;
 
   const miles_travelled_in_km_text = miles_travelled_in_km
-    ? `${miles_travelled_in_km} km قاطعة`
+    ? `قاطعة ${miles_travelled_in_km} (كيلومتر)`
     : `- km `;
 
   const fuel_type_text = fuel_type ? FUELTYPELOOKUP(fuel_type) : "-";

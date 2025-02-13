@@ -1,10 +1,17 @@
+import ChipsFilterSection from "@/components/ChipsFilterSection";
 import BasePaperSelect from "@/components/ui/react-native-paper/BasePaperSelect";
+import CustomPaperChipsList from "@/components/ui/react-native-paper/CustomPaperChipsList";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import CustomPaperTextInputRangeSection from "@/components/ui/react-native-paper/CustomPaperTextInputRangeSectionProps";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
+import {
+  maximum_price_to,
+  maximumm_miles_travelled_in_km_to,
+  minimum_miles_travelled_in_km_from,
+  minimum_price_from,
+} from "@/constants/variables";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import {
-  buildQueryParamsString,
   getListItemFromString,
   getListItemsFromStringArray,
   getPaperSelectListItemsText,
@@ -12,18 +19,13 @@ import {
 } from "@/libs/axios/helpers";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
-import { SYRIANCITYlIST } from "@/types/enums/SyrianCity";
+import { SYRIANCITYCHIPLIST, SYRIANCITYlIST } from "@/types/enums/SyrianCity";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import { RequiredSearchCarOfferQueryParameterData } from "@/types/home";
-import {
-  router,
-  useGlobalSearchParams,
-  useLocalSearchParams,
-} from "expo-router";
-import React, { useState } from "react";
+import { router } from "expo-router";
+import React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { FAB, TextInput, useTheme } from "react-native-paper";
+import { Chip, FAB, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CarSearchFilter = () => {
@@ -53,6 +55,8 @@ const CarSearchFilter = () => {
     is_khalyeh,
     is_kassah,
     updateCarFilterQueryParams,
+    updateShippableToQueryParam,
+    updateCarSellLocationQueryParam,
     fetchNextPage,
     onSearchFocus,
     onSearchBlur,
@@ -157,6 +161,7 @@ const CarSearchFilter = () => {
         miles_travelled_in_km_from,
         miles_travelled_in_km_to,
         price_from,
+        price_to,
         user_current_syrian_city,
         user_has_legal_car_papers,
         year_manufactured,
@@ -164,9 +169,18 @@ const CarSearchFilter = () => {
         is_khalyeh,
         is_new_car,
         transmission,
+        shippable_to: JSON.stringify(shippable_to),
+        // so we can make it in a form that is parsable to array on other page value="[1, 2]" instead of value=1,2
+        // both of which are string values
       },
     });
   };
+
+  const searchResultTotal = paginatedCarSearchSuggestionData?.pages.length
+    ? paginatedCarSearchSuggestionData?.pages[0].total
+    : "0";
+
+  const searchButtonText = `${searchResultTotal} نتائج بحث, اظهر النتائج`;
 
   return (
     <View style={{ flex: 1 }}>
@@ -186,8 +200,35 @@ const CarSearchFilter = () => {
               paddingBottom: 100,
             }}
           >
-            <BasePaperSelect
-              label="الشركة المصنعة"
+            <TextInput
+              style={{
+                marginBottom: 16,
+              }}
+              placeholder="السيارة. مثال: كيا فورتي, هونداي سانتافي 2011."
+              value={search}
+              onChangeText={(text) =>
+                updateCarFilterQueryParams({ search: text })
+              }
+            />
+
+            <CustomPaperChipsList
+              title="نواجد"
+              items={SYRIANCITYCHIPLIST}
+              selectedItems={car_sell_location}
+              onChipSelected={updateCarSellLocationQueryParam}
+              key={1}
+            />
+
+            <CustomPaperChipsList
+              title="المحافظات التي يمكن شحن السيارة لها"
+              items={SYRIANCITYCHIPLIST}
+              selectedItems={shippable_to}
+              onChipSelected={updateShippableToQueryParam}
+              key={2}
+            />
+
+            {/* <BasePaperSelect
+              label="الشركة المصنعة, مثال: تويوتا,مرسيدس."
               arrayList={CARMANUFACTURERLIST}
               hideSearchBox={false}
               value={getStringValueFromListItems(
@@ -204,17 +245,39 @@ const CarSearchFilter = () => {
                 CARMANUFACTURERLIST,
                 manufacturer_id
               )}
-            />
+            /> */}
 
-            <TextInput
+            {/* <TextInput
               style={{
                 marginBottom: 16,
               }}
-              placeholder="موديل"
+              placeholder="موديل, مثال: ريو, سانتافيه 2011."
               value={model}
               onChangeText={(text) =>
                 updateCarFilterQueryParams({ model: text })
               }
+            /> */}
+
+            <CustomPaperTextInputRangeSection
+              title="السعر"
+              firstInputProps={{
+                value: price_from,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({ price_from: text }),
+              }}
+              secondInputProps={{
+                value: price_to,
+                onChangeText: (text) =>
+                  updateCarFilterQueryParams({ price_to: text }),
+              }}
+              sliderProps={{
+                value: slider_prices || [minimum_price_from, maximum_price_to],
+                onValueChange: onSliderPriceChange,
+                step: 500,
+                minimumValue: minimum_price_from,
+                maximumValue: maximum_price_to,
+                animationType: "spring",
+              }}
             />
 
             <CustomPaperTextInputRangeSection
@@ -234,38 +297,19 @@ const CarSearchFilter = () => {
                   }),
               }}
               sliderProps={{
-                value: slider_miles_travelled_in_km,
+                value: slider_miles_travelled_in_km || [
+                  minimum_miles_travelled_in_km_from,
+                  maximumm_miles_travelled_in_km_to,
+                ],
                 onValueChange: onSliderMilesTravelledInKmChange,
                 step: 5000,
-                minimumValue: 0,
-                maximumValue: 1000000,
+                minimumValue: minimum_miles_travelled_in_km_from,
+                maximumValue: maximumm_miles_travelled_in_km_to,
                 animationType: "spring",
               }}
             />
 
-            <CustomPaperTextInputRangeSection
-              title="السعر"
-              firstInputProps={{
-                value: price_from,
-                onChangeText: (text) =>
-                  updateCarFilterQueryParams({ price_from: text }),
-              }}
-              secondInputProps={{
-                value: price_to,
-                onChangeText: (text) =>
-                  updateCarFilterQueryParams({ price_to: text }),
-              }}
-              sliderProps={{
-                value: slider_prices,
-                onValueChange: onSliderPriceChange,
-                step: 500,
-                minimumValue: 0,
-                maximumValue: 100000,
-                animationType: "spring",
-              }}
-            />
-
-            <BasePaperSelect
+            {/* <BasePaperSelect
               label="تواجد(المدينة المتواجدة فيها السيارة المعروضة للبيع)؟"
               arrayList={SYRIANCITYlIST}
               hideSearchBox={false}
@@ -273,35 +317,37 @@ const CarSearchFilter = () => {
                 SYRIANCITYlIST,
                 car_sell_location
               )}
-              onSelection={(value) =>
+              onSelection={(value) => {
                 updateCarFilterQueryParams({
-                  car_sell_location: value.selectedList[0]._id,
-                })
-              }
+                  car_sell_location: value.selectedList[0]
+                    ? value.selectedList[0]._id
+                    : "",
+                });
+              }}
               multiEnable={false}
               selectedArrayList={getListItemFromString(
-                CARMANUFACTURERLIST,
+                SYRIANCITYlIST,
                 car_sell_location
               )}
             />
 
             <BasePaperSelect
               label="المحافظات التي يمكن شحن السيارة لها"
-              arrayList={SYRIANCITYlIST}
+              selectAllText="جميع المحافظات"
+              multiEnable={true}
               hideSearchBox={false}
+              arrayList={SYRIANCITYlIST}
               value={getPaperSelectListItemsText(SYRIANCITYlIST, shippable_to)}
-              onSelection={(value) =>
+              onSelection={(value) => {
                 updateCarFilterQueryParams({
                   shippable_to: value.selectedList.map((item) => item._id),
-                })
-              }
-              multiEnable={true}
+                });
+              }}
               selectedArrayList={getListItemsFromStringArray(
-                CARMANUFACTURERLIST,
+                SYRIANCITYlIST,
                 shippable_to
               )}
-              selectAllText="جميع المحافظات"
-            />
+            /> */}
 
             <CustomPaperSegmentedButtonsSection
               title="نوغ الوقود"
@@ -379,7 +425,7 @@ const CarSearchFilter = () => {
           paddingHorizontal: 16,
         }}
       >
-        <FAB label="ابحث" onPress={navigateToSearchResultPage} />
+        <FAB label={searchButtonText} onPress={navigateToSearchResultPage} />
       </View>
     </View>
   );

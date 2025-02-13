@@ -6,6 +6,10 @@
 import { useState } from 'react';
 import { useTheme } from 'react-native-paper';
 
+export type useChipFilterProps = { 
+  id: number;
+}
+
 export function useChipFilter(ids: number[] = []) {
     const theme = useTheme();
 

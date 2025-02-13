@@ -1,7 +1,8 @@
-import { PaperSegmentedButtonItem } from './../../types/shared';
+import { ChipItem, PaperSegmentedButtonItem } from './../../types/shared';
 import { ImageResult } from 'expo-image-manipulator';
 import { ImagePickerAsset, ImagePickerResult, ImagePickerSuccessResult } from './../../node_modules/expo-image-picker/build/ImagePicker.types.d';
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
+import { useTheme } from 'react-native-paper';
 
 export function buildEmptyObject<T extends Record<string, string|string[]>>(obj: any): T
 {
@@ -30,9 +31,6 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
             
             const query = currentValue.reduce(
                 (prevArray, currentArrayItem) => {
-
-                    console.log(prevArray);
-                    
                     
                     if(prevArray != "")
                     {
@@ -55,7 +53,6 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
         if(currentValue == "")
         {
-            console.log('empty');
             
             return prev;
         }
@@ -70,7 +67,6 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
         {
             if(currentValue != "")
             {
-                console.log(currentValue, "sex");
                 
                 return `?${currentKeyAsString}=${currentValue}`;
             }
@@ -90,7 +86,6 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
     }, "");
     
-    console.log(stringQueryParm, 'stringQueryParam');
     
 
     return stringQueryParm;
@@ -206,11 +201,9 @@ export function getSelectListItemStringValue(items: ListItem[])
 // export function getEnumSelectListByLookUp<T extends number>(enumLookup: Record<T, string>): ListItem[] {
 //     const entries = Object.keys(T) as string[];
 
-//     console.log(entries);
     
 //     const keys = entries.splice(0, entries.length / 2) as string[];
     
-//     console.log(keys[0]);
     
     
 //     return
@@ -226,6 +219,20 @@ export function GetReactPaperListItemsListByObject(obj: Record<string, string>) 
         const item: ListItem = {
             _id: key,
             value
+        }
+        return item;
+    } );
+
+    return listItems
+    
+}
+
+export function GetReactPaperChipItemsByObject(obj: Record<string, string>) {
+    
+    const listItems: ChipItem[] = Object.entries(obj).map( ([key, value]) => {
+        const item: ChipItem = {
+            id: key,
+            name: value
         }
         return item;
     } );
@@ -252,7 +259,7 @@ export function GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(obj: R
     
     const listItems = GetReactPaperSegmentedButtonsByObject(obj);
 
-    return [...listItems, {value: "-1", label: "غير محدد"}];
+    return [...listItems, {value: "", label: "غير محدد"}];
     
 }
 
@@ -333,5 +340,3 @@ export function  getFormDataFromImages( assets:  ImagePickerAsset[]) {
 
     return formData;
 }
-
-

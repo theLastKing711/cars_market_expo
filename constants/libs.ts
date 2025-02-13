@@ -26,7 +26,7 @@ export const REACTPAPERBOOLSEGMENTEDBUTTONS: PaperSegmentedButtonItem[] = [
 export const REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION= [
     ...REACTPAPERBOOLSEGMENTEDBUTTONS,
     {
-        value: '-1',
+        value: '',
         label: 'غير محدد'
     }
 ]
