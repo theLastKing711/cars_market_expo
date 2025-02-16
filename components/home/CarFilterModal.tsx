@@ -7,6 +7,7 @@ import React from "react";
 import { Modal, SafeAreaView, View } from "react-native";
 import {
   Button,
+  FAB,
   SegmentedButtons,
   Text,
   TextInput,
@@ -19,6 +20,8 @@ import { TRANSMISSIONLIST } from "@/types/enums/TransmissionType";
 import { REACTPAPERBOOLLIST } from "@/constants/libs";
 import { router } from "expo-router";
 import { getListItemFromString } from "@/libs/axios/helpers";
+import { ScrollView } from "react-native-gesture-handler";
+import SearchCarOfferForm from "../SearchCarOfferForm";
 
 export type CarSearchFilterModalProps = {
   isVisible: boolean;
@@ -33,8 +36,10 @@ export type CarSearchFilterModalProps = {
   children: React.ReactNode;
 };
 
-const CarSearchFilterModal = ({
+const CarFilterModal = ({
   isVisible,
+  searchButtonLabel,
+  onClose,
   children,
 }: // onFilter,
 // searchData,
@@ -44,6 +49,8 @@ const CarSearchFilterModal = ({
 // onSearchButtonClicked,
 {
   isVisible: boolean;
+  searchButtonLabel: string;
+  onClose: () => void;
   children: React.ReactNode;
 }) => {
   const theme = useTheme();
@@ -52,24 +59,31 @@ const CarSearchFilterModal = ({
     <SafeAreaView>
       <Modal // is position absolute at root with top,left,right and bottom set at 0
         animationType="slide"
-        transparent={true}
         visible={isVisible}
         // onRequestClose={onModalClose}
-        style={{
-          backgroundColor: "red",
-          zIndex: -1,
-          opacity: 0,
-          pointerEvents: "none",
-          // isolation: "isolate",
-        }}
         collapsable
+        transparent
       >
-        {/* <SafeAreaView style={{ backgroundColor: theme.colors.surface, flex: 1 }}> */}
-        {children}
-        {/* </SafeAreaView> */}
+        <ScrollView
+          style={{ backgroundColor: theme.colors.surface, marginTop: 200 }}
+        >
+          {/* {children} */}
+          <SearchCarOfferForm />
+        </ScrollView>
+        <View
+          style={{
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: 100,
+            paddingHorizontal: 16,
+          }}
+        >
+          {/* <FAB label={searchButtonLabel} onPress={onClose} /> */}
+        </View>
       </Modal>
     </SafeAreaView>
   );
 };
 
-export default CarSearchFilterModal;
+export default CarFilterModal;

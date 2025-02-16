@@ -13,7 +13,7 @@ import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import { AxiosError } from 'axios';
-import { useLocalSearchParams } from "expo-router";
+import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useTheme } from 'react-native-paper';
@@ -81,7 +81,7 @@ export function useGetHomeData() {
         is_kassah = '',
         transmission = ''
      } =
-     useLocalSearchParams<SearchCarOfferQueryParameterData>();
+     useGlobalSearchParams<SearchCarOfferQueryParameterData>();
 
     //  alert(shippable_to);
 
@@ -220,15 +220,19 @@ export function useGetHomeData() {
 
     // value get changed after 1.5 second if user stopped changing query param(typing here)
     // which trigger the useQuery re-run with new value
+    // it gets updated value  after 1000 (1 second)
     const debouncedSearchTerm = useDebounce(search, 1000);
 
-    const debouncedPaginationCursor = useDebounce(search, 1000);
+    console.log("search", search);
+
+    console.log("search debounced", debouncedSearchTerm);
+
+    // const debouncedPaginationCursor = useDebounce(search, 1000);
 
     // const shouldSearch = !!debouncedSearchTerm || !!debouncedPaginationCursor;
 
-    const shouldSearch = !!search  && !!debouncedSearchTerm;
+    const shouldSearch =  search === '' && debouncedSearchTerm === '' ? true :  !!debouncedSearchTerm;
 
-    
     //must be called manually in view
     const {data, isLoading, hasNextPage, isFetching, fetchNextPage} = useInfiniteQuery(
         {
@@ -238,7 +242,8 @@ export function useGetHomeData() {
             queryKey: 
                 [
                     'home',
-                    model,
+                    // model,
+                    search,
                     price_from,
                     price_to,
                     query_shippable_to,
@@ -384,8 +389,6 @@ async function getSearchSuggestionsApi({
         //     ]
         // );
 
-        alert("hello world");
-        
         const search_url = `${HOME_URI}`;
 
         const are_miles_travelled_unchanged = 

@@ -1,4 +1,3 @@
-import CarSearchFilterModal from "@/components/home/CarSearchFilterModal";
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import CarSearchSuggestionList from "@/components/home/CarSearchSuggestionList";
@@ -12,24 +11,9 @@ const Home = () => {
   const {
     data: paginatedCarSearchSuggestionData,
     isLoading,
+    isFetching,
     hasNextPage,
     search,
-    page,
-    car_label_origin,
-    car_sell_location,
-    fuel_type,
-    import_type,
-    manufacturer_id,
-    miles_travelled_in_km_from,
-    miles_travelled_in_km_to,
-    price_from,
-    price_to,
-    shippable_to,
-    user_current_syrian_city,
-    user_has_legal_car_papers,
-    year_manufactured,
-    searchState,
-    updateSearchStateItem,
     fetchNextPage,
     onSearchFocus,
     onSearchBlur,
@@ -124,6 +108,7 @@ const Home = () => {
       </View>
       <CarSearchResultCardList
         items={carSearchSuggestions}
+        isFetching={isFetching}
         renderItem={({ item }) => (
           <CarSearchResultCard item={item} onFavourite={() => {}} />
         )}
