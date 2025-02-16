@@ -64,14 +64,21 @@ const selectChipItem = (id: string, onChipItemSelected: (id: string) => void, on
             return;
         }
 
-        if(onEmptyList)
-        {
-            onEmptyList?.();
-            return
-        }
+        onEmptyList();
+        return
 
-        return;
     }
+    const isItemAlreadySelected = selectedItems.includes(id);
+     
+    if(isItemAlreadySelected)
+    {
+        if(typeof selectedItems === "string"  && selectedItems)
+        {
+            onEmptyList();
+            return;
+        }
+    }
+
     onChipItemSelected(id);
 }
 

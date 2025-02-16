@@ -32,6 +32,8 @@ const CustomPaperChipsList = ({
     isChipItemSelected,
   } = useGenericChipFilter(selectedItems);
 
+  console.log("selected items length", selectedItems);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,

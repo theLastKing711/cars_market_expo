@@ -68,6 +68,7 @@ export type SearchCarOfferQueryParameterData = {
     is_kassah?: string;
 };
 
+
 export type RequiredSearchCarOfferQueryParameterData = 
     Required<SearchCarOfferQueryParameterData>;
 

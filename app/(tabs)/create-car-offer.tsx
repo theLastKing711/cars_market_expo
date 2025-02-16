@@ -5,38 +5,19 @@ import {
   CreateCarOfferForm,
   getCarOfferRequestFromForm,
 } from "@/types/car/createCarOffer";
-import {
-  FUELTYPELIST,
-  FUELTYPELISTSEGMENTEDBUTTONS,
-} from "@/types/enums/FuelType";
-import {
-  TRANSMISSIONLIST,
-  TRANSMISSIONSEGMENTEDBUTTONS,
-} from "@/types/enums/TransmissionType";
+import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
+import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { Button, TextInput, useTheme } from "react-native-paper";
-import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
-import {
-  getFormDataFromImages,
-  getStringValueFromSegmentedButtonsList,
-} from "@/libs/axios/helpers";
+import { getFormDataFromImages } from "@/libs/axios/helpers";
 // import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { ImageManipulator } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
-import {
-  PaperSegmentedButtonItem,
-  UploadFileResponseData,
-} from "@/types/shared";
+import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import CustomPaperSelect from "@/components/ui/react-native-paper/CustomPaperSelect";

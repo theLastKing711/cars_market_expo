@@ -30,11 +30,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
   const {
     data: paginatedCarSearchSuggestionData,
-    isLoading,
-    isFetching,
-    hasNextPage,
     search,
-    page,
     car_label_origin,
     car_sell_location,
     fuel_type,
@@ -53,36 +49,15 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     is_faragha_jahzeh,
     is_khalyeh,
     is_kassah,
-    updateCarFilterQueryParams,
-    updateCarSellLocationQueryParam,
-    updateShippableToQueryParam,
+    fetchNextPage,
+    updateCarSearchParam,
     emptyCarSellLocationQueryParam,
     emptyShippableToQueryParam,
-    fetchNextPage,
-    onSearchFocus,
-    onSearchBlur,
-    onSearchValueUpdate,
-    onPageValueUpdate,
+    updateCarSellLocationQueryParam,
+    updateShippableToQueryParam,
   } = useGetHomeData();
 
-  useEffect(() => {
-    router.setParams({
-      search,
-      car_sell_location,
-      // shippable_to: JSON.stringify(shippable_to),
-    });
-  }, [search, car_sell_location]);
-
   const theme = useTheme();
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingTop: 71,
-      backgroundColor: theme.colors.surface,
-      position: "relative",
-    },
-  });
 
   const slider_miles_travelled_in_km =
     miles_travelled_in_km_from || miles_travelled_in_km_to
@@ -97,7 +72,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     const isFirstSlide = value.length === 1;
 
     if (isFirstSlide) {
-      updateCarFilterQueryParams({
+      updateCarSearchParam({
         miles_travelled_in_km_from: "0",
         miles_travelled_in_km_to: value[0].toString(),
       });
@@ -107,7 +82,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
     const [slider_miles_from, slider_miles_to] = value;
 
-    updateCarFilterQueryParams({
+    updateCarSearchParam({
       miles_travelled_in_km_from: slider_miles_from.toString(),
       miles_travelled_in_km_to: slider_miles_to.toString(),
     });
@@ -122,7 +97,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     const isFirstSlide = value.length === 1;
 
     if (isFirstSlide) {
-      updateCarFilterQueryParams({
+      updateCarSearchParam({
         price_from: "0",
         price_to: value[0].toString(),
       });
@@ -132,7 +107,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
     const [slider_price_from, slider_price_to] = value;
 
-    updateCarFilterQueryParams({
+    updateCarSearchParam({
       price_from: slider_price_from.toString(),
       price_to: slider_price_to.toString(),
     });
@@ -143,86 +118,15 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     : "0";
 
   const searchButtonText = `${searchResultTotal} نتائج بحث, اظهر النتائج`;
-  // console.log("carSearchSuggestion", carSearchSuggestions);
 
   const navigateToSearchResultPage = () => {
-    // const queryString =
-    //   buildQueryParamsString<RequiredSearchCarOfferQueryParameterData>([
-    //     { key: "search", value: search },
-    //     { key: "page", value: page || "" },
-    //     { key: "car_label_origin", value: car_label_origin },
-    //     { key: "car_sell_location", value: car_sell_location },
-    //     { key: "fuel_type", value: fuel_type },
-    //     { key: "import_type", value: import_type },
-    //     { key: "manufacturer_id", value: manufacturer_id },
-    //     {
-    //       key: "miles_travelled_in_km_from",
-    //       value: miles_travelled_in_km_from,
-    //     },
-    //     { key: "miles_travelled_in_km_to", value: miles_travelled_in_km_to },
-    //     { key: "price_from", value: price_from },
-    //     { key: "price_to", value: price_to },
-    //     { key: "user_current_syrian_city", value: user_current_syrian_city },
-    //     { key: "user_has_legal_car_papers", value: user_has_legal_car_papers },
-    //     { key: "year_manufactured", value: year_manufactured },
-    //     { key: "shippable_to", value: shippable_to },
-    //     { key: "is_faragha_jahzeh", value: is_faragha_jahzeh },
-    //     { key: "is_khalyeh", value: is_khalyeh },
-    //     { key: "is_kassah", value: is_kassah },
-    //     { key: "is_new_car", value: is_new_car },
-    //     { key: "model", value: model },
-    //     { key: "transmission", value: transmission },
-    //   ]);
-
     if (isModal) {
       router.back();
-      router.setParams({
-        manufacturer_id,
-        search,
-        car_label_origin,
-        car_sell_location,
-        fuel_type,
-        import_type,
-        miles_travelled_in_km_from,
-        miles_travelled_in_km_to,
-        price_from,
-        price_to,
-        user_current_syrian_city,
-        user_has_legal_car_papers,
-        year_manufactured,
-        is_faragha_jahzeh,
-        is_khalyeh,
-        is_new_car,
-        transmission,
-        shippable_to: JSON.stringify(shippable_to),
-      });
       return;
     }
 
     router.push({
       pathname: "/car-search-result",
-      params: {
-        manufacturer_id,
-        search,
-        car_label_origin,
-        car_sell_location,
-        fuel_type,
-        import_type,
-        miles_travelled_in_km_from,
-        miles_travelled_in_km_to,
-        price_from,
-        price_to,
-        user_current_syrian_city,
-        user_has_legal_car_papers,
-        year_manufactured,
-        is_faragha_jahzeh,
-        is_khalyeh,
-        is_new_car,
-        transmission,
-        shippable_to: JSON.stringify(shippable_to),
-        // so we can make it in a form that is parsable to array on other page value="[1, 2]" instead of value=1,2
-        // both of which get passed as string to next page
-      },
     });
   };
 
@@ -250,9 +154,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               }}
               placeholder="السيارة. مثال: كيا فورتي, هونداي سانتافي 2011."
               value={search}
-              onChangeText={(text) =>
-                updateCarFilterQueryParams({ search: text })
-              }
+              onChangeText={(text) => updateCarSearchParam({ search: text })}
             />
 
             <CustomPaperChipsList
@@ -278,12 +180,12 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               firstInputProps={{
                 value: price_from,
                 onChangeText: (text) =>
-                  updateCarFilterQueryParams({ price_from: text }),
+                  updateCarSearchParam({ price_from: text }),
               }}
               secondInputProps={{
                 value: price_to,
                 onChangeText: (text) =>
-                  updateCarFilterQueryParams({ price_to: text }),
+                  updateCarSearchParam({ price_to: text }),
               }}
               sliderProps={{
                 value: slider_prices || [minimum_price_from, maximum_price_to],
@@ -300,14 +202,14 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               firstInputProps={{
                 value: miles_travelled_in_km_from,
                 onChangeText: (text) =>
-                  updateCarFilterQueryParams({
+                  updateCarSearchParam({
                     miles_travelled_in_km_from: text,
                   }),
               }}
               secondInputProps={{
                 value: miles_travelled_in_km_to,
                 onChangeText: (text) =>
-                  updateCarFilterQueryParams({
+                  updateCarSearchParam({
                     miles_travelled_in_km_to: text,
                   }),
               }}
@@ -328,7 +230,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="نوغ الوقود"
               value={fuel_type}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   fuel_type: value,
                 })
               }
@@ -338,7 +240,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="نوع الناقل"
               value={transmission}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   transmission: value,
                 })
               }
@@ -349,7 +251,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="السيارة جديدة(غير مستعملة)؟"
               value={is_new_car}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   is_new_car: value,
                 })
               }
@@ -360,7 +262,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="السيارة مقصوصة(قصة)؟"
               value={is_kassah}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   is_kassah: value,
                 })
               }
@@ -371,7 +273,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="السيارة جاهزة للفراغة؟"
               value={is_faragha_jahzeh}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   is_faragha_jahzeh: value,
                 })
               }
@@ -382,7 +284,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="السيارة خالية العلام؟"
               value={is_khalyeh}
               onValueChange={(value) =>
-                updateCarFilterQueryParams({
+                updateCarSearchParam({
                   is_khalyeh: value,
                 })
               }
