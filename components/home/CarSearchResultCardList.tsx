@@ -1,7 +1,8 @@
 import { CarListData } from "@/types/home";
 import React from "react";
 import { FlatList, ListRenderItem, View } from "react-native";
-import { ActivityIndicator, List } from "react-native-paper";
+import { ActivityIndicator, List, Text } from "react-native-paper";
+import ChipsFilterSection from "../carSearchResult/ChipsFilterSection";
 
 export type CarSearchResultCardList = {
   items: CarListData[];
@@ -68,10 +69,11 @@ const CarSearchResultCardList = ({
     <View
       style={{
         height: "100%", // take parent height which is also 100% which equal the screen height
-        paddingTop: 32,
+        // paddingTop: 32,
       }}
     >
       <FlatList
+        StickyHeaderComponent={ChipsFilterSection}
         data={items}
         renderItem={renderItem}
         onEndReached={fetchNextPageIfThereIsNoPreviousOnGoingFetching}

@@ -16,7 +16,7 @@ GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(FUELTYPE);
 
 export type FuelTypeKey = keyof typeof FUELTYPE;
 
-export const FUELTYPELOOKUP = (value: number) => {
+export const FUELTYPELOOKUP = (value: number|string) => {
 
   return value ? FUELTYPE[value.toString() as FuelTypeKey] : '';
 }

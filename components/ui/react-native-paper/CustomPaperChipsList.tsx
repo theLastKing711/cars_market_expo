@@ -1,13 +1,7 @@
-import ChipsFilterSection from "@/components/ChipsFilterSection";
-import {
-  useChipFilter,
-  useChipFilterProps,
-} from "@/hooks/components/useChipFilter";
 import { useGenericChipFilter } from "@/hooks/components/useGenericChipFilter";
 import { ChipItem } from "@/types/shared";
-import { ListRenderItem, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { Chip, Text, useTheme } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Chip, Text } from "react-native-paper";
 
 export type CustomPaperChipsListProps = {
   title: string;
@@ -31,8 +25,6 @@ const CustomPaperChipsList = ({
     selectChipItem,
     isChipItemSelected,
   } = useGenericChipFilter(selectedItems);
-
-  console.log("selected items length", selectedItems);
 
   const styles = StyleSheet.create({
     container: {

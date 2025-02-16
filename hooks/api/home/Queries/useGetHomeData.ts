@@ -2,7 +2,7 @@ import { HOME_URI } from '@/constants/api';
 import { maximum_price_to, maximumm_miles_travelled_in_km_to, minimum_miles_travelled_in_km_from, minimum_price_from } from '@/constants/variables';
 import { apiClient } from "@/libs/axios/config";
 import useCarSearchStore, { UseCarSearchStoreParams } from '@/state/useCarSearchStore';
-import {SearchCarOfferPaginationResultData, SearchCarOfferQueryParameterData, SearchState } from "@/types/home";
+import {SearchCarOfferPaginationResultData } from "@/types/home";
 import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";

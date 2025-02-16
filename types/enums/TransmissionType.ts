@@ -13,6 +13,13 @@ export const TRANSMISSIONLIST: ListItem[] =
 export const TRANSMISSIONSEGMENTEDBUTTONS = 
   GetReactPaperSegmentedButtonsWithUnSpecifedOptionByObject(TRANSMISSION);
 
+  export type TransmissionKey = keyof typeof TRANSMISSION;
+  
+  export const TRANSMISSIONLOOKUP = (value: number|string) => {
+  
+    return value ? TRANSMISSION[value.toString() as TransmissionKey] : '';
+  }
+
 // export const TRANSMISSIONLIST: ListItem[] = [
 //   {
 //     _id: '1',

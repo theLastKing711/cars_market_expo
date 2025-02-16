@@ -1,7 +1,11 @@
-import CarFilterModal from "@/components/home/CarFilterModal";
+import ChipsFilterSection from "@/components/carSearchResult/ChipsFilterSection";
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
+import { getCarFilterChipList } from "@/constants/variables";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
+import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
+import { SYRIANCITYLOOKUP } from "@/types/enums/SyrianCity";
+import { TRANSMISSIONLOOKUP } from "@/types/enums/TransmissionType";
 
 import { router } from "expo-router";
 import React from "react";
@@ -14,73 +18,120 @@ const CarSearchResult = () => {
     isLoading,
     isFetching,
     hasNextPage,
-    search,
-    car_label_origin,
     car_sell_location,
-    fuel_type,
+    car_label_origin,
     is_faragha_jahzeh,
     is_kassah,
-    is_khalyeh,
     is_new_car,
-    import_type,
-    price_from,
-    price_to,
-    transmission,
+    is_khalyeh,
     miles_travelled_in_km_from,
     miles_travelled_in_km_to,
-    user_current_syrian_city,
-    user_has_legal_car_papers,
-    year_manufactured,
+    price_from,
+    price_to,
+    search,
     shippable_to,
+    transmission,
+    fuel_type,
+    import_type,
+    manufacturer_id,
+    updateCarSearchParam,
     fetchNextPage,
   } = useGetHomeData();
 
-  console.log("car search result page", shippable_to);
-
   const theme = useTheme();
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingTop: 71,
-      backgroundColor: theme.colors.surface,
-      position: "relative",
-    },
-  });
 
   const openFilterModal = () => {
     router.push({
       pathname: "/car-search-filter-modal",
-      params: {
-        search,
-        car_label_origin,
-        car_sell_location,
-        fuel_type,
-        import_type,
-        miles_travelled_in_km_from,
-        miles_travelled_in_km_to,
-        price_from,
-        price_to,
-        user_current_syrian_city,
-        user_has_legal_car_papers,
-        year_manufactured,
-        is_faragha_jahzeh,
-        is_khalyeh,
-        is_new_car,
-        transmission,
-        shippable_to: JSON.stringify(shippable_to),
-        // so we can make it in a form that is parsable to array on other page value="[1, 2]" instead of value=1,2
-        // both of which get passed as string to next page
-      },
     });
   };
 
   const carSearchSuggestions =
     paginatedCarSearchSuggestionData?.pages?.flatMap((item) => item.data) || [];
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      // paddingTop: 16,
+      backgroundColor: theme.colors.surface,
+    },
+  });
+
+  const filterItems = getCarFilterChipList([
+    {
+      key: "search",
+      text: search,
+      onClose: () => updateCarSearchParam({ search: "" }),
+    },
+    {
+      key: "car_sell_location",
+      text: SYRIANCITYLOOKUP(car_sell_location),
+      onClose: () => updateCarSearchParam({ car_sell_location: "" }),
+    },
+    {
+      key: "fuel_type",
+      text: FUELTYPELOOKUP(fuel_type),
+      onClose: () => updateCarSearchParam({ fuel_type: "" }),
+    },
+    {
+      key: "import_type",
+      text: import_type,
+      onClose: () => updateCarSearchParam({ import_type: "" }),
+    },
+    {
+      key: "is_faragha_jahzeh",
+      text: !!is_faragha_jahzeh,
+      onClose: () => updateCarSearchParam({ is_faragha_jahzeh: "" }),
+    },
+    {
+      key: "is_kassah",
+      text: !!is_kassah,
+      onClose: () => updateCarSearchParam({ is_kassah: "" }),
+    },
+    {
+      key: "is_khalyeh",
+      text: !!is_khalyeh,
+      onClose: () => updateCarSearchParam({ is_khalyeh: "" }),
+    },
+    {
+      key: "is_new_car",
+      text: !!is_new_car,
+      onClose: () => updateCarSearchParam({ is_new_car: "" }),
+    },
+    {
+      key: "miles_travelled_in_km_from",
+      text: miles_travelled_in_km_from,
+      onClose: () => updateCarSearchParam({ miles_travelled_in_km_from: "" }),
+      suffix: "كم",
+    },
+    {
+      key: "miles_travelled_in_km_to",
+      text: miles_travelled_in_km_to,
+      onClose: () => updateCarSearchParam({ miles_travelled_in_km_to: "" }),
+      suffix: "كم",
+    },
+    {
+      key: "price_from",
+      text: price_from,
+      onClose: () => updateCarSearchParam({ price_from: "" }),
+      suffix: "$",
+    },
+    {
+      key: "price_to",
+      text: price_to,
+      onClose: () => updateCarSearchParam({ price_to: "" }),
+      suffix: "$",
+    },
+    {
+      key: "transmission",
+      text: TRANSMISSIONLOOKUP(transmission),
+      onClose: () => updateCarSearchParam({ transmission: "" }),
+    },
+  ]);
+
   return (
     <View style={styles.container}>
-      <Button onPress={openFilterModal}>open</Button>
+      <ChipsFilterSection data={filterItems} />
       <CarSearchResultCardList
         items={carSearchSuggestions}
         renderItem={({ item }) => (
@@ -91,13 +142,6 @@ const CarSearchResult = () => {
         fetchNextPage={fetchNextPage}
         isLoading={isLoading}
       />
-      <CarFilterModal
-        isVisible={false}
-        searchButtonLabel="alskdj"
-        onClose={() => {}}
-      >
-        <View></View>
-      </CarFilterModal>
     </View>
   );
 };

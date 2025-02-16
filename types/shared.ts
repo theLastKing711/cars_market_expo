@@ -75,3 +75,9 @@ export type ChipItem = {
     id: string;
     name: string;
 }
+
+export type CarSearchFilterChipItem = {
+    id: string;
+    text: string;
+    onClose: () => void;
+}
