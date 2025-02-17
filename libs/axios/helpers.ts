@@ -96,10 +96,12 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
 export function rowPartition<T>(items: T[], rowItemsCount: number = 3, maxRowCount: number = 2){
 
+    const numberOfItemsToShowInGrid = (rowItemsCount *  maxRowCount); 
     
     const rowPartitionedItems = items.reduce((prev, current, index) => {
+        
 
-        const shouldNotShowRow = (rowItemsCount *  maxRowCount) == index;
+        const shouldNotShowRow = index >= numberOfItemsToShowInGrid;
 
         if(shouldNotShowRow)
         {
@@ -119,7 +121,42 @@ export function rowPartition<T>(items: T[], rowItemsCount: number = 3, maxRowCou
 
     const isLastRow = (rowIndex: number) => rowIndex === lastRowIndex;
     
-    return {rowPartitionedItems, lastRowIndex, isLastRow} as const;
+    const lastShowableItemIndex = numberOfItemsToShowInGrid - 1;
+
+    const isLastShowableItem = (rowIndex: number, itemIndex: number) => {
+
+        return rowIndex === maxRowCount - 1 && itemIndex === rowItemsCount - 1;
+
+    }
+
+    const numberOfItemsToNotShowInGrid = items.length - numberOfItemsToShowInGrid;
+
+    const shouldShowNumberOfNotShowableItems = (rowIndex: number, itemIndex: number) => {
+
+        // return isLastShowableItem(rowIndex, itemIndex);
+
+     
+        
+        if(isLastShowableItem(rowIndex, itemIndex))
+        {
+            if( numberOfItemsToNotShowInGrid === 0)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+    }
+    
+    return {
+        rowPartitionedItems,
+        lastRowIndex,
+        isLastRow,
+        lastShowableItemIndex, 
+        isLastShowableItem,
+        numberOfItemsToNotShowInGrid,
+        shouldShowNumberOfNotShowableItems
+    } as const;
 
 }
 

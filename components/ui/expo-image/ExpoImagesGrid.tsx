@@ -4,18 +4,12 @@ import { StyleSheet, View } from "react-native";
 import ExpoImagesRow from "./ExpoImagesRow";
 import { Image } from "expo-image";
 import ExpoImagePicker, { ExpoImagePickerProps } from "./ExpoImagePicker";
-import { useTheme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 
 export type ExpoImagesGridProps = {
   imagesUris: string[];
   onImageClicked: (imageUri: string) => void;
   onAddImageClicked: ExpoImagePickerProps["onAddImageClicked"];
-};
-
-const numberOfImagesToShowInGrid = 6;
-
-const shouldShowItemInGrid = (index: number) => {
-  return index <= numberOfImagesToShowInGrid - 1;
 };
 
 const ExpoImagesGrid = ({
@@ -25,7 +19,11 @@ const ExpoImagesGrid = ({
 }: ExpoImagesGridProps) => {
   const theme = useTheme();
 
-  const { rowPartitionedItems, isLastRow } = rowPartition(imagesUris, 3);
+  const {
+    rowPartitionedItems,
+    shouldShowNumberOfNotShowableItems,
+    numberOfItemsToNotShowInGrid,
+  } = rowPartition(imagesUris);
 
   const styles = StyleSheet.create({
     gridContainer: {
@@ -50,6 +48,11 @@ const ExpoImagesGrid = ({
                 source={{
                   uri: imageUri,
                 }}
+                blurRadius={
+                  shouldShowNumberOfNotShowableItems(rowIndex, itemIndex)
+                    ? 100
+                    : 0
+                }
                 style={{
                   width: "100%",
                   // maxWidth: 300, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
@@ -58,6 +61,21 @@ const ExpoImagesGrid = ({
                   backgroundColor: "white",
                 }}
               />
+              {shouldShowNumberOfNotShowableItems(rowIndex, itemIndex) && (
+                <View
+                  style={{
+                    position: "absolute",
+                    zIndex: 10,
+                    inset: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text variant="headlineMedium" style={{ color: "black" }}>
+                    +{numberOfItemsToNotShowInGrid}
+                  </Text>
+                </View>
+              )}
             </View>
           ))}
         </ExpoImagesRow>
