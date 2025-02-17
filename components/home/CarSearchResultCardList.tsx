@@ -69,7 +69,6 @@ const CarSearchResultCardList = ({
     <View
       style={{
         height: "100%", // take parent height which is also 100% which equal the screen height
-        // paddingTop: 32,
       }}
     >
       <FlatList
@@ -77,7 +76,6 @@ const CarSearchResultCardList = ({
         data={items}
         renderItem={renderItem}
         onEndReached={fetchNextPageIfThereIsNoPreviousOnGoingFetching}
-        // onEndReached={() => !isFetching && fetchNextPage()}
         ListFooterComponent={loadingComponent}
         style={{ paddingHorizontal: 16 }}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}

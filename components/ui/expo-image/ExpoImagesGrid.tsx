@@ -7,6 +7,7 @@ import { Image } from "expo-image";
 import ExpoImagePicker, { ExpoImagePickerProps } from "./ExpoImagePicker";
 import { Button, useTheme } from "react-native-paper";
 import ImagesCarouselSection from "@/components/carOfferDetails/ImagesCarouselSection";
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 
 export type ExpoImagesGridProps = {
   imagesUris: string[];

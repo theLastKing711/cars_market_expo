@@ -53,6 +53,7 @@ const CarSearchResult = () => {
     container: {
       flex: 1,
       // paddingTop: 16,
+      paddingBottom: 90,
       backgroundColor: theme.colors.surface,
     },
   });

@@ -5,8 +5,7 @@ import { PaperSegmentedButtonItem } from "../shared";
 export type CreateCarOfferForm = {
     manufacturer_id: ListItem[];
     manufacturer_name_ar: string;
-    manufacturere_name_en: string;
-    model?: string;
+    manufacturere_name_en?: string;
     car_price: string;
     fuel_type: string[];
     transmission?: string;
@@ -20,7 +19,7 @@ export type CreateCarOfferForm = {
 export type CreateCarOfferRequestData = {
     manufacturer_id: number;
     manufacturer_name_ar: string;
-    manufacturere_name_en: string;
+    manufacturere_name_en?: string;
     model?: string;
     is_new_car: boolean;
     car_price: number;
@@ -43,14 +42,11 @@ export function getCarOfferRequestFromForm({
     is_faragha_jahzeh,
     is_kassah,
     is_khalyeh,
-    model,
     transmission
 }: CreateCarOfferForm) {
     const createCarOfferRequest: CreateCarOfferRequestData = {
         manufacturer_id: getListItemsFirstValueAsNumber(manufacturer_id),
         manufacturer_name_ar: manufacturer_name_ar,
-        manufacturere_name_en: manufacturere_name_en,
-        model: model,
         miles_travelled_in_km: parseInt(miles_travelled_in_km),
         transmission: transmission ? parseInt(transmission): null,
         fuel_type:  1,

@@ -9,7 +9,7 @@ import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, TextInput, useTheme } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
@@ -22,6 +22,8 @@ import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenIm
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import CustomPaperSelect from "@/components/ui/react-native-paper/CustomPaperSelect";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
+import { SafeAreaView } from "react-native-safe-area-context";
 const styles = StyleSheet.create({
   textInput: {
     marginBottom: 16,
@@ -181,22 +183,18 @@ const CreateCarOffer = () => {
             paddingBottom: 90,
           }}
         >
-          {/* <Controller
+          <Controller
             control={control}
             rules={{
               required: {
                 value: true,
                 message: "يرجى إدخال قيمة في الحقل",
               },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 style={styles.textInput}
-                placeholder="الشركة المصنعة)عربي("
+                placeholder="اسم السيارة. مثال: هيونداي سانتافي 2011,كيا ريو."
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -204,85 +202,16 @@ const CreateCarOffer = () => {
             )}
             name="manufacturer_name_ar"
           />
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textInput}
-                placeholder="الشركة المصنعة)انكليزي("
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="manufacturere_name_en"
-          /> */}
-          <Controller
-            name="manufacturer_id"
-            control={control}
-            render={({ field: { onChange, onBlur, value = [] } }) => (
-              <CustomPaperSelect
-                label="الشركة المصنعة"
-                value={value}
-                arrayList={CARMANUFACTURERLIST}
-                hideSearchBar={false}
-                onChange={onChange}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textInput}
-                placeholder="موديل"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value?.toString()}
-              />
-            )}
-            name="model"
-          />
 
           <Controller
             name="is_new_car"
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              // <CustomPaperSelect
-              //   label="هل السيارة جديدة(غير مستعملة)؟"
-              //   value={value}
-              //   arrayList={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-              //   onChange={onChange}
-              // />
               <CustomPaperSegmentedButtonsSection
                 title="هل السيارة جديدة(غير مستعملة)؟"
                 value={value}
                 buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
                 onValueChange={onChange}
-
-                //   value={value}
-                //   arrayList={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-                //   onChange={onChange}
               />
             )}
           />

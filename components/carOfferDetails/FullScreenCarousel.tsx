@@ -1,7 +1,7 @@
 import { UploadFileResponseData } from "@/types/shared";
 import { Image } from "expo-image";
 import React from "react";
-import { SafeAreaView, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import { IconButton, Text, useTheme } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 

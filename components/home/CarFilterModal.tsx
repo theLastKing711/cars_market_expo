@@ -4,7 +4,7 @@ import {
   SearchState,
 } from "@/types/home";
 import React from "react";
-import { Modal, SafeAreaView, View } from "react-native";
+import { Modal, View } from "react-native";
 import {
   Button,
   FAB,
@@ -22,6 +22,7 @@ import { router } from "expo-router";
 import { getListItemFromString } from "@/libs/axios/helpers";
 import { ScrollView } from "react-native-gesture-handler";
 import SearchCarOfferForm from "../SearchCarOfferForm";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export type CarSearchFilterModalProps = {
   isVisible: boolean;
