@@ -1,18 +1,21 @@
 import React from "react";
-import { ExpoImagesItemProps } from "./ExpoImagesItem";
 import { rowPartition } from "@/libs/axios/helpers";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ExpoImagesRow from "./ExpoImagesRow";
 import { Image } from "expo-image";
 import ExpoImagePicker, { ExpoImagePickerProps } from "./ExpoImagePicker";
-import { Button, useTheme } from "react-native-paper";
-import ImagesCarouselSection from "@/components/carOfferDetails/ImagesCarouselSection";
-import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
+import { useTheme } from "react-native-paper";
 
 export type ExpoImagesGridProps = {
   imagesUris: string[];
   onImageClicked: (imageUri: string) => void;
   onAddImageClicked: ExpoImagePickerProps["onAddImageClicked"];
+};
+
+const numberOfImagesToShowInGrid = 6;
+
+const shouldShowItemInGrid = (index: number) => {
+  return index <= numberOfImagesToShowInGrid - 1;
 };
 
 const ExpoImagesGrid = ({
@@ -26,7 +29,6 @@ const ExpoImagesGrid = ({
 
   const styles = StyleSheet.create({
     gridContainer: {
-      //   flexDirection: "row",
       backgroundColor: theme.colors.surface,
       gap: 8,
     },
@@ -42,7 +44,7 @@ const ExpoImagesGrid = ({
             <View
               key={itemIndex}
               style={{ flex: 1 }}
-              onTouchStart={() => onImageClicked(imageUri)}
+              onTouchEnd={() => onImageClicked(imageUri)}
             >
               <Image
                 source={{

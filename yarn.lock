@@ -1791,13 +1791,6 @@
   dependencies:
     semver "^7.3.5"
 
-"@openspacelabs/react-native-zoomable-view@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.npmjs.org/@openspacelabs/react-native-zoomable-view/-/react-native-zoomable-view-2.3.1.tgz"
-  integrity sha512-Oe+yNf+E0qCgob7O7SOnK0v0XFbWpQ2Qr+AthOM+MOAhEdL/FwHvHYX7ioVltIlT+pZu3AQfCyRXksqBsZ76nw==
-  dependencies:
-    prop-types "^15.7.2"
-
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
@@ -6805,6 +6798,18 @@ react-native-helmet-async@2.0.4:
     react-fast-compare "^3.2.2"
     shallowequal "^1.1.0"
 
+react-native-image-pan-zoom@^2.1.12:
+  version "2.1.12"
+  resolved "https://registry.npmjs.org/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz"
+  integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
+
+react-native-image-zoom-viewer@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/react-native-image-zoom-viewer/-/react-native-image-zoom-viewer-3.0.1.tgz"
+  integrity sha512-la6s5DNSuq4GCRLsi5CZ29FPjgTpdCuGIRdO5T9rUrAtxrlpBPhhSnHrbmPVxsdtOUvxHacTh2Gfa9+RraMZQA==
+  dependencies:
+    react-native-image-pan-zoom "^2.1.12"
+
 react-native-is-edge-to-edge@^1.1.6:
   version "1.1.6"
   resolved "https://registry.npmjs.org/react-native-is-edge-to-edge/-/react-native-is-edge-to-edge-1.1.6.tgz"
@@ -6890,7 +6895,7 @@ react-native-webview@*, react-native-webview@13.12.5:
     escape-string-regexp "^4.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@>= 0.30.0", react-native@>=0.54.0, react-native@>=0.59, react-native@>=0.6.0, react-native@>=0.73.0, react-native@0.76.5:
+react-native@*, "react-native@>= 0.30.0", react-native@>=0.59, react-native@>=0.6.0, react-native@>=0.73.0, react-native@0.76.5:
   version "0.76.5"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.76.5.tgz"
   integrity sha512-op2p2kB+lqMF1D7AdX4+wvaR0OPFbvWYs+VBE7bwsb99Cn9xISrLRLAgFflZedQsa5HvnOGrULhtnmItbIKVVw==

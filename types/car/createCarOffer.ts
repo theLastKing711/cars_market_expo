@@ -7,7 +7,8 @@ export type CreateCarOfferForm = {
     manufacturer_name_ar: string;
     manufacturere_name_en?: string;
     car_price: string;
-    fuel_type: string[];
+    // fuel_type: string[];
+    fuel_type?: string;
     transmission?: string;
     miles_travelled_in_km: string;
     is_new_car: string;

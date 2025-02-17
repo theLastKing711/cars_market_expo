@@ -94,10 +94,18 @@ export function buildQueryParamsString<T,K extends keyof T = keyof T>(params: {k
 
 
 
-export function rowPartition<T>(items: T[], rowItemsCount: number = 2){
+export function rowPartition<T>(items: T[], rowItemsCount: number = 3, maxRowCount: number = 2){
 
     
     const rowPartitionedItems = items.reduce((prev, current, index) => {
+
+        const shouldNotShowRow = (rowItemsCount *  maxRowCount) == index;
+
+        if(shouldNotShowRow)
+        {
+            return prev;
+        }
+        
         if (index % rowItemsCount == 0) {
           prev.push([]);
         }

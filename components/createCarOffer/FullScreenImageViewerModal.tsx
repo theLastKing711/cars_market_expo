@@ -3,7 +3,6 @@ import { Modal } from "react-native";
 import FullScreenCarousel, {
   FullScreenCarouselProps,
 } from "../carOfferDetails/FullScreenCarousel";
-import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 
 export type FullScreenImageViewerModalProps = {
   isVisible: boolean;
@@ -28,13 +27,11 @@ const FullScreenImageViewerModal = ({
       onRequestClose={onModalClose}
       style={{ backgroundColor: "red" }}
     >
-      <ReactNativeZoomableView minZoom={1}>
-        <FullScreenCarousel
-          images={images}
-          onCloseButtonClicked={onCloseButtonClicked}
-          onDeleteButtonClicked={onDeleteButtonClicked}
-        />
-      </ReactNativeZoomableView>
+      <FullScreenCarousel
+        images={images}
+        onCloseButtonClicked={onCloseButtonClicked}
+        onDeleteButtonClicked={onDeleteButtonClicked}
+      />
     </Modal>
   );
 };

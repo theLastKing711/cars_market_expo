@@ -7,7 +7,7 @@ import {
 } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, TextInput, useTheme } from "react-native-paper";
@@ -20,9 +20,7 @@ import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
-import CustomPaperSelect from "@/components/ui/react-native-paper/CustomPaperSelect";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
-import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 const styles = StyleSheet.create({
   textInput: {
@@ -49,20 +47,20 @@ const CreateCarOffer = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<CreateCarOfferForm>({
-    // defaultValues: {
-    //   car_price: null,
-    //   fuel_type: null,
-    //   is_faragha_jahzeh: null,
-    //   is_kassah: null,
-    //   is_khalyeh: null,
-    //   is_new_car: null,
-    //   manufacturer_id: null,
-    //   manufacturer_name_ar: null,
-    //   manufacturere_name_en: null,
-    //   miles_travelled_in_km: null,
-    //   model: null,
-    //   transmission_type: null,
-    // },
+    defaultValues: {
+      //   car_price: null,
+      // fuel_type: "",
+      is_faragha_jahzeh: "",
+      is_kassah: "",
+      is_khalyeh: "",
+      is_new_car: "",
+      //   manufacturer_id: null,
+      //   manufacturer_name_ar: null,
+      //   manufacturere_name_en: null,
+      //   miles_travelled_in_km: null,
+      //   model: null,
+      // transmission_type: "",
+    },
   });
 
   const openImageViewr = () => {
@@ -73,11 +71,13 @@ const CreateCarOffer = () => {
     setIsImageViewerOpen(false);
   };
 
-  const onFileDelete = (file: UploadFileResponseData) => {
-    deleteFile(file, {
+  const onFileDelete = (fileIndex: number) => {
+    const fileToDelete = images.find((item, index) => index === fileIndex)!;
+
+    deleteFile(fileToDelete, {
       onSuccess: (data) => {
         const updatedImagesList = images.filter(
-          (image) => image.url !== file.url
+          (image) => image.url !== fileToDelete.url
         );
         setImages(updatedImagesList);
       },
@@ -89,8 +89,6 @@ const CreateCarOffer = () => {
 
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
-
-    console.log("form data", createCarOfferRequestData);
 
     createCarOffer(createCarOfferRequestData, {
       onSuccess: () => alert("success"),
@@ -114,9 +112,10 @@ const CreateCarOffer = () => {
       const manipulatedImagesUris = await Promise.all(
         result.assets.map<Promise<ImagePicker.ImagePickerAsset>>(
           async (asset, index) => {
+            alert(asset.fileSize);
             const imageWidth = Math.min(asset.width, 800);
             const manipResult = await ImageManipulator.manipulate(asset.uri)
-              .resize({ width: imageWidth })
+              .resize({ width: imageWidth }) // height is calculated automatically based on aspect ratio
               .renderAsync();
 
             const { width, height, uri } = await manipResult.saveAsync();
@@ -157,7 +156,7 @@ const CreateCarOffer = () => {
   const userHasUploadedImages = images.length > 0;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
       <ScrollView>
         <ExpoImagesGrid
           imagesUris={imagesUris}
@@ -202,19 +201,6 @@ const CreateCarOffer = () => {
             )}
             name="manufacturer_name_ar"
           />
-
-          <Controller
-            name="is_new_car"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <CustomPaperSegmentedButtonsSection
-                title="هل السيارة جديدة(غير مستعملة)؟"
-                value={value}
-                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-                onValueChange={onChange}
-              />
-            )}
-          />
           <Controller
             name="car_price"
             control={control}
@@ -235,51 +221,6 @@ const CreateCarOffer = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value?.toString()}
-              />
-            )}
-          />
-          <Controller
-            name="fuel_type"
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value = [] } }) => (
-              <CustomPaperSegmentedButtonsSection
-                multiSelect
-                title="نوع الوقود"
-                buttons={FUELTYPELISTSEGMENTEDBUTTONS}
-                value={value}
-                onValueChange={onChange}
-              />
-            )}
-          />
-          <Controller
-            name="transmission"
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value = "-1" } }) => (
-              <CustomPaperSegmentedButtonsSection
-                title="نوع الناقل"
-                value={value}
-                buttons={TRANSMISSIONSEGMENTEDBUTTONS}
-                onValueChange={onChange}
               />
             )}
           />
@@ -306,10 +247,71 @@ const CreateCarOffer = () => {
               />
             )}
           />
+
+          <Controller
+            name="is_new_car"
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="هل السيارة جديدة(غير مستعملة)؟"
+                value={value}
+                buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+                onValueChange={onChange}
+              />
+            )}
+          />
+
+          <Controller
+            name="fuel_type"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "يرجى إدخال قيمة في الحقل",
+              },
+              min: {
+                value: 0,
+                message: "يرجى إدخال قيمة موجبة",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value = "" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                // multiSelect add it if can multi select
+                title="نوع الوقود"
+                buttons={FUELTYPELISTSEGMENTEDBUTTONS}
+                value={value}
+                onValueChange={onChange}
+              />
+            )}
+          />
+
+          <Controller
+            name="transmission"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "يرجى إدخال قيمة في الحقل",
+              },
+              min: {
+                value: 0,
+                message: "يرجى إدخال قيمة موجبة",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value = "" } }) => (
+              <CustomPaperSegmentedButtonsSection
+                title="نوع الناقل"
+                value={value}
+                buttons={TRANSMISSIONSEGMENTEDBUTTONS}
+                onValueChange={onChange}
+              />
+            )}
+          />
+
           <Controller
             name="is_faragha_jahzeh"
             control={control}
-            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+            render={({ field: { onChange, onBlur, value = "" } }) => (
               <CustomPaperSegmentedButtonsSection
                 title="هل السيارة جاهزة للفراغة؟"
                 value={value}
@@ -318,10 +320,11 @@ const CreateCarOffer = () => {
               />
             )}
           />
+
           <Controller
             name="is_kassah"
             control={control}
-            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+            render={({ field: { onChange, onBlur, value = "" } }) => (
               <CustomPaperSegmentedButtonsSection
                 title="هل السيارة مقصوصة؟"
                 buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
@@ -330,10 +333,11 @@ const CreateCarOffer = () => {
               />
             )}
           />
+
           <Controller
             name="is_khalyeh"
             control={control}
-            render={({ field: { onChange, onBlur, value = "-1" } }) => (
+            render={({ field: { onChange, onBlur, value = "" } }) => (
               <CustomPaperSegmentedButtonsSection
                 title="هل السيارة خالية العلام؟"
                 buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
