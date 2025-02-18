@@ -2,7 +2,12 @@ import { UploadFileResponseData } from "@/types/shared";
 import { Image } from "expo-image";
 import React, { useRef } from "react";
 import { SafeAreaView, useWindowDimensions, View } from "react-native";
-import { IconButton, Text, useTheme } from "react-native-paper";
+import {
+  ActivityIndicator,
+  IconButton,
+  Text,
+  useTheme,
+} from "react-native-paper";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { IImageInfo } from "react-native-image-zoom-viewer/built/image-viewer.type";
 
@@ -52,7 +57,6 @@ const FullScreenCarousel = ({
               flexDirection: "row",
               justifyContent: "space-between",
               zIndex: 30000,
-              //   backgroundColor: theme.colors.surface,
             }}
           >
             <IconButton
@@ -98,6 +102,7 @@ const FullScreenCarousel = ({
             />
           );
         }}
+        loadingRender={() => <ActivityIndicator />}
       />
     </SafeAreaView>
   );

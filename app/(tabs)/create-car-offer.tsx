@@ -10,7 +10,15 @@ import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, TextInput, useTheme } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  Dialog,
+  HelperText,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
 import { getFormDataFromImages } from "@/libs/axios/helpers";
@@ -22,7 +30,9 @@ import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenIm
 import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DialogContent from "react-native-paper/lib/typescript/components/Dialog/DialogContent";
 const styles = StyleSheet.create({
+  textContainer: {},
   textInput: {
     marginBottom: 16,
   },
@@ -33,6 +43,8 @@ const CreateCarOffer = () => {
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [viewingImageIndex, setViewingImageIndex] = useState(1);
+
+  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
 
   const theme = useTheme();
 
@@ -89,7 +101,10 @@ const CreateCarOffer = () => {
   };
 
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
-    alert(data.car_price);
+    if (images.length === 0) {
+      setIsErrorDialogVisible(true);
+      return;
+    }
 
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
@@ -147,16 +162,22 @@ const CreateCarOffer = () => {
   };
 
   const onImageGridItemClicked = (selectedImage: string) => {
-    // const selectedImageIndex = images.findIndex(
-    //   (imageUri) => imageUri.url === selectedImage
-    // );
     openImageViewr();
-    // setViewingImageIndex(selectedImageIndex);
   };
 
   const imagesUris = images.map((image) => image.url);
 
   const userHasUploadedImages = images.length > 0;
+  const submitText = !isUploadingImage ? (
+    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
+  ) : (
+    <Button onPress={handleSubmit(onSubmit)}>
+      <View style={{ gap: 8 }}>
+        <ActivityIndicator />
+        <Text>جاري تحميل الصور</Text>
+      </View>
+    </Button>
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
@@ -179,7 +200,6 @@ const CreateCarOffer = () => {
         <View
           style={{
             flex: 1,
-            // gap: 16,
             paddingHorizontal: 16,
             backgroundColor: theme.colors.surface,
             paddingTop: 16,
@@ -187,6 +207,7 @@ const CreateCarOffer = () => {
           }}
         >
           <Controller
+            name="manufacturer_name_ar"
             control={control}
             rules={{
               required: {
@@ -195,15 +216,22 @@ const CreateCarOffer = () => {
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.textInput}
-                placeholder="اسم السيارة. مثال: هيونداي سانتافي 2011,كيا ريو."
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.textContainer}>
+                <TextInput
+                  placeholder="اسم السيارة. مثال: هيونداي سانتافي 2011,كيا ريو."
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <HelperText
+                  type="error"
+                  visible={!!errors.manufacturer_name_ar}
+                  style={{ paddingBottom: 0 }}
+                >
+                  {errors.manufacturer_name_ar?.message}
+                </HelperText>
+              </View>
             )}
-            name="manufacturer_name_ar"
           />
           <Controller
             name="car_price"
@@ -219,38 +247,39 @@ const CreateCarOffer = () => {
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                keyboardType="numeric"
-                style={styles.textInput}
-                placeholder="سعر السيارة"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value?.toString()}
-              />
+              <View style={styles.textContainer}>
+                <TextInput
+                  keyboardType="numeric"
+                  placeholder="سعر السيارة"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value?.toString()}
+                />
+                <HelperText type="error" visible={!!errors.car_price}>
+                  {errors.car_price?.message}
+                </HelperText>
+              </View>
             )}
           />
           <Controller
             name="miles_travelled_in_km"
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                keyboardType="numeric"
-                style={styles.textInput}
-                placeholder="كم كيلو متر قاطعة السيارة (العداد)"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.textContainer}>
+                <TextInput
+                  keyboardType="numeric"
+                  placeholder="كم كيلو متر قاطعة السيارة (العداد)"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <HelperText
+                  type="error"
+                  visible={!!errors.miles_travelled_in_km}
+                >
+                  {errors.miles_travelled_in_km?.message}
+                </HelperText>
+              </View>
             )}
           />
 
@@ -338,9 +367,17 @@ const CreateCarOffer = () => {
               />
             )}
           />
-          <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
+          {submitText}
         </View>
       </ScrollView>
+      <Dialog visible={isErrorDialogVisible}>
+        <Dialog.Content>
+          <Text>الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => setIsErrorDialogVisible(false)}>موافق</Button>
+        </Dialog.Actions>
+      </Dialog>
     </SafeAreaView>
   );
 };
