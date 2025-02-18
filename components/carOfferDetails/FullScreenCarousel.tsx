@@ -28,18 +28,12 @@ const FullScreenCarousel = ({
 
   const imageWidth = width;
 
-  const getDummyArrayIndex = (index: number) => {
-    return `${(index + 1).toString()} / ${images.length}`;
-  };
-
   const x: IImageInfo[] | undefined = images.map((x, index) => ({
     url: x.url,
     props: {
       index,
     },
   }));
-
-  console.log("images", x);
 
   const imagesRef = useRef<ImageViewer>(null);
 

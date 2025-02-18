@@ -4,18 +4,20 @@ import { StyleSheet, View } from "react-native";
 import ExpoImagesRow from "./ExpoImagesRow";
 import { Image } from "expo-image";
 import ExpoImagePicker, { ExpoImagePickerProps } from "./ExpoImagePicker";
-import { Text, useTheme } from "react-native-paper";
+import { ActivityIndicator, Text, useTheme } from "react-native-paper";
 
 export type ExpoImagesGridProps = {
   imagesUris: string[];
   onImageClicked: (imageUri: string) => void;
   onAddImageClicked: ExpoImagePickerProps["onAddImageClicked"];
+  isUploadingImages: boolean;
 };
 
 const ExpoImagesGrid = ({
   imagesUris,
   onImageClicked,
   onAddImageClicked,
+  isUploadingImages,
 }: ExpoImagesGridProps) => {
   const theme = useTheme();
 
@@ -78,7 +80,24 @@ const ExpoImagesGrid = ({
           ))}
         </ExpoImagesRow>
       ))}
-      <ExpoImagePicker onAddImageClicked={onAddImageClicked} />
+      {isUploadingImages && (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 16,
+          }}
+        >
+          <ActivityIndicator size={48} />
+          <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
+            جاري تحميل الصور
+          </Text>
+        </View>
+      )}
+      {!isUploadingImages && (
+        <ExpoImagePicker onAddImageClicked={onAddImageClicked} />
+      )}
     </View>
   );
 };

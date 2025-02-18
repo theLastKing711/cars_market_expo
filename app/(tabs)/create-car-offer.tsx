@@ -109,9 +109,9 @@ const CreateCarOffer = () => {
       quality: 1,
     });
 
-    setIsUploadingImage(true);
-
     if (!result.canceled) {
+      setIsUploadingImage(true);
+
       const manipulatedImagesUris = await Promise.all(
         result.assets.map<Promise<ImagePicker.ImagePickerAsset>>(
           async (asset, index) => {
@@ -144,6 +144,7 @@ const CreateCarOffer = () => {
           const newImages = [...data.data];
           // openImageViewr();
           setImages(newImages);
+          setIsUploadingImage(false);
         },
         onError: (data) => alert("failed"),
         onSettled: (data) => setIsUploadingImage(false),
@@ -167,6 +168,7 @@ const CreateCarOffer = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
       <ScrollView>
         <ExpoImagesGrid
+          isUploadingImages={isUploadingImage}
           imagesUris={imagesUris}
           onAddImageClicked={pickImage}
           onImageClicked={onImageGridItemClicked}
