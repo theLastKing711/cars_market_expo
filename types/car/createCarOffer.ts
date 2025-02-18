@@ -1,5 +1,5 @@
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
-import { getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
+import { getEnglishNumbers, getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
 import { PaperSegmentedButtonItem } from "../shared";
 
 export type CreateCarOfferForm = {
@@ -48,10 +48,10 @@ export function getCarOfferRequestFromForm({
     const createCarOfferRequest: CreateCarOfferRequestData = {
         manufacturer_id: getListItemsFirstValueAsNumber(manufacturer_id),
         manufacturer_name_ar: manufacturer_name_ar,
-        miles_travelled_in_km: parseInt(miles_travelled_in_km),
+        miles_travelled_in_km: getEnglishNumbers(miles_travelled_in_km),
+        car_price: getEnglishNumbers(car_price),
         transmission: transmission ? parseInt(transmission): null,
         fuel_type:  1,
-        car_price: parseInt(car_price),
         is_faragha_jahzeh: Boolean(is_faragha_jahzeh),
         is_kassah: Boolean(is_kassah),
         is_khalyeh: Boolean(is_khalyeh),

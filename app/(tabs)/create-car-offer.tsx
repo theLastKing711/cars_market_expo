@@ -74,8 +74,6 @@ const CreateCarOffer = () => {
   const onFileDelete = (fileIndex: number) => {
     const fileToDelete = images.find((item, index) => index === fileIndex)!;
 
-    console.log("parent file to delete index", fileIndex);
-    console.log("parent file to delete", fileToDelete);
     const updatedImagesList = images.filter(
       (image) => image.url !== fileToDelete.url
     );
@@ -91,6 +89,8 @@ const CreateCarOffer = () => {
   };
 
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
+    alert(data.car_price);
+
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
     createCarOffer(createCarOfferRequestData, {
@@ -115,18 +115,12 @@ const CreateCarOffer = () => {
       const manipulatedImagesUris = await Promise.all(
         result.assets.map<Promise<ImagePicker.ImagePickerAsset>>(
           async (asset, index) => {
-            // alert(asset.fileSize);
-            // alert(asset.width * asset.height);
-            console.log("file size", asset.fileSize);
-            console.log("height size", asset.height);
             const imageWidth = Math.min(asset.width, 800);
             const manipResult = await ImageManipulator.manipulate(asset.uri)
               .resize({ width: imageWidth }) // height is calculated automatically based on aspect ratio
               .renderAsync();
 
             const { width, height, uri } = await manipResult.saveAsync();
-
-            console.log("height after manipulation", height);
 
             return {
               ...asset,
@@ -153,9 +147,9 @@ const CreateCarOffer = () => {
   };
 
   const onImageGridItemClicked = (selectedImage: string) => {
-    const selectedImageIndex = images.findIndex(
-      (imageUri) => imageUri.url === selectedImage
-    );
+    // const selectedImageIndex = images.findIndex(
+    //   (imageUri) => imageUri.url === selectedImage
+    // );
     openImageViewr();
     // setViewingImageIndex(selectedImageIndex);
   };
@@ -226,6 +220,7 @@ const CreateCarOffer = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
+                keyboardType="numeric"
                 style={styles.textInput}
                 placeholder="سعر السيارة"
                 onBlur={onBlur}
@@ -249,6 +244,7 @@ const CreateCarOffer = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
+                keyboardType="numeric"
                 style={styles.textInput}
                 placeholder="كم كيلو متر قاطعة السيارة (العداد)"
                 onBlur={onBlur}
@@ -274,16 +270,6 @@ const CreateCarOffer = () => {
           <Controller
             name="fuel_type"
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
-              min: {
-                value: 0,
-                message: "يرجى إدخال قيمة موجبة",
-              },
-            }}
             render={({ field: { onChange, onBlur, value = "" } }) => (
               <CustomPaperSegmentedButtonsSection
                 // multiSelect add it if can multi select
@@ -299,10 +285,6 @@ const CreateCarOffer = () => {
             name="transmission"
             control={control}
             rules={{
-              required: {
-                value: true,
-                message: "يرجى إدخال قيمة في الحقل",
-              },
               min: {
                 value: 0,
                 message: "يرجى إدخال قيمة موجبة",

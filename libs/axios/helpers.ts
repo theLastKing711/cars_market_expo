@@ -385,3 +385,27 @@ export function  getFormDataFromImages( assets:  ImagePickerAsset[]) {
 
     return formData;
 }
+
+const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+const arabicNumbers  = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+export const getEnglishNumbers = function (str: string)
+{
+
+    const isArabicNumber = parseInt(str);
+
+    if(isNaN(isArabicNumber))
+    {
+        if(typeof str === 'string')
+            {
+              for(var i=0; i<10; i++)
+              {
+                str = str.replace(persianNumbers[i], i as any).replace(arabicNumbers[i], i as any);
+              }
+            }
+            return parseInt(str);
+    }
+
+    return parseInt(str);
+    
+ 
+};
