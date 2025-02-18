@@ -22,7 +22,7 @@ const FullScreenImageViewerModal = ({
   return (
     <Modal // is position absolute at root with top,left,right and bottom set at 0
       animationType="slide"
-      transparent={true}
+      // transparent={true}
       visible={isVisible}
       onRequestClose={onModalClose}
       style={{ backgroundColor: "red" }}

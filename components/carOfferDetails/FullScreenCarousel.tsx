@@ -1,6 +1,6 @@
 import { UploadFileResponseData } from "@/types/shared";
 import { Image } from "expo-image";
-import React from "react";
+import React, { useRef } from "react";
 import { SafeAreaView, useWindowDimensions, View } from "react-native";
 import { IconButton, Text, useTheme } from "react-native-paper";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -32,17 +32,25 @@ const FullScreenCarousel = ({
     return `${(index + 1).toString()} / ${images.length}`;
   };
 
-  const x: IImageInfo[] | undefined = images.map((x) => ({
+  const x: IImageInfo[] | undefined = images.map((x, index) => ({
     url: x.url,
+    props: {
+      index,
+    },
   }));
+
+  console.log("images", x);
+
+  const imagesRef = useRef<ImageViewer>(null);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ImageViewer
-        enableSwipeDown
+        ref={imagesRef}
         imageUrls={x}
         renderHeader={(currentIndex) => (
           <View
+            key={currentIndex! + 1}
             style={{
               position: "absolute",
               left: 0,
@@ -61,7 +69,17 @@ const FullScreenCarousel = ({
             <IconButton
               size={52}
               icon={{ source: "trash-can", direction: "rtl" }}
-              onPress={() => onDeleteButtonClicked(currentIndex!)}
+              onPress={() => {
+                const selectedIMage = x.find(
+                  (item, index) => index == currentIndex
+                )!;
+                const state = imagesRef.current?.state;
+
+                if (currentIndex !== 0) {
+                  imagesRef.current?.goBack();
+                }
+                onDeleteButtonClicked(currentIndex!);
+              }}
             />
           </View>
         )}

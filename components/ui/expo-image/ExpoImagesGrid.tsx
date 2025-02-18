@@ -32,8 +32,6 @@ const ExpoImagesGrid = ({
     },
   });
 
-  console.log("images", rowPartitionedItems);
-
   return (
     <View style={styles.gridContainer}>
       {rowPartitionedItems.map((row, rowIndex) => (

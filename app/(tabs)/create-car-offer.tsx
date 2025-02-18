@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 
 const CreateCarOffer = () => {
   const [images, setImages] = useState<UploadFileResponseData[]>([]);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [viewingImageIndex, setViewingImageIndex] = useState(1);
 
   const theme = useTheme();
@@ -74,13 +74,16 @@ const CreateCarOffer = () => {
   const onFileDelete = (fileIndex: number) => {
     const fileToDelete = images.find((item, index) => index === fileIndex)!;
 
+    console.log("parent file to delete index", fileIndex);
+    console.log("parent file to delete", fileToDelete);
+    const updatedImagesList = images.filter(
+      (image) => image.url !== fileToDelete.url
+    );
+
+    setImages(updatedImagesList);
+
     deleteFile(fileToDelete, {
-      onSuccess: (data) => {
-        const updatedImagesList = images.filter(
-          (image) => image.url !== fileToDelete.url
-        );
-        setImages(updatedImagesList);
-      },
+      onSuccess: (data) => {},
       onError: () => {
         alert("error happened");
       },
@@ -112,13 +115,18 @@ const CreateCarOffer = () => {
       const manipulatedImagesUris = await Promise.all(
         result.assets.map<Promise<ImagePicker.ImagePickerAsset>>(
           async (asset, index) => {
-            alert(asset.fileSize);
+            // alert(asset.fileSize);
+            // alert(asset.width * asset.height);
+            console.log("file size", asset.fileSize);
+            console.log("height size", asset.height);
             const imageWidth = Math.min(asset.width, 800);
             const manipResult = await ImageManipulator.manipulate(asset.uri)
               .resize({ width: imageWidth }) // height is calculated automatically based on aspect ratio
               .renderAsync();
 
             const { width, height, uri } = await manipResult.saveAsync();
+
+            console.log("height after manipulation", height);
 
             return {
               ...asset,
@@ -148,7 +156,7 @@ const CreateCarOffer = () => {
       (imageUri) => imageUri.url === selectedImage
     );
     openImageViewr();
-    setViewingImageIndex(selectedImageIndex);
+    // setViewingImageIndex(selectedImageIndex);
   };
 
   const imagesUris = images.map((image) => image.url);

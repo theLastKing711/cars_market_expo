@@ -11,7 +11,8 @@ export function useDeleteFileApi() {
 
     const { mutate: deleteFile } = useMutation(
           {
-              mutationFn:(filePublicIdPathParameterData: FilePublicIdPathParameterData) => deleteFileApi(filePublicIdPathParameterData)
+              mutationFn:(filePublicIdPathParameterData: FilePublicIdPathParameterData) => deleteFileApi(filePublicIdPathParameterData),
+              retry: 3
           }
       );
     
@@ -22,8 +23,6 @@ export function useDeleteFileApi() {
 }
   
 export async function deleteFileApi({ public_id }: FilePublicIdPathParameterData) {
-    alert("hello world")
-        
     try {
         const deleteFileUrl = `${FILES_URL}/${public_id}`;
         
