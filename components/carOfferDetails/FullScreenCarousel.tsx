@@ -64,10 +64,10 @@ const FullScreenCarousel = ({
               size={52}
               icon={{ source: "trash-can", direction: "rtl" }}
               onPress={() => {
-                const selectedIMage = x.find(
-                  (item, index) => index == currentIndex
-                )!;
-                const state = imagesRef.current?.state;
+                // const selectedIMage = x.find(
+                //   (item, index) => index == currentIndex
+                // )!;
+                // const state = imagesRef.current?.state;
 
                 if (currentIndex !== 0) {
                   imagesRef.current?.goBack();

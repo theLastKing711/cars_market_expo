@@ -86,7 +86,7 @@ const ExpoImagesGrid = ({
             justifyContent: "center",
             alignItems: "center",
             gap: 8,
-            marginBottom: 16,
+            marginVertical: 16,
           }}
         >
           <ActivityIndicator size={48} />

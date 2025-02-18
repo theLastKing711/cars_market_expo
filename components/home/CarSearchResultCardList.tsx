@@ -21,41 +21,7 @@ const CarSearchResultCardList = ({
   fetchNextPage,
   isLoading,
 }: CarSearchResultCardList) => {
-  //   const renderItem: ListRenderItem<CarListData> | null | undefined = ({
-  //     item: {
-  //       id,
-  //       car_import_type,
-  //       car_price,
-  //       manufacturer_id,
-  //       manufacturer_name,
-  //       miles_travelled_in_km,
-  //       model,
-  //       shippable_to,
-  //       year_manufactured,
-  //     },
-  //   }) => (
-  //     <View key={id} style={{ gap: 15 }}>
-  //       {/* <Image
-  //           source={{ uri: image_url }}
-  //           style={{
-  //             borderRadius: 100,
-  //           }}
-  //         ></Image>
-  //         <View>
-  //           <Text variant="labelMedium">{name}</Text>
-  //         </View> */}
-  //       <List.Item
-  //         onPress={() => alert("hello world")}
-  //         title={manufacturer_name}
-  //         description="Item description"
-  //         left={(props) => <List.Icon {...props} icon="folder" />}
-  //       />
-  //     </View>
-  //   );
-
   const loadingComponent = isLoading ? ActivityIndicator : undefined;
-
-  // console.log("items", items);
 
   const fetchNextPageIfThereIsNoPreviousOnGoingFetching = () => {
     if (isFetching || !hasNextPage) {
