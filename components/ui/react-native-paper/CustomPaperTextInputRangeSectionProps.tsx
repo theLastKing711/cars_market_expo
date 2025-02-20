@@ -56,14 +56,8 @@ const CustomPaperTextInputRangeSection = ({
             style={{
               position: "absolute",
               right: 8,
-              top: "50%",
-              transform: [
-                {
-                  translateY: "-50%",
-                },
-              ],
+              bottom: 8,
             }}
-            variant="titleMedium"
           >
             {inputSuffix}
           </Text>
@@ -72,21 +66,15 @@ const CustomPaperTextInputRangeSection = ({
           <TextInput
             keyboardType="numeric"
             style={styles.textInputWrapper}
-            label={secondInputProps.label || ""}
+            label={secondInputProps.label || "لحد"}
             {...secondInputProps}
           />
           <Text
             style={{
               position: "absolute",
               right: 8,
-              top: "50%",
-              transform: [
-                {
-                  translateY: "-50%",
-                },
-              ],
+              bottom: 8,
             }}
-            variant="titleMedium"
           >
             {inputSuffix}
           </Text>

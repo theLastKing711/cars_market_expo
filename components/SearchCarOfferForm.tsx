@@ -179,12 +179,12 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="السعر"
               inputSuffix="$"
               firstInputProps={{
-                value: price_from || minimum_price_from.toString(),
+                value: price_from,
                 onChangeText: (text) =>
                   updateCarSearchParam({ price_from: text }),
               }}
               secondInputProps={{
-                value: price_to || maximum_price_to.toString(),
+                value: price_to,
                 onChangeText: (text) =>
                   updateCarSearchParam({ price_to: text }),
               }}
@@ -202,18 +202,14 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               title="كيلو متر قاطعة"
               inputSuffix="كم"
               firstInputProps={{
-                value:
-                  miles_travelled_in_km_from ||
-                  minimum_miles_travelled_in_km_from.toString(),
+                value: miles_travelled_in_km_from,
                 onChangeText: (text) =>
                   updateCarSearchParam({
                     miles_travelled_in_km_from: text,
                   }),
               }}
               secondInputProps={{
-                value:
-                  miles_travelled_in_km_to ||
-                  maximumm_miles_travelled_in_km_to.toString(),
+                value: miles_travelled_in_km_to,
                 onChangeText: (text) =>
                   updateCarSearchParam({
                     miles_travelled_in_km_to: text,
