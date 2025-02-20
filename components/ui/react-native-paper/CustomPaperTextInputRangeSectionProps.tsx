@@ -7,6 +7,7 @@ export type CustomPaperTextInputRangeSectionProps = {
   title: string;
   firstInputProps: TextInputProps;
   secondInputProps: TextInputProps;
+  inputSuffix?: string;
   sliderProps: SliderProps;
 };
 
@@ -14,6 +15,7 @@ const CustomPaperTextInputRangeSection = ({
   title,
   firstInputProps,
   secondInputProps,
+  inputSuffix = "",
   sliderProps,
 }: CustomPaperTextInputRangeSectionProps) => {
   const theme = useTheme();
@@ -31,7 +33,7 @@ const CustomPaperTextInputRangeSection = ({
     textInputWrapper: {
       flex: 1,
     },
-    textInput: {
+    textInputContainer: {
       flex: 1,
     },
     sliderContainer: {
@@ -43,22 +45,52 @@ const CustomPaperTextInputRangeSection = ({
     <View style={styles.container}>
       <Text variant="labelMedium">{title}</Text>
       <View style={styles.textInputsRow}>
-        <TextInput
-          style={styles.textInputWrapper}
-          contentStyle={styles.textInput}
-          label={firstInputProps.label || "من"}
-          // placeholder={firstInputProps.placeholder || "من"}
-          {...firstInputProps}
-          // right={<Text style={{ color: "blue" }}>كم</Text>}
-          left={<Text style={{ color: "red" }}>كم</Text>}
-        />
-        <TextInput
-          style={styles.textInputWrapper}
-          contentStyle={styles.textInput}
-          label={firstInputProps.label || "لحد"}
-          // placeholder={firstInputProps.placeholder || "لحد"}
-          {...secondInputProps}
-        />
+        <View style={styles.textInputContainer}>
+          <TextInput
+            keyboardType="numeric"
+            style={styles.textInputWrapper}
+            label={firstInputProps.label || "من"}
+            {...firstInputProps}
+          />
+          <Text
+            style={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: [
+                {
+                  translateY: "-50%",
+                },
+              ],
+            }}
+            variant="titleMedium"
+          >
+            {inputSuffix}
+          </Text>
+        </View>
+        <View style={styles.textInputContainer}>
+          <TextInput
+            keyboardType="numeric"
+            style={styles.textInputWrapper}
+            label={secondInputProps.label || ""}
+            {...secondInputProps}
+          />
+          <Text
+            style={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: [
+                {
+                  translateY: "-50%",
+                },
+              ],
+            }}
+            variant="titleMedium"
+          >
+            {inputSuffix}
+          </Text>
+        </View>
       </View>
       <View style={styles.sliderContainer}>
         <Slider

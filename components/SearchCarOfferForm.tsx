@@ -177,6 +177,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
             <CustomPaperTextInputRangeSection
               title="السعر"
+              inputSuffix="$"
               firstInputProps={{
                 value: price_from || minimum_price_from.toString(),
                 onChangeText: (text) =>
@@ -199,6 +200,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
             <CustomPaperTextInputRangeSection
               title="كيلو متر قاطعة"
+              inputSuffix="كم"
               firstInputProps={{
                 value:
                   miles_travelled_in_km_from ||
