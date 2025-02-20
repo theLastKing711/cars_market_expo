@@ -30,12 +30,9 @@ const CustomPaperTextInputRangeSection = ({
     },
     textInputWrapper: {
       flex: 1,
-      // maxWidth: 30,
     },
     textInput: {
       flex: 1,
-      // width: ,
-      // flex: 1,
     },
     sliderContainer: {
       // transform: [{ scale: -1 }],
