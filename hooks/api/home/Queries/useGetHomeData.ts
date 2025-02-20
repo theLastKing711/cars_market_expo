@@ -52,10 +52,6 @@ export function useGetHomeData() {
 
     console.log("search debounced", debouncedSearchTerm);
 
-    // const debouncedPaginationCursor = useDebounce(search, 1000);
-
-    // const shouldSearch = !!debouncedSearchTerm || !!debouncedPaginationCursor;
-
     const shouldSearch =  search === '' && debouncedSearchTerm === '' ? true :  !!debouncedSearchTerm;
 
     //must be called manually in view
