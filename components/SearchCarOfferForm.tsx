@@ -142,7 +142,6 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
           <View
             style={{
               flex: 1,
-              //   gap: 24,
               paddingHorizontal: 16,
               paddingTop: 32,
               paddingBottom: 100,
@@ -176,7 +175,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             />
 
             <CustomPaperTextInputRangeSection
-              title="السعر"
+              title="السعر بالدولار"
               inputSuffix="$"
               firstInputProps={{
                 value: price_from,

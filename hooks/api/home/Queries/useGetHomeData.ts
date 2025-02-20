@@ -52,9 +52,19 @@ export function useGetHomeData() {
 
     console.log("search debounced", debouncedSearchTerm);
 
-    const shouldSearch =  search === '' && debouncedSearchTerm === '' ? true :  !!debouncedSearchTerm;
+    const debouncedPriceFrom = useDebounce(price_from, 500);
+
+    const debouncedPriceTo = useDebounce(price_to, 500);
+
+    const debouncedKmFrom = useDebounce(miles_travelled_in_km_from, 500);
+    
+    const debouncedKmTo = useDebounce(miles_travelled_in_km_to, 500);
+    
+
 
     //must be called manually in view
+
+    // //must be called manually in view
     const {data, isLoading, hasNextPage, isFetching, fetchNextPage} = useInfiniteQuery(
         {
             //if one of debounced parameters change,then re-run the query with updated values
@@ -64,9 +74,9 @@ export function useGetHomeData() {
                 [
                     'home',
                     // model,
-                    search,
-                    price_from,
-                    price_to,
+                    debouncedSearchTerm,
+                    debouncedPriceFrom,
+                    debouncedPriceTo,
                     shippable_to,
                     car_label_origin,
                     car_sell_location,
@@ -78,8 +88,8 @@ export function useGetHomeData() {
                     is_khalyeh,
                     is_kassah,
                     transmission,
-                    miles_travelled_in_km_from,
-                    miles_travelled_in_km_to,
+                    debouncedKmFrom,
+                    debouncedKmTo,
                     user_has_legal_car_papers,
                     user_current_syrian_city,
                     year_manufactured,
@@ -108,7 +118,7 @@ export function useGetHomeData() {
                 year_manufactured,
                 shippable_to
             }),
-            enabled: shouldSearch, // if false it won't fetch data 
+            // enabled: shouldSearch, // if false it won't fetch data 
             getNextPageParam: (lastPageParam, pages) => {
                 const nextPage = lastPageParam?.next_page ? lastPageParam?.next_page.toString() : undefined; 
 
