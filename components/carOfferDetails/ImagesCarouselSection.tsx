@@ -1,10 +1,21 @@
 import { Image } from "expo-image";
 import React, { useState } from "react";
-import { Dimensions, useWindowDimensions, View } from "react-native";
+import { Pressable, useWindowDimensions, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
+import FullScreenImageViewerModal from "../createCarOffer/FullScreenImageViewerModal";
 
 const ImagesCarouselSection = () => {
+  const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
+
+  const openImageViewer = () => {
+    setIsImageViewerOpen(true);
+  };
+
+  const closeImageViewer = () => {
+    setIsImageViewerOpen(false);
+  };
+
   const theme = useTheme();
 
   // const width = Dimensions.get("window").width;
@@ -37,31 +48,35 @@ const ImagesCarouselSection = () => {
         // onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ index }) => (
           <View>
-            <View
-              style={{
-                // padding: 20,
-                paddingBottom: 0,
-                backgroundColor: "white",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={{
-                  //width 700 with 'crop' => 'pad'
-                  uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
-                  // 700 width
-                  // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
-                }}
+            <Pressable onPress={openImageViewer}>
+              <View
                 style={{
-                  width: "100%",
-                  maxWidth: 300, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
-                  aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
-                  resizeMode: "contain",
+                  // padding: 20,
+                  paddingBottom: 0,
                   backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
-            </View>
+              >
+                <Image
+                  source={{
+                    //width 700 with 'crop' => 'pad'
+                    // uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
+                    uri: "https://picsum.photos/200/300",
+                    // 700 width
+                    // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
+                  }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    maxWidth: 800, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
+                    // aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
+                    resizeMode: "contain",
+                    backgroundColor: "white",
+                  }}
+                />
+              </View>
+            </Pressable>
             <View
               style={{
                 position: "absolute",
@@ -86,6 +101,18 @@ const ImagesCarouselSection = () => {
           </View>
         )}
       />
+      {isImageViewerOpen && (
+        <FullScreenImageViewerModal
+          images={dummyArray.map((item) => ({
+            url: "https://picsum.photos/200/300",
+            public_id: item.toString(),
+          }))}
+          onCloseButtonClicked={closeImageViewer}
+          onModalClose={closeImageViewer}
+          isVisible={isImageViewerOpen}
+          withDelete={false}
+        />
+      )}
     </View>
   );
 };

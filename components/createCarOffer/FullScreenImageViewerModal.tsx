@@ -8,15 +8,17 @@ export type FullScreenImageViewerModalProps = {
   isVisible: boolean;
   images: FullScreenCarouselProps["images"];
   onCloseButtonClicked: FullScreenCarouselProps["onCloseButtonClicked"];
-  onDeleteButtonClicked: FullScreenCarouselProps["onDeleteButtonClicked"];
+  onDeleteButtonClicked?: FullScreenCarouselProps["onDeleteButtonClicked"];
+  withDelete?: FullScreenCarouselProps["withDelete"];
   onModalClose: () => void;
 };
 
 const FullScreenImageViewerModal = ({
   isVisible,
   images,
+  withDelete = true,
   onCloseButtonClicked,
-  onDeleteButtonClicked,
+  onDeleteButtonClicked = () => {},
   onModalClose,
 }: FullScreenImageViewerModalProps) => {
   return (
@@ -29,6 +31,7 @@ const FullScreenImageViewerModal = ({
     >
       <FullScreenCarousel
         images={images}
+        withDelete={withDelete}
         onCloseButtonClicked={onCloseButtonClicked}
         onDeleteButtonClicked={onDeleteButtonClicked}
       />

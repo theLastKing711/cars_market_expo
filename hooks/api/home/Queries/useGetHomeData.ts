@@ -254,7 +254,6 @@ async function getSearchSuggestionsApi({
         
     }
     catch(err) {
-        console.log("error");
         console.log((err as AxiosError).request);
         return Promise.reject(false);
     }

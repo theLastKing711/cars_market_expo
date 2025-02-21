@@ -27,10 +27,8 @@ import { ImageManipulator } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
-import { CARMANUFACTURERLIST } from "@/types/enums/CarManufacturer";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DialogContent from "react-native-paper/lib/typescript/components/Dialog/DialogContent";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -42,7 +40,6 @@ const CreateCarOffer = () => {
   const [images, setImages] = useState<UploadFileResponseData[]>([]);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [viewingImageIndex, setViewingImageIndex] = useState(1);
 
   const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
 
@@ -94,9 +91,7 @@ const CreateCarOffer = () => {
 
     deleteFile(fileToDelete, {
       onSuccess: (data) => {},
-      onError: () => {
-        alert("error happened");
-      },
+      onError: () => {},
     });
   };
 

@@ -56,6 +56,7 @@ export type UseCarSearchStoreState = {
     emptyShippableToQueryParam: () => void;
     emptyCarSellLocationQueryParam: () => void;
     updateCarSellLocationQueryParam: (id: string) => void;
+    resetAllFilters: () => void;
 }
 
 
@@ -128,6 +129,9 @@ const useCarSearchStore = create<UseCarSearchStoreState>((set, stae) => ({
             }
 
         }) 
+    },
+    resetAllFilters: () => {
+        set(state => ({...state, params: {...emptySearchQuery}}))
     }
 }));
 

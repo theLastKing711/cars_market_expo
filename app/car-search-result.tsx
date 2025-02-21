@@ -7,7 +7,7 @@ import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
 import { SYRIANCITYLOOKUP } from "@/types/enums/SyrianCity";
 import { TRANSMISSIONLOOKUP } from "@/types/enums/TransmissionType";
 
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, useTheme } from "react-native-paper";
@@ -37,6 +37,17 @@ const CarSearchResult = () => {
     updateCarSearchParam,
     fetchNextPage,
   } = useGetHomeData();
+
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      title:
+        paginatedCarSearchSuggestionData?.pages[0].total.toString() + " نتائج",
+    });
+  }, [navigation, paginatedCarSearchSuggestionData?.pages[0].total.toString()]);
 
   const theme = useTheme();
 

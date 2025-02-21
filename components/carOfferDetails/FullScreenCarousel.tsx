@@ -13,14 +13,16 @@ import { IImageInfo } from "react-native-image-zoom-viewer/built/image-viewer.ty
 
 export type FullScreenCarouselProps = {
   images: UploadFileResponseData[];
+  withDelete?: boolean;
   onCloseButtonClicked: () => void;
-  onDeleteButtonClicked: (imageIndex: number) => void;
+  onDeleteButtonClicked?: (imageIndex: number) => void;
 };
 
 const FullScreenCarousel = ({
   images,
+  withDelete = true,
   onCloseButtonClicked,
-  onDeleteButtonClicked,
+  onDeleteButtonClicked = () => {},
 }: FullScreenCarouselProps) => {
   const theme = useTheme();
 
@@ -64,21 +66,23 @@ const FullScreenCarousel = ({
               icon={{ source: "close", direction: "rtl" }}
               onPress={onCloseButtonClicked}
             />
-            <IconButton
-              size={52}
-              icon={{ source: "trash-can", direction: "rtl" }}
-              onPress={() => {
-                // const selectedIMage = x.find(
-                //   (item, index) => index == currentIndex
-                // )!;
-                // const state = imagesRef.current?.state;
+            {withDelete && (
+              <IconButton
+                size={52}
+                icon={{ source: "trash-can", direction: "rtl" }}
+                onPress={() => {
+                  // const selectedIMage = x.find(
+                  //   (item, index) => index == currentIndex
+                  // )!;
+                  // const state = imagesRef.current?.state;
 
-                if (currentIndex !== 0) {
-                  imagesRef.current?.goBack();
-                }
-                onDeleteButtonClicked(currentIndex!);
-              }}
-            />
+                  if (currentIndex !== 0) {
+                    imagesRef.current?.goBack();
+                  }
+                  onDeleteButtonClicked(currentIndex!);
+                }}
+              />
+            )}
           </View>
         )}
         renderImage={(props) => {

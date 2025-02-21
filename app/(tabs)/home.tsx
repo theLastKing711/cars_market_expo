@@ -1,21 +1,10 @@
-import CarSearchResultCard from "@/components/home/CarSearchResultCard";
-import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
-import CarSearchSuggestionList from "@/components/home/CarSearchSuggestionList";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import { router } from "expo-router";
-import { useState } from "react";
-import { ListRenderItem, ScrollView, StyleSheet, View } from "react-native";
-import { Chip, Searchbar, useTheme } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Searchbar, useTheme } from "react-native-paper";
 
 const Home = () => {
-  const {
-    data: paginatedCarSearchSuggestionData,
-    isLoading,
-    isFetching,
-    hasNextPage,
-    search,
-    fetchNextPage,
-  } = useGetHomeData();
+  const { isLoading, search, fetchNextPage } = useGetHomeData();
 
   const theme = useTheme();
 
@@ -27,9 +16,6 @@ const Home = () => {
       position: "relative",
     },
   });
-
-  const carSearchSuggestions =
-    paginatedCarSearchSuggestionData?.pages?.flatMap((item) => item.data) || [];
 
   if (isLoading) {
     return;
@@ -48,16 +34,6 @@ const Home = () => {
           onPress={goToCarSearchFilterPage}
         />
       </View>
-      {/* <CarSearchResultCardList
-        items={carSearchSuggestions}
-        isFetching={isFetching}
-        renderItem={({ item }) => (
-          <CarSearchResultCard item={item} onFavourite={() => {}} />
-        )}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-        isLoading={isLoading}
-      /> */}
     </View>
   );
 };
