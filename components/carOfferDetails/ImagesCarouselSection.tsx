@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
@@ -41,23 +41,26 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
     // return `${(index + 1).toString()} / ${imagesUrlsLength.toString()}`;
   };
 
+  const memoizedImagesUrls = useMemo(() => imagesUrls.reverse(), [imagesUrls]);
+
+  const memoizedImagesUrlsLength = memoizedImagesUrls.length - 1;
+
   return (
     <View>
       <Carousel
-        defaultIndex={imagesUrlsLength - 1}
+        defaultIndex={memoizedImagesUrlsLength}
         // loop
         width={width}
         height={width}
         // autoPlay
         // autoPlayReverse
-        data={imagesUrls.reverse()}
+        data={memoizedImagesUrls}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
           <View key={item}>
             <Pressable onPress={openImageViewer}>
               <View
                 style={{
-                  // padding: 20,
                   paddingBottom: 0,
                   backgroundColor: "white",
                   justifyContent: "center",
@@ -76,7 +79,6 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
                     maxWidth: 800, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
                     // aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
                     resizeMode: "contain",
-                    // backgroundColor: "white",
                   }}
                 />
               </View>
@@ -107,7 +109,7 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
       />
       {isImageViewerOpen && (
         <FullScreenImageViewerModal
-          images={imagesUrls.map((item) => ({
+          images={memoizedImagesUrls.map((item) => ({
             url: item,
             public_id: item,
           }))}
