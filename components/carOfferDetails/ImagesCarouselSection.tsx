@@ -5,7 +5,11 @@ import { Text, useTheme } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
 import FullScreenImageViewerModal from "../createCarOffer/FullScreenImageViewerModal";
 
-const ImagesCarouselSection = () => {
+export type ImagesCarouselSectionProps = {
+  imagesUrls: string[];
+};
+
+const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
 
   const openImageViewer = () => {
@@ -27,26 +31,29 @@ const ImagesCarouselSection = () => {
 
   const imageWidth = width;
 
-  const dummyArray = [...new Array(6).keys()];
-
-  const dummyArrayLength = dummyArray.length;
+  const imagesUrlsLength = imagesUrls.length;
 
   const getDummyArrayIndex = (index: number) => {
-    return `${(index + 1).toString()} / ${dummyArrayLength.toString()}`;
+    return `${(
+      imagesUrlsLength - index
+    ).toString()} / ${imagesUrlsLength.toString()}`;
+
+    return `${(index + 1).toString()} / ${imagesUrlsLength.toString()}`;
   };
+
+  console.log("image urls", imagesUrls);
 
   return (
     <View>
       <Carousel
-        loop
+        defaultIndex={imagesUrlsLength - 1}
+        // loop
         width={width}
         height={width}
         // autoPlay={true}
-        data={dummyArray}
+        data={imagesUrls.reverse()}
         scrollAnimationDuration={1000}
-        // modeConfig={}
-        // onSnapToItem={(index) => console.log("current index:", index)}
-        renderItem={({ index }) => (
+        renderItem={({ item, index }) => (
           <View>
             <Pressable onPress={openImageViewer}>
               <View
@@ -61,10 +68,8 @@ const ImagesCarouselSection = () => {
                 <Image
                   source={{
                     //width 700 with 'crop' => 'pad'
-                    // uri: "https://res.cloudinary.com/dkmsfsa7c/image/upload/c_pad,h_700,w_700/v1730122453/msiejguluyejm9xnlbwj.jpg",
-                    uri: "https://picsum.photos/200/300",
+                    uri: item,
                     // 700 width
-                    // uri: "http://res.cloudinary.com/dkmsfsa7c/image/upload/w_700/v1730034763/luszz0nouyp1hev6iczs.jpg",
                   }}
                   style={{
                     width: "100%",
@@ -80,7 +85,7 @@ const ImagesCarouselSection = () => {
             <View
               style={{
                 position: "absolute",
-                right: 8,
+                left: 8,
                 bottom: 8,
                 width: 44,
                 height: 28,
@@ -103,9 +108,9 @@ const ImagesCarouselSection = () => {
       />
       {isImageViewerOpen && (
         <FullScreenImageViewerModal
-          images={dummyArray.map((item) => ({
-            url: "https://picsum.photos/200/300",
-            public_id: item.toString(),
+          images={imagesUrls.map((item) => ({
+            url: item,
+            public_id: item,
           }))}
           onCloseButtonClicked={closeImageViewer}
           onModalClose={closeImageViewer}

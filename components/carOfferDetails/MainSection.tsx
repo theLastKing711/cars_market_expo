@@ -12,10 +12,11 @@ export const MainSection = ({ title, location }: MainSectionProps) => {
   return (
     <SectionContainer>
       {/* <View style={{ paddingTop: 16, gap: 16 }}> */}
-      <Text variant="headlineMedium">{title}</Text>
-      <Text variant="headlineMedium">asd</Text>
+      <Text variant="headlineMedium" style={{ marginBottom: 8 }}>
+        {title}
+      </Text>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-        <Icon source={{ source: "location", direction: "rtl" }} size={24} />
+        <Icon source={{ source: "map", direction: "rtl" }} size={24} />
         <Text variant="bodyMedium">حلب</Text>
       </View>
       {/* </View> */}

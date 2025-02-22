@@ -37,7 +37,7 @@ const CarSearchResultCard = ({
     car_price,
     id,
     manufacturer_id,
-    manufacturer_name,
+    manufacturer_name_ar,
     miles_travelled_in_km,
     model,
     year_manufactured,
@@ -55,9 +55,9 @@ const CarSearchResultCard = ({
 
   const heartIcon = "heart";
 
-  const title = `${manufacturer_name} ${model} ${year_manufactured}`;
+  const is_new_car_text = is_new_car ? "جديدة " : " مستعملة";
 
-  const is_new_car_text = is_new_car ? "جديدة " : "مستعملة";
+  const title = `${manufacturer_name_ar}${is_new_car_text}`;
 
   const car_price_text = `${car_price} $`;
 

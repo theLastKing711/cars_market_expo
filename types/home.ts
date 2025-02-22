@@ -5,7 +5,7 @@ import { PagiantionQueryParameter } from "./shared";
 export type CarListData = {
     id: number;
     manufacturer_id: number | null;
-    manufacturer_name: string | null;
+    manufacturer_name_ar: string | null;
     model: string | null;
     year_manufactured: number | null;
     car_price: number | null;

@@ -28,6 +28,8 @@ const CarOfferDetails = () => {
 
   const theme = useTheme();
 
+  const { data, isLoading } = useGetCarOfferDetails(id);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -35,8 +37,6 @@ const CarOfferDetails = () => {
       position: "relative",
     },
   });
-
-  const { data, isLoading } = useGetCarOfferDetails(id);
 
   const shippable_to_cites = data?.data.shippable_to || [];
 
@@ -59,7 +59,7 @@ const CarOfferDetails = () => {
     {
       icon: "car",
       label: "الشركة المصنعة",
-      text: data?.data.manufacturer_name_en,
+      text: data?.data.manufacturer_name_ar,
     },
     {
       icon: "road",
@@ -83,14 +83,17 @@ const CarOfferDetails = () => {
     },
   ];
 
+  const title = `${data?.data.manufacturer_name_ar} ${
+    data?.data.is_new_car ? " جديدة" : "مستعملة"
+  }`;
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <ImagesCarouselSection />
-        <MainSection
-          title={data?.data.manufacturer_name_en}
-          location={data?.data.car_label_origin}
+        <ImagesCarouselSection
+          imagesUrls={data?.data.images.map((image) => image.file_url) || []}
         />
+        <MainSection title={title} location={data?.data.car_label_origin} />
         <PriceSection price={data?.data.car_price} />
         <MainListSection items={mainListSectionItemProps} />
         <HaveFeatureSection items={haveFeaturesItems} />

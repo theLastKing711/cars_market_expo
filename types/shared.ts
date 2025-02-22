@@ -61,6 +61,11 @@ export type UploadFileResponseData = {
     public_id: string;
 };
 
+export type MediaData = {
+    id: string;
+    file_url: string;
+};
+
 export type FilePublicIdPathParameterData = {
     public_id: string;
 }
