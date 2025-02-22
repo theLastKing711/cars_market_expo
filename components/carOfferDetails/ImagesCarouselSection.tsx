@@ -38,10 +38,8 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
       imagesUrlsLength - index
     ).toString()} / ${imagesUrlsLength.toString()}`;
 
-    return `${(index + 1).toString()} / ${imagesUrlsLength.toString()}`;
+    // return `${(index + 1).toString()} / ${imagesUrlsLength.toString()}`;
   };
-
-  console.log("image urls", imagesUrls);
 
   return (
     <View>
@@ -50,11 +48,12 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
         // loop
         width={width}
         height={width}
-        // autoPlay={true}
+        // autoPlay
+        // autoPlayReverse
         data={imagesUrls.reverse()}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
-          <View>
+          <View key={item}>
             <Pressable onPress={openImageViewer}>
               <View
                 style={{
@@ -77,7 +76,7 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
                     maxWidth: 800, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
                     // aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
                     resizeMode: "contain",
-                    backgroundColor: "white",
+                    // backgroundColor: "white",
                   }}
                 />
               </View>

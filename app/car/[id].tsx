@@ -87,6 +87,8 @@ const CarOfferDetails = () => {
     data?.data.is_new_car ? " جديدة" : "مستعملة"
   }`;
 
+  const is_shippable = shippable_to_cites.length > 0;
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -97,7 +99,8 @@ const CarOfferDetails = () => {
         <PriceSection price={data?.data.car_price} />
         <MainListSection items={mainListSectionItemProps} />
         <HaveFeatureSection items={haveFeaturesItems} />
-        <ShippableToSection cities={shippable_to_cites} />
+
+        {is_shippable && <ShippableToSection cities={shippable_to_cites} />}
       </View>
     </ScrollView>
   );
