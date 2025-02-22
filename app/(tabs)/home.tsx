@@ -1,7 +1,7 @@
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import { router } from "expo-router";
 import { StyleSheet, View } from "react-native";
-import { Searchbar, useTheme } from "react-native-paper";
+import { Button, FAB, Searchbar, Text, useTheme } from "react-native-paper";
 
 const Home = () => {
   const { isLoading, search, fetchNextPage } = useGetHomeData();
@@ -33,6 +33,12 @@ const Home = () => {
           value={search}
           onPress={goToCarSearchFilterPage}
         />
+        <Button icon="search">aslkj</Button>
+        <FAB
+          icon="search1"
+          label="ابحث عن سيارة"
+          onPress={goToCarSearchFilterPage}
+        ></FAB>
       </View>
     </View>
   );

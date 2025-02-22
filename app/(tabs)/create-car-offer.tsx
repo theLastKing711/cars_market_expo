@@ -23,7 +23,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
 import { getFormDataFromImages } from "@/libs/axios/helpers";
 // import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { ImageManipulator } from "expo-image-manipulator";
+import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
@@ -125,12 +125,14 @@ const CreateCarOffer = () => {
       const manipulatedImagesUris = await Promise.all(
         result.assets.map<Promise<ImagePicker.ImagePickerAsset>>(
           async (asset, index) => {
-            const imageWidth = Math.min(asset.width, 800);
+            const imageWidth = Math.min(asset.width, 500);
             const manipResult = await ImageManipulator.manipulate(asset.uri)
               .resize({ width: imageWidth }) // height is calculated automatically based on aspect ratio
               .renderAsync();
 
-            const { width, height, uri } = await manipResult.saveAsync();
+            const { width, height, uri } = await manipResult.saveAsync({
+              format: SaveFormat.WEBP,
+            });
 
             return {
               ...asset,

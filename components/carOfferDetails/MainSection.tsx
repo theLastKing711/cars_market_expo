@@ -9,16 +9,21 @@ export type MainSectionProps = {
 };
 
 export const MainSection = ({ title, location }: MainSectionProps) => {
+  const location_city_text = `تواجد ${location}`;
+
   return (
     <SectionContainer>
       {/* <View style={{ paddingTop: 16, gap: 16 }}> */}
       <Text variant="headlineMedium" style={{ marginBottom: 8 }}>
         {title}
       </Text>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-        <Icon source={{ source: "map", direction: "rtl" }} size={24} />
-        <Text variant="bodyMedium">حلب</Text>
-      </View>
+      {location && (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Icon source={{ source: "map", direction: "rtl" }} size={24} />
+          <Text variant="bodyMedium">{location_city_text}</Text>
+        </View>
+      )}
+
       {/* </View> */}
     </SectionContainer>
   );

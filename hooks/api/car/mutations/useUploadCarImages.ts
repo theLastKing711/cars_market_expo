@@ -25,13 +25,13 @@ export async function uploadCarImagesApi(carImagesFormData: FormData) {
     
     try {
 
-        console.log(carImagesFormData);
+        // console.log(carImagesFormData);
         
         const uploadCarImagesUrl = `${FILES_MANY_URL}`;
         
-        for (const value of carImagesFormData.values()) {
-            console.log(value);
-        }
+        // for (const value of carImagesFormData.values()) {
+        //     console.log(value);
+        // }
         
         const response = await apiClient
                                 .postForm<UploadFileResponseData[]>

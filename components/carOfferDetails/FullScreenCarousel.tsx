@@ -98,7 +98,7 @@ const FullScreenCarousel = ({
               style={{
                 width: "100%",
                 height: "100%",
-                maxWidth: 800, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
+                maxWidth: 500, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
                 //   aspectRatio: "4/3", // or use paddingVertical 50%(in web we can use paddingTop 100%)
                 resizeMode: "contain",
                 backgroundColor: theme.colors.surface,

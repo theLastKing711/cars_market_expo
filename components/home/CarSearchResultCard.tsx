@@ -56,7 +56,7 @@ const CarSearchResultCard = ({
 
   const heartIcon = "heart";
 
-  const is_new_car_text = is_new_car ? "جديدة " : " مستعملة";
+  const is_new_car_text = is_new_car ? " جديدة" : " مستعملة";
 
   const title = `${manufacturer_name_ar}${is_new_car_text}`;
 
@@ -88,6 +88,7 @@ const CarSearchResultCard = ({
       : is_faragha_jahzeh
       ? "جاهزة عالفراغة"
       : "-";
+
   return (
     <Card
       onPress={() => {
@@ -120,7 +121,6 @@ const CarSearchResultCard = ({
           <Text>{is_khalyeh_text}</Text>
         </View>
         <View style={styles.contentColumn}>
-          <Text>{is_new_car_text}</Text>
           <Text>{is_is_faragha_jahzeh_text}</Text>
           <Text>{fuel_type_text}</Text>
           <Text>{is_kassah_text}</Text>

@@ -49,6 +49,8 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
 
   const firstImageIndex = memoizedImagesUrls.length - 1;
 
+  const shouldAutoPlay = memoizedImagesUrls.length != 1;
+
   return (
     <View>
       <Carousel
@@ -56,8 +58,8 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
         // loop
         width={width}
         height={width}
-        autoPlay
-        autoPlayReverse
+        autoPlay={shouldAutoPlay}
+        autoPlayReverse={shouldAutoPlay}
         data={memoizedImagesUrls}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
@@ -80,7 +82,7 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
                   style={{
                     width: "100%",
                     height: "100%",
-                    maxWidth: 800, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
+                    maxWidth: 500, // width of the image, can be disorted if we set it greater than this value which is the uploaded image width in cloudinary
                     // aspectRatio: "1/1", // or use paddingVertical 50%(in web we can use paddingTop 100%)
                     resizeMode: "contain",
                   }}

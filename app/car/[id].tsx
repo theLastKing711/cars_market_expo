@@ -5,21 +5,15 @@ import ImagesCarouselSection from "@/components/carOfferDetails/ImagesCarouselSe
 import MainListSection, {
   MainListSectionProps,
 } from "@/components/carOfferDetails/mainListSection/MainListSection";
-import MainListSectionItem, {
-  MainListSectionItemProps,
-} from "@/components/carOfferDetails/mainListSection/MainListSectionItem";
-import MainListSectionRow from "@/components/carOfferDetails/mainListSection/MainListSectionRow";
 import { MainSection } from "@/components/carOfferDetails/MainSection";
 import PriceSection from "@/components/carOfferDetails/PriceSection";
-import { SectionContainer } from "@/components/carOfferDetails/SectionContainer";
 import ShippableToSection from "@/components/carOfferDetails/ShippableToSection";
 import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
 import { FUELTYPELIST } from "@/types/enums/FuelType";
-import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Divider, Icon, List, Text, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
@@ -33,7 +27,6 @@ const CarOfferDetails = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme.colors.surface,
       position: "relative",
     },
   });
@@ -68,7 +61,6 @@ const CarOfferDetails = () => {
         ? FUELTYPELIST.find((x) => parseInt(x._id) == data.data.fuel_type)
             ?.value
         : "-",
-      // text: data?.data.fuel_type ? FUELTYPELOOKUP[data?.data.fuel_type] : "-",
     },
   ];
 
@@ -79,16 +71,15 @@ const CarOfferDetails = () => {
   const is_shippable = shippable_to_cites.length > 0;
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: theme.colors.surface }}>
       <View style={styles.container}>
         <ImagesCarouselSection
           imagesUrls={data?.data.images.map((image) => image.file_url) || []}
         />
-        <MainSection title={title} location={data?.data.car_label_origin} />
+        <MainSection title={title} location={data?.data.car_sell_location} />
         <PriceSection price={data?.data.car_price} />
         <MainListSection items={mainListSectionItemProps} />
         <HaveFeatureSection items={haveFeaturesItems} />
-
         {is_shippable && <ShippableToSection cities={shippable_to_cites} />}
       </View>
     </ScrollView>
