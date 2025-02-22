@@ -1,6 +1,6 @@
 import { SYRIANCITY, SyrianCityKey } from '@/types/enums/SyrianCity';
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
-import { PagiantionQueryParameter } from "./shared";
+import { MediaData, PagiantionQueryParameter } from "./shared";
 
 export type CarListData = {
     id: number;
@@ -18,6 +18,7 @@ export type CarListData = {
     is_faragha_jahzeh: boolean | null;
     is_new_car: boolean | null;
     shippable_to: Array<ShippableToCityData>;
+    image: MediaData;
 };
 
 export type ManufacturerListResponseData = {

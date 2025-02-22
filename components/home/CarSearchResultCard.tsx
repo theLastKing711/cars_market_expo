@@ -48,6 +48,7 @@ const CarSearchResultCard = ({
     is_faragha_jahzeh,
     is_new_car,
     shippable_to,
+    image,
   },
   onFavourite,
 }: CardSearchResultProps) => {
@@ -59,7 +60,7 @@ const CarSearchResultCard = ({
 
   const title = `${manufacturer_name_ar}${is_new_car_text}`;
 
-  const car_price_text = `${car_price} $`;
+  const car_price_text = `${car_price}$`;
 
   const miles_travelled_in_km_text = miles_travelled_in_km
     ? `قاطعة ${miles_travelled_in_km} (كيلومتر)`
@@ -99,7 +100,8 @@ const CarSearchResultCard = ({
       }}
     >
       <Card.Cover
-        source={{ uri: "https://picsum.photos/200/300" }}
+        source={{ uri: image?.file_url }}
+        resizeMode="contain"
         style={{ height: 300 }}
       />
       <Card.Title
