@@ -41,14 +41,18 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
     // return `${(index + 1).toString()} / ${imagesUrlsLength.toString()}`;
   };
 
-  const memoizedImagesUrls = useMemo(() => imagesUrls.reverse(), [imagesUrls]);
+  const memoizedImagesUrls = useMemo(() => {
+    const newImages = [...imagesUrls];
 
-  const memoizedImagesUrlsLength = memoizedImagesUrls.length - 1;
+    return newImages.reverse();
+  }, [imagesUrls]);
+
+  const firstImageIndex = memoizedImagesUrls.length - 1;
 
   return (
     <View>
       <Carousel
-        defaultIndex={memoizedImagesUrlsLength}
+        defaultIndex={firstImageIndex}
         // loop
         width={width}
         height={width}
@@ -109,7 +113,7 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
       />
       {isImageViewerOpen && (
         <FullScreenImageViewerModal
-          images={memoizedImagesUrls.map((item) => ({
+          images={imagesUrls.map((item) => ({
             url: item,
             public_id: item,
           }))}
