@@ -57,11 +57,6 @@ const CarOfferDetails = () => {
 
   const mainListSectionItemProps: MainListSectionProps["items"] = [
     {
-      icon: "car",
-      label: "الشركة المصنعة",
-      text: data?.data.manufacturer_name_ar,
-    },
-    {
       icon: "road",
       label: "قاطعة",
       text: `${data?.data.miles_travelled_in_km} (km/كم)`,
@@ -74,12 +69,6 @@ const CarOfferDetails = () => {
             ?.value
         : "-",
       // text: data?.data.fuel_type ? FUELTYPELOOKUP[data?.data.fuel_type] : "-",
-    },
-    {
-      icon: "car",
-      label: "الاستعمال",
-      text: data?.data.is_new_car ? "جديدة" : "مستعملة",
-      isLastItem: true,
     },
   ];
 

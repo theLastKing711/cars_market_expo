@@ -11,7 +11,7 @@ export type MainListSectionProps = {
 };
 
 const MainListSection = ({ items }: MainListSectionProps) => {
-  const { rowPartitionedItems, isLastRow } = rowPartition(items);
+  const { rowPartitionedItems, isLastRow } = rowPartition(items, 2);
 
   return (
     <SectionContainer>

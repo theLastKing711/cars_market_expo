@@ -56,8 +56,8 @@ const ImagesCarouselSection = ({ imagesUrls }: ImagesCarouselSectionProps) => {
         // loop
         width={width}
         height={width}
-        // autoPlay
-        // autoPlayReverse
+        autoPlay
+        autoPlayReverse
         data={memoizedImagesUrls}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
