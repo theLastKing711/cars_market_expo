@@ -34,11 +34,6 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <SegmentedPhoneInput
-        onInputFinish={(numbers) => {
-          alert(numbers);
-        }}
-      />
       <View style={{ paddingHorizontal: 16 }}>
         <Searchbar
           placeholder="ابحث عن سيارة"

@@ -1,8 +1,8 @@
 
-import { FILES_MANY_URL, FILES_URL, HOME_URI } from "@/constants/api";
+import { FILES_MANY_URL } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { UploadFileResponseData } from "@/types/shared";
-import {  useMutation, useQuery } from "@tanstack/react-query";
+import {  useMutation} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 // but can be achieved using a styling library like Nativewind.
@@ -25,13 +25,7 @@ export async function uploadCarImagesApi(carImagesFormData: FormData) {
     
     try {
 
-        // console.log(carImagesFormData);
-        
         const uploadCarImagesUrl = `${FILES_MANY_URL}`;
-        
-        // for (const value of carImagesFormData.values()) {
-        //     console.log(value);
-        // }
         
         const response = await apiClient
                                 .postForm<UploadFileResponseData[]>

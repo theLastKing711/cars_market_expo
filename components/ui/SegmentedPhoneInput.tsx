@@ -22,7 +22,6 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
   return (
     <View
       style={{
-        // backgroundColor: "red",
         flexDirection: "row-reverse",
         justifyContent: "center",
         flexWrap: "wrap",
@@ -33,14 +32,16 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
       {numbers.map((item, index) => (
         <TextInput
           key={index}
-          ref={(el) => (inputsRefs.current[index] = el)}
+          ref={(el: any) => (inputsRefs.current[index] = el)}
           value={numbers[index]}
+          contentStyle={{
+            padding: 0,
+            margin: 0,
+          }}
           keyboardType="numeric"
           style={{
             // width: 40,
             flex: 1,
-            // width: 40,
-            // fontSize: 28,
           }}
           onKeyPress={({ nativeEvent }) => {
             if (nativeEvent.key === "Backspace") {

@@ -1,36 +1,51 @@
 import axios from "axios";
-import * as SecureStore from 'expo-secure-store'
-import { router } from 'expo-router';
 import { BASE_URI } from "@/constants/api";
+import { getToken, getTokenAsync } from "./secureStorage";
+import { router } from "expo-router";
+
+
+
+// const access_token =  getToken();
+
 
 export const apiClient = axios.create({
     baseURL: BASE_URI,
     withCredentials: true,
     timeout: 6000,
+    // headers: {
+    //     Authorization: `BEARER ${access_token}`
+    // }
     // withXSRFToken: true,
     // xsrfCookieName: "XSRF-TOKEN",
     // xsrfHeaderName: "X-XSRF-TOKEN",
 });
-// apiClient
-//     .interceptors
-//     .request
-//     .use(async (config) => {
-//         const access_token =  await SecureStore.getItem('access_token');
-        
-//         if(! access_token)
-//         {
-//             router.navigate('/auth');//after if code continue to run so we must return
-//             return;
-//         }
+apiClient
+    .interceptors
+    .request
+    .use(async (config) => {
+        const access_token =  await getTokenAsync();
 
-//         return {
-//             ...config,
-//             headers: {
-//                 ...config.headers,
-//                 Authorization: `Bearer ${access_token}`
-//             }
-//         };
+        if(! access_token)
+        {
+            router.navigate('/home');//after if code continue to run so we must return
+            return;
+        }
+
+        return {
+            ...config,
+            headers: {
+                ...config.headers,
+                Authorization: `Bearer `
+            }
+        };
     
-//     }
-// );
+    }
+);
 
+apiClient
+    .interceptors
+    .response
+    .use(
+        (response) => response,
+        (error) => router.navigate("/home")
+    );

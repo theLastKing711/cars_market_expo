@@ -1,7 +1,6 @@
 
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
-import { CarOfferDetailsRespnseData } from "@/types/car/carOfferDetails";
 import { CreateCarOfferRequestData } from "@/types/car/createCarOffer";
 import {  useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
