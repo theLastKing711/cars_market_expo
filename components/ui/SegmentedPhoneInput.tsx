@@ -2,9 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { TextInput } from "react-native-paper";
 
+export type SegmentedPhoneInputProps = {
+  // number: string[];
+  // phoneNumber: React.Dispatch<React.SetStateAction<string[]>>;
+  onInputFinish: (numberState: string) => void;
+};
+
 const inputs = [...new Array<string>(9).fill("")];
 
-const SegmentedPhoneInput = () => {
+const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
   const [numbers, setNumbers] = useState(inputs);
 
   const inputsRefs = useRef<any[]>([]);
@@ -36,7 +42,6 @@ const SegmentedPhoneInput = () => {
             // fontSize: 28,
           }}
           onKeyPress={({ nativeEvent }) => {
-            console.log("numbers", numbers);
             if (nativeEvent.key === "Backspace") {
               const newNumbers = numbers.map((item, numberIndex) =>
                 index == numberIndex ? "" : item
@@ -69,6 +74,12 @@ const SegmentedPhoneInput = () => {
             const newNumbers = numbers.map((item, numberIndex) =>
               index == numberIndex ? newText : item
             );
+
+            const isLastNumber = index === numbers.length - 1;
+
+            if (isLastNumber) {
+              onInputFinish(newNumbers.join());
+            }
 
             setNumbers(newNumbers);
 
