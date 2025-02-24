@@ -32,6 +32,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
     >
       {numbers.map((item, index) => (
         <TextInput
+          key={index}
           ref={(el) => (inputsRefs.current[index] = el)}
           value={numbers[index]}
           keyboardType="numeric"
@@ -69,7 +70,12 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
           onChangeText={(text) => {
             const currentItem = numbers.find((item, i) => i === index)!;
 
-            const newText = text.length > 1 ? text[0] : text;
+            const newText =
+              text.length > 1
+                ? text[0] === currentItem
+                  ? text[1]
+                  : text[0]
+                : text;
 
             const newNumbers = numbers.map((item, numberIndex) =>
               index == numberIndex ? newText : item
@@ -77,7 +83,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
 
             const isLastNumber = index === numbers.length - 1;
 
-            if (isLastNumber) {
+            if (isLastNumber && text !== "") {
               onInputFinish(newNumbers.join());
             }
 
