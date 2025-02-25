@@ -156,7 +156,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               onChangeText={(text) => updateCarSearchParam({ search: text })}
             />
 
-            <CustomPaperChipsList
+            {/* <CustomPaperChipsList
               title="نواجد"
               items={SYRIANCITYCHIPLIST}
               selectedItems={car_sell_location}
@@ -172,7 +172,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               onChipSelected={updateShippableToQueryParam}
               onEmptyList={emptyShippableToQueryParam}
               key={2}
-            />
+            /> */}
 
             <CustomPaperTextInputRangeSection
               title="السعر بالدولار"

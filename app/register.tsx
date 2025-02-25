@@ -19,6 +19,9 @@ const Register = () => {
         onSuccess: ({ data: { token } }) => {
           saveToken(token);
         },
+        onError: (data) => {
+          console.log("message", data.message);
+        },
       }
     );
   };

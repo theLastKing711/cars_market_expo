@@ -85,7 +85,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
             const isLastNumber = index === numbers.length - 1;
 
             if (isLastNumber && text !== "") {
-              onInputFinish(newNumbers.join());
+              onInputFinish(newNumbers.join(""));
             }
 
             setNumbers(newNumbers);

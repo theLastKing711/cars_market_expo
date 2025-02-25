@@ -1,11 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { BASE_URI } from "@/constants/api";
-import { getToken, getTokenAsync } from "./secureStorage";
+import {  getTokenAsync } from "./secureStorage";
 import { router } from "expo-router";
-
-
-
-// const access_token =  getToken();
 
 
 export const apiClient = axios.create({
@@ -22,7 +18,7 @@ export const apiClient = axios.create({
 apiClient
     .interceptors
     .request
-    .use(async (config) => {
+    .use(async (config: any) => {
         const access_token =  await getTokenAsync();
 
         if(! access_token)
@@ -35,7 +31,7 @@ apiClient
             ...config,
             headers: {
                 ...config.headers,
-                Authorization: `Bearer `
+                Authorization: `Bearer ${access_token}`
             }
         };
     
@@ -47,5 +43,9 @@ apiClient
     .response
     .use(
         (response) => response,
-        (error) => router.navigate("/home")
+        (error) => {
+            alert(error.status);
+            console.log("error", (error as AxiosError).request)
+            router.navigate("/home")
+        }
     );

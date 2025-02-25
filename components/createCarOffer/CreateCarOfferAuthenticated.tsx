@@ -38,12 +38,6 @@ const styles = StyleSheet.create({
 });
 
 const CreateCarOfferAuthenticated = () => {
-  const {
-    getToken,
-    params: { phone_number, token },
-    saveToken,
-  } = useAuthStore();
-
   const [images, setImages] = useState<UploadFileResponseData[]>([]);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);

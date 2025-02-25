@@ -20,17 +20,17 @@ export const getTokenAsync = async () => {
 
 
 
-export const getToken = async () => {
+// export const getToken = async () => {
 
-    const token = SecureStore.getItem(TOKEN_KEY);
+//     const token = SecureStore.getItem(TOKEN_KEY);
 
-    return token;
+//     return token;
     
-}
+// }
 
 
-export const setToken = async (token: string) => {
+// export const setToken = async (token: string) => {
 
-    SecureStore.setItem(TOKEN_KEY, token);
+//     SecureStore.setItem(TOKEN_KEY, token);
     
-}
+// }
