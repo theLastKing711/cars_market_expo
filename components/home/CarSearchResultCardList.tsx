@@ -11,6 +11,7 @@ export type CarSearchResultCardList = {
   isFetching: boolean;
   fetchNextPage: () => void;
   isLoading: boolean;
+  stickyHeaderComponent?: React.ComponentType<any> | undefined;
 };
 
 const CarSearchResultCardList = ({
@@ -20,6 +21,7 @@ const CarSearchResultCardList = ({
   isFetching,
   fetchNextPage,
   isLoading,
+  stickyHeaderComponent,
 }: CarSearchResultCardList) => {
   const loadingComponent = isLoading ? ActivityIndicator : undefined;
 
