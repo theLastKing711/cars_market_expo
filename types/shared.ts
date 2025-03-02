@@ -66,6 +66,11 @@ export type MediaData = {
     file_url: string;
 };
 
+export type DeletableMediaData = {
+    file_url: string;
+    public_id: string;
+};
+
 export type FilePublicIdPathParameterData = {
     public_id: string;
 }

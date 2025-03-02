@@ -46,9 +46,9 @@ export function useGetHomeData() {
     // it gets updated value  after 1000 (1 second)
     const debouncedSearchTerm = useDebounce(search, 1000);
 
-    console.log("search", search);
+    // console.log("search", search);
 
-    console.log("search debounced", debouncedSearchTerm);
+    // console.log("search debounced", debouncedSearchTerm);
 
     const debouncedPriceFrom = useDebounce(price_from, 500);
 

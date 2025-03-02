@@ -32,6 +32,7 @@ import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDet
 import { useLocalSearchParams } from "expo-router";
 import { UpdateCarOfferForm } from "@/types/car/updateCarOffer";
 import { useUpdateCarOffer } from "@/hooks/api/car/mutations/useUpdateCar";
+import { useGetUpdateCarOffer } from "@/hooks/api/car/Queries/useGetUpdateCarOffer";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -44,11 +45,11 @@ const UpdateCarOffer = () => {
     id: string;
   }>();
 
-  const { data: oldCarDetailsData, isLoading } = useGetCarOfferDetails(id);
+  const { data: oldCarDetailsData, isLoading } = useGetUpdateCarOffer(id);
 
   const [images, setImages] = useState<UploadFileResponseData[]>(
     oldCarDetailsData?.data.images.map((image) => ({
-      public_id: image.file_url,
+      public_id: image.public_id,
       url: image.file_url,
     })) || []
   );

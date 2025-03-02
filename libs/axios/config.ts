@@ -6,7 +6,7 @@ import { router } from "expo-router";
 
 export const apiClient = axios.create({
     baseURL: BASE_URI,
-    withCredentials: true,
+    // withCredentials: true,
     timeout: 6000,
     // headers: {
     //     Authorization: `BEARER ${access_token}`
@@ -15,28 +15,28 @@ export const apiClient = axios.create({
     // xsrfCookieName: "XSRF-TOKEN",
     // xsrfHeaderName: "X-XSRF-TOKEN",
 });
-apiClient
-    .interceptors
-    .request
-    .use(async (config: any) => {
-        const access_token =  await getTokenAsync();
+// apiClient
+//     .interceptors
+//     .request
+//     .use(async (config: any) => {
+//         const access_token =  await getTokenAsync();
 
-        if(! access_token)
-        {
-            router.navigate('/home');//after if code continue to run so we must return
-            return;
-        }
+//         if(! access_token)
+//         {
+//             router.navigate('/home');//after if code continue to run so we must return
+//             return;
+//         }
 
-        return {
-            ...config,
-            headers: {
-                ...config.headers,
-                Authorization: `Bearer ${access_token}`
-            }
-        };
+//         return {
+//             ...config,
+//             headers: {
+//                 ...config.headers,
+//                 Authorization: `Bearer ${access_token}`
+//             }
+//         };
     
-    }
-);
+//     }
+// );
 
 apiClient
     .interceptors
@@ -44,8 +44,7 @@ apiClient
     .use(
         (response) => response,
         (error) => {
-            alert(error.status);
-            console.log("error", (error as AxiosError).request)
+            console.log("error", (error as AxiosError).toJSON())
             router.navigate("/home")
         }
     );
