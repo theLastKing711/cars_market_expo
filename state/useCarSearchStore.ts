@@ -6,9 +6,7 @@ const emptySearchQuery: UseCarSearchStoreParams = {
     car_sell_location: '',
     fuel_type: '',
     import_type: '',
-    manufacturer_id: '',
     is_khalyeh: '',
-    model: '',
     is_faragha_jahzeh: '',
     transmission: '',
     miles_travelled_in_km_from: '',
@@ -26,10 +24,8 @@ const emptySearchQuery: UseCarSearchStoreParams = {
 
 export type UseCarSearchStoreParams = {
     page:string;
-    model: string;
     search: string;
     user_current_syrian_city: string;
-    manufacturer_id: string;
     price_from: string;
     price_to: string;
     car_sell_location: string;

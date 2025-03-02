@@ -64,7 +64,7 @@ const CarOfferDetails = () => {
     },
   ];
 
-  const title = `${data?.data.manufacturer_name_ar}${
+  const title = `${data?.data.name_ar}${
     data?.data.is_new_car ? " جديدة" : "مستعملة"
   }`;
 

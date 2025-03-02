@@ -1,10 +1,6 @@
 import ExpoImagesGrid from "@/components/ui/expo-image/ExpoImagesGrid";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
-import { useCreateCarOffer } from "@/hooks/api/car/mutations/useCreateCarOffer";
-import {
-  CreateCarOfferForm,
-  getCarOfferRequestFromForm,
-} from "@/types/car/createCarOffer";
+import { getCarOfferRequestFromForm } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import React, { useState } from "react";
@@ -21,13 +17,21 @@ import {
 } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
-import { getFormDataFromImages } from "@/libs/axios/helpers";
+import {
+  getFormDataFromImages,
+  getStringFromBooleanForForm,
+} from "@/libs/axios/helpers";
+// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
+import { useLocalSearchParams } from "expo-router";
+import { UpdateCarOfferForm } from "@/types/car/updateCarOffer";
+import { useUpdateCarOffer } from "@/hooks/api/car/mutations/useUpdateCar";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -35,8 +39,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const CreateCarOfferAuthenticated = () => {
-  const [images, setImages] = useState<UploadFileResponseData[]>([]);
+const UpdateCarOffer = () => {
+  const { id } = useLocalSearchParams<{
+    id: string;
+  }>();
+
+  const { data: oldCarDetailsData, isLoading } = useGetCarOfferDetails(id);
+
+  const [images, setImages] = useState<UploadFileResponseData[]>(
+    oldCarDetailsData?.data.images.map((image) => ({
+      public_id: image.file_url,
+      url: image.file_url,
+    })) || []
+  );
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
@@ -48,24 +63,30 @@ const CreateCarOfferAuthenticated = () => {
 
   const { uploadCarImages } = useUploadCarImages();
 
-  const { createCarOffer } = useCreateCarOffer();
+  const { updateCarOffer } = useUpdateCarOffer();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateCarOfferForm>({
+  } = useForm<UpdateCarOfferForm>({
     defaultValues: {
-      //   car_price: null,
-      // fuel_type: "",
-      is_faragha_jahzeh: "",
-      is_kassah: "",
-      is_khalyeh: "",
-      is_new_car: "",
-      //   name_ar: null,
-      //   name_en: null,
-      //   miles_travelled_in_km: null,
-      // transmission_type: "",
+      car_price: oldCarDetailsData?.data.car_price?.toString() || "",
+      fuel_type: oldCarDetailsData?.data.fuel_type?.toString() || "-1",
+      is_faragha_jahzeh: getStringFromBooleanForForm(
+        oldCarDetailsData?.data.is_faragha_jahzeh
+      ),
+      is_kassah: getStringFromBooleanForForm(oldCarDetailsData?.data.is_kassah),
+      is_khalyeh: getStringFromBooleanForForm(
+        oldCarDetailsData?.data.is_khalyeh
+      ),
+      is_new_car: getStringFromBooleanForForm(
+        oldCarDetailsData?.data.is_new_car
+      ),
+      name_ar: oldCarDetailsData?.data.name_ar || "",
+      miles_travelled_in_km:
+        oldCarDetailsData?.data.miles_travelled_in_km?.toString() || "",
+      transmission: oldCarDetailsData?.data.transmission?.toString() || "-1",
     },
   });
 
@@ -92,15 +113,15 @@ const CreateCarOfferAuthenticated = () => {
     });
   };
 
-  const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
+  const onSubmit: SubmitHandler<UpdateCarOfferForm> = (data) => {
     if (images.length === 0) {
       setIsErrorDialogVisible(true);
       return;
     }
 
-    const createCarOfferRequestData = getCarOfferRequestFromForm(data);
+    const updateCarOfferRequestData = getCarOfferRequestFromForm(data);
 
-    createCarOffer(createCarOfferRequestData, {
+    updateCarOffer(updateCarOfferRequestData, {
       onSuccess: () => alert("success"),
       onError: () => alert("error"),
     });
@@ -163,7 +184,7 @@ const CreateCarOfferAuthenticated = () => {
 
   const userHasUploadedImages = images.length > 0;
   const submitText = !isUploadingImage ? (
-    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
+    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
   ) : (
     <Button onPress={handleSubmit(onSubmit)}>
       <View style={{ gap: 8 }}>
@@ -172,6 +193,10 @@ const CreateCarOfferAuthenticated = () => {
       </View>
     </Button>
   );
+
+  if (isLoading) {
+    return;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
@@ -376,4 +401,4 @@ const CreateCarOfferAuthenticated = () => {
   );
 };
 
-export default CreateCarOfferAuthenticated;
+export default UpdateCarOffer;

@@ -2,7 +2,7 @@
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { CreateCarOfferRequestData } from "@/types/car/createCarOffer";
-import {  useMutation, useQuery } from "@tanstack/react-query";
+import {  useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 // but can be achieved using a styling library like Nativewind.

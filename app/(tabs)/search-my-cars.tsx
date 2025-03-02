@@ -1,6 +1,7 @@
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -36,6 +37,15 @@ const searchMyCars = () => {
   const SearchMyCarsData =
     paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];
 
+  const navigateToDetailsPage = (id: number) => {
+    router.push({
+      pathname: "/car/update/[id]",
+      params: {
+        id,
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar
@@ -46,7 +56,11 @@ const searchMyCars = () => {
       <CarSearchResultCardList
         items={SearchMyCarsData}
         renderItem={({ item }) => (
-          <CarSearchResultCard item={item} onFavourite={() => {}} />
+          <CarSearchResultCard
+            item={item}
+            onFavourite={() => {}}
+            onPress={navigateToDetailsPage}
+          />
         )}
         isFetching={isFetching}
         hasNextPage={hasNextPage}

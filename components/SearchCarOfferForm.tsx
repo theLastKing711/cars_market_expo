@@ -35,7 +35,6 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     car_sell_location,
     fuel_type,
     import_type,
-    manufacturer_id,
     miles_travelled_in_km_from,
     miles_travelled_in_km_to,
     price_from,

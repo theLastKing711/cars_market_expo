@@ -33,7 +33,6 @@ const CarSearchResult = () => {
     transmission,
     fuel_type,
     import_type,
-    manufacturer_id,
     updateCarSearchParam,
     fetchNextPage,
   } = useGetHomeData();

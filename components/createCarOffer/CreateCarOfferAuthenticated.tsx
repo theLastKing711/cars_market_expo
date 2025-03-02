@@ -64,11 +64,9 @@ const CreateCarOfferAuthenticated = () => {
       is_kassah: "",
       is_khalyeh: "",
       is_new_car: "",
-      //   manufacturer_id: null,
-      //   manufacturer_name_ar: null,
-      //   manufacturere_name_en: null,
+      //   name_ar: null,
+      //   name_en: null,
       //   miles_travelled_in_km: null,
-      //   model: null,
       // transmission_type: "",
     },
   });
@@ -205,7 +203,7 @@ const CreateCarOfferAuthenticated = () => {
           }}
         >
           <Controller
-            name="manufacturer_name_ar"
+            name="name_ar"
             control={control}
             rules={{
               required: {
@@ -223,10 +221,10 @@ const CreateCarOfferAuthenticated = () => {
                 />
                 <HelperText
                   type="error"
-                  visible={!!errors.manufacturer_name_ar}
+                  visible={!!errors.name_ar}
                   style={{ paddingBottom: 0 }}
                 >
-                  {errors.manufacturer_name_ar?.message}
+                  {errors.name_ar?.message}
                 </HelperText>
               </View>
             )}

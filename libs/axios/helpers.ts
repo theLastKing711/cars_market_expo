@@ -409,3 +409,19 @@ export const getEnglishNumbers = function (str: string)
     
  
 };
+
+
+export const getStringFromBooleanForForm = (value: any) => {
+
+    switch (value) {
+        case false:
+            return "0";
+            break;
+    
+        case true:
+            return "1";
+        default:
+            return "-1";
+            break;
+    }
+}

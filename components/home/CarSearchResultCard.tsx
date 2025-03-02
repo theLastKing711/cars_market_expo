@@ -9,6 +9,7 @@ import { Card, IconButton, Text, Tooltip } from "react-native-paper";
 export type CardSearchResultProps = {
   item: CarListData;
   onFavourite: (id: number) => void;
+  onPress?: (id: number) => void;
 };
 
 const styles = StyleSheet.create({
@@ -36,10 +37,8 @@ const CarSearchResultCard = ({
     // car_import_type,
     car_price,
     id,
-    manufacturer_id,
-    manufacturer_name_ar,
+    name_ar,
     miles_travelled_in_km,
-    model,
     year_manufactured,
     fuel_type,
     car_sell_location,
@@ -50,6 +49,7 @@ const CarSearchResultCard = ({
     shippable_to,
     image,
   },
+  onPress,
   onFavourite,
 }: CardSearchResultProps) => {
   // const heartIcon = is_favourite ? "heart" : "heart-outline";
@@ -58,7 +58,7 @@ const CarSearchResultCard = ({
 
   const is_new_car_text = is_new_car ? " جديدة" : " مستعملة";
 
-  const title = `${manufacturer_name_ar}${is_new_car_text}`;
+  const title = `${name_ar}${is_new_car_text}`;
 
   const car_price_text = `${car_price}$`;
 
@@ -92,12 +92,14 @@ const CarSearchResultCard = ({
   return (
     <Card
       onPress={() => {
-        router.push({
-          pathname: "/car/[id]",
-          params: {
-            id,
-          },
-        });
+        onPress
+          ? onPress(id)
+          : router.push({
+              pathname: "/car/[id]",
+              params: {
+                id,
+              },
+            });
       }}
     >
       <Card.Cover
@@ -127,9 +129,9 @@ const CarSearchResultCard = ({
         </View>
       </Card.Content>
       <Card.Actions style={{ flexDirection: "row-reverse", paddingTop: 16 }}>
-        <Tooltip title="أضف إلى عربة التسوق">
+        {/* <Tooltip title="أضف إلى عربة التسوق">
           <IconButton icon={{ source: "cart-outline", direction: "rtl" }} />
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="أضف إلى قائمة المفضلة">
           <IconButton
             icon={{ source: heartIcon, direction: "rtl" }}

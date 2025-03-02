@@ -1,13 +1,12 @@
 import { SyrianCityKey } from '../enums/SyrianCity';
+import { TransmissionKey } from '../enums/TransmissionType';
 // import { FuelType } from '../enums/FuelType';
 import { ShippableToCityData } from '../home';
 import { MediaData } from '../shared';
 export type CarOfferDetailsRespnseData = {
     id: number;
-    manufacturer_id: number | null;
     manufacturer_name_en: string | null;
-    manufacturer_name_ar: string | null;
-    model: string | null;
+    name_ar: string | null;
     year_manufactured: number | null;
     car_price: number | null;
     car_label_origin: number | null;
@@ -21,4 +20,5 @@ export type CarOfferDetailsRespnseData = {
     is_faragha_jahzeh: boolean | null;
     shippable_to: Array<ShippableToCityData>;
     images:  Array<MediaData>;
+    transmission: TransmissionKey | null;
 };

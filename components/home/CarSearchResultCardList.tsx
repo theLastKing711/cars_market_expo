@@ -1,7 +1,7 @@
 import { CarListData } from "@/types/home";
 import React from "react";
 import { FlatList, ListRenderItem, View } from "react-native";
-import { ActivityIndicator, List, Text } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 import ChipsFilterSection from "../carSearchResult/ChipsFilterSection";
 
 export type CarSearchResultCardList = {

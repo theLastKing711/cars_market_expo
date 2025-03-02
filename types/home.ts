@@ -4,9 +4,7 @@ import { MediaData, PagiantionQueryParameter } from "./shared";
 
 export type CarListData = {
     id: number;
-    manufacturer_id: number | null;
-    manufacturer_name_ar: string | null;
-    model: string | null;
+    name_ar: string | null;
     year_manufactured: number | null;
     car_price: number | null;
     // car_import_type: ImportType | null;
@@ -47,10 +45,8 @@ export type ShippableToCityData = {
 //i.e user/[page]
 export type SearchCarOfferQueryParameterData = {
     page?:string;
-    model?: string;
     search?: string;
     user_current_syrian_city?: string;
-    manufacturer_id?: string;
     price_from?: string;
     price_to?: string;
     car_sell_location?: string;
@@ -75,10 +71,8 @@ export type RequiredSearchCarOfferQueryParameterData =
 
 export type SearchState = {
     page: ListItem[];
-    model: string;
     search: ListItem[];
     user_current_syrian_city: ListItem[];
-    manufacturer_id: ListItem[];
     price_from: string;
     price_to: string;
     car_sell_location: string;
@@ -95,22 +89,3 @@ export type SearchState = {
     is_faragha_jahzeh: ListItem[];
     is_khalyeh: ListItem[];
 };
-
-// export type SearchCarOfferQueryParameterData = {
-//     search?: string;
-//     user_current_syrian_city?: string;
-//     manufacturer_id?: string;
-//     price_from?: string;
-//     price_to?: string;
-//     car_sell_location?: string;
-//     year_manufactured?: string;
-//     fuel_type?: string;
-//     car_label_origin?: string;
-//     miles_travelled_in_km?: string;
-//     miles_travelled_in_km_from?: string;
-//     miles_travelled_in_km_to?: string;
-//     user_has_legal_car_papers?: string;
-//     faragha_jahzeh?: string;
-//     import_type?: string;
-//     shippable_to?: Array<string>;
-// } & PagiantionQueryParameter;
