@@ -2,31 +2,47 @@
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { UpdateCarOfferRequestData } from "@/types/car/updateCarOffer";
-import {  useMutation} from "@tanstack/react-query";
+import {  useMutation, useQueryClient} from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useLocalSearchParams } from "expo-router";
 
 // but can be achieved using a styling library like Nativewind.
 export function useUpdateCarOffer() {
 
+    const queryClient = useQueryClient();
+
+
+    const { id } = useLocalSearchParams<{
+        id: string;
+      }>();
     
    const { mutate: updateCarOffer } = useMutation(
         {
-            mutationFn:(updateCarOfferRequestData: UpdateCarOfferRequestData) => updateCarOfferApi(updateCarOfferRequestData)
+            mutationFn: 
+                (updateCarOfferRequestData: UpdateCarOfferRequestData,) => 
+                    updateCarOfferApi(updateCarOfferRequestData, id),
+            onSuccess:
+                () =>
+                    {
+                        queryClient.invalidateQueries({queryKey: ['getUpdateCarOffer', '']})
+                        queryClient.invalidateQueries({queryKey: ['searchMyCars']})
+                    }
         }
     );
     
     return {
+        id,
         updateCarOffer,
     }
     
 }
   
-export async function updateCarOfferApi(updateCarOfferRequestData: UpdateCarOfferRequestData) {
+export async function updateCarOfferApi(updateCarOfferRequestData: UpdateCarOfferRequestData, id: string) {
     
     try {
-        // const updateCarOfferUrl = `${HOME_URI}/${id}`;
+        const updateCarOfferUrl = `${HOME_URI}/${id}`;
         
-        const updateCarOfferUrl = `${HOME_URI}`;
+        // const updateCarOfferUrl = `${HOME_URI}`;
 
         
         const response = await apiClient

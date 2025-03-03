@@ -1,6 +1,5 @@
 import ExpoImagesGrid from "@/components/ui/expo-image/ExpoImagesGrid";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
-import { getCarOfferRequestFromForm } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import React, { useState } from "react";
@@ -16,23 +15,24 @@ import {
   useTheme,
 } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
 import {
   getFormDataFromImages,
   getStringFromBooleanForForm,
 } from "@/libs/axios/helpers";
-// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
-import { UploadFileResponseData } from "@/types/shared";
+import { DeletableMediaData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
-import { useLocalSearchParams } from "expo-router";
-import { UpdateCarOfferForm } from "@/types/car/updateCarOffer";
+import {
+  getUpdateCarOfferRequestFromForm,
+  UpdateCarOfferForm,
+} from "@/types/car/updateCarOffer";
 import { useUpdateCarOffer } from "@/hooks/api/car/mutations/useUpdateCar";
 import { useGetUpdateCarOffer } from "@/hooks/api/car/Queries/useGetUpdateCarOffer";
+import { router } from "expo-router";
+import { useUpdateCarImages } from "@/hooks/api/car/mutations/useUpdateCarImages";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -41,39 +41,32 @@ const styles = StyleSheet.create({
 });
 
 const UpdateCarOffer = () => {
-  const { id } = useLocalSearchParams<{
-    id: string;
-  }>();
+  const { id, updateCarOffer } = useUpdateCarOffer();
 
   const { data: oldCarDetailsData, isLoading } = useGetUpdateCarOffer(id);
 
-  const [images, setImages] = useState<UploadFileResponseData[]>(
-    oldCarDetailsData?.data.images.map((image) => ({
-      public_id: image.public_id,
-      url: image.file_url,
-    })) || []
-  );
-  const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
-
-  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
+  const [images, setImages] = useState<DeletableMediaData[]>([]);
 
   const theme = useTheme();
 
   const { deleteFile } = useDeleteFileApi();
 
-  const { uploadCarImages } = useUploadCarImages();
+  const { UpdateCarImages } = useUpdateCarImages(id);
 
-  const { updateCarOffer } = useUpdateCarOffer();
+  const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
+
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<UpdateCarOfferForm>({
-    defaultValues: {
+    values: {
       car_price: oldCarDetailsData?.data.car_price?.toString() || "",
-      fuel_type: oldCarDetailsData?.data.fuel_type?.toString() || "-1",
+      fuel_type: oldCarDetailsData?.data.fuel_type?.toString() || "",
       is_faragha_jahzeh: getStringFromBooleanForForm(
         oldCarDetailsData?.data.is_faragha_jahzeh
       ),
@@ -87,7 +80,7 @@ const UpdateCarOffer = () => {
       name_ar: oldCarDetailsData?.data.name_ar || "",
       miles_travelled_in_km:
         oldCarDetailsData?.data.miles_travelled_in_km?.toString() || "",
-      transmission: oldCarDetailsData?.data.transmission?.toString() || "-1",
+      transmission: oldCarDetailsData?.data.transmission?.toString() || "",
     },
   });
 
@@ -103,7 +96,7 @@ const UpdateCarOffer = () => {
     const fileToDelete = images.find((item, index) => index === fileIndex)!;
 
     const updatedImagesList = images.filter(
-      (image) => image.url !== fileToDelete.url
+      (image) => image.file_url !== fileToDelete.file_url
     );
 
     setImages(updatedImagesList);
@@ -114,19 +107,40 @@ const UpdateCarOffer = () => {
     });
   };
 
+  const getImages =
+    oldCarDetailsData?.data.images.map((image) => ({
+      public_id: image.public_id,
+      file_url: image.file_url,
+    })) || [];
+
+  const imagesUris = getImages.map((image) => image.file_url);
+
   const onSubmit: SubmitHandler<UpdateCarOfferForm> = (data) => {
-    if (images.length === 0) {
+    if (getImages.length === 0) {
       setIsErrorDialogVisible(true);
       return;
     }
 
-    const updateCarOfferRequestData = getCarOfferRequestFromForm(data);
+    const updateCarOfferRequestData = getUpdateCarOfferRequestFromForm(data);
 
     updateCarOffer(updateCarOfferRequestData, {
-      onSuccess: () => alert("success"),
+      onSuccess: () => router.back(),
       onError: () => alert("error"),
     });
   };
+
+  const userHasUploadedImages = getImages.length > 0;
+
+  const submitText = !isUploadingImage ? (
+    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
+  ) : (
+    <Button onPress={handleSubmit(onSubmit)}>
+      <View style={{ gap: 8 }}>
+        <ActivityIndicator />
+        <Text>جاري تحميل الصور</Text>
+      </View>
+    </Button>
+  );
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -164,16 +178,27 @@ const UpdateCarOffer = () => {
       );
       const imagesFormData = getFormDataFromImages(manipulatedImagesUris);
 
-      uploadCarImages(imagesFormData, {
+      UpdateCarImages(imagesFormData, {
         onSuccess: (data) => {
           const newImages = [...data.data];
           // openImageViewr();
           setImages(newImages);
           setIsUploadingImage(false);
         },
-        onError: (data) => alert("failed"),
+        onError: (data) => alert("faileds"),
         onSettled: (data) => setIsUploadingImage(false),
       });
+
+      // uploadCarImages(imagesFormData, {
+      //   onSuccess: (data) => {
+      //     const newImages = [...data.data];
+      //     // openImageViewr();
+      //     // setImages(newImages);
+      //     setIsUploadingImage(false);
+      //   },
+      //   onError: (data) => alert("failed"),
+      //   onSettled: (data) => setIsUploadingImage(false),
+      // });
     }
   };
 
@@ -181,27 +206,9 @@ const UpdateCarOffer = () => {
     openImageViewr();
   };
 
-  const imagesUris = images.map((image) => image.url);
-
-  const userHasUploadedImages = images.length > 0;
-  const submitText = !isUploadingImage ? (
-    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
-  ) : (
-    <Button onPress={handleSubmit(onSubmit)}>
-      <View style={{ gap: 8 }}>
-        <ActivityIndicator />
-        <Text>جاري تحميل الصور</Text>
-      </View>
-    </Button>
-  );
-
-  if (isLoading) {
-    return;
-  }
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
-      <ScrollView>
+    <ScrollView>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
         <ExpoImagesGrid
           isUploadingImages={isUploadingImage}
           imagesUris={imagesUris}
@@ -211,7 +218,10 @@ const UpdateCarOffer = () => {
         {userHasUploadedImages && (
           <FullScreenImageViewerModal
             isVisible={isImageViewerOpen}
-            images={images}
+            images={getImages.map((item) => ({
+              public_id: item.public_id,
+              url: item.file_url,
+            }))}
             onCloseButtonClicked={closeImageViewr}
             onDeleteButtonClicked={onFileDelete}
             onModalClose={closeImageViewr}
@@ -389,7 +399,7 @@ const UpdateCarOffer = () => {
           />
           {submitText}
         </View>
-      </ScrollView>
+      </SafeAreaView>
       <Dialog visible={isErrorDialogVisible}>
         <Dialog.Content>
           <Text>الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض</Text>
@@ -398,7 +408,7 @@ const UpdateCarOffer = () => {
           <Button onPress={() => setIsErrorDialogVisible(false)}>موافق</Button>
         </Dialog.Actions>
       </Dialog>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

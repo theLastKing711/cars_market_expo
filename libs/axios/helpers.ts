@@ -377,7 +377,7 @@ export function  getFormDataFromImages( assets:  ImagePickerAsset[]) {
         formData.append(`files[${index}]`,
              {
                 ...asset,
-                 name: asset.fileName, 
+                name: asset.fileName, 
                 size: asset.fileSize, // we can omit and request will still work
             } as unknown as Blob
         );
@@ -421,7 +421,23 @@ export const getStringFromBooleanForForm = (value: any) => {
         case true:
             return "1";
         default:
-            return "-1";
+            return "";
+            break;
+    }
+}
+
+
+export const getBooleanFromFormString = (value: any) => {
+
+    switch (value) {
+        case "0":
+            return false;
+            break;
+    
+        case "1":
+            return true;
+        default:
+            return null;
             break;
     }
 }

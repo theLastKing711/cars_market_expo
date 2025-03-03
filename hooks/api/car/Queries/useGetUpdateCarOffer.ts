@@ -10,7 +10,7 @@ export function useGetUpdateCarOffer(id: string) {
     
    const {data, isLoading} = useQuery(
         {
-            queryKey: ['getUpdateCarOffer'],
+            queryKey: ['getUpdateCarOffer', id],
             queryFn:() => getUpdateCarOfferApi(id)
         }
     );

@@ -1,4 +1,4 @@
-import { getEnglishNumbers } from "@/libs/axios/helpers";
+import { getBooleanFromFormString, getEnglishNumbers } from "@/libs/axios/helpers";
 
 export type UpdateCarOfferForm = {
     name_ar: string;
@@ -16,7 +16,7 @@ export type UpdateCarOfferForm = {
 export type UpdateCarOfferRequestData = {
     name_ar: string;
     name_en?: string;
-    is_new_car: boolean;
+    is_new_car: boolean | null;
     car_price: number;
     fuel_type: number | null;
     transmission: number | null;
@@ -26,7 +26,7 @@ export type UpdateCarOfferRequestData = {
     is_khalyeh: boolean | null;
 }
 
-export function getCarOfferRequestFromForm({
+export function getUpdateCarOfferRequestFromForm({
     car_price,
     fuel_type,
     is_new_car,
@@ -38,16 +38,17 @@ export function getCarOfferRequestFromForm({
     is_khalyeh,
     transmission
 }: UpdateCarOfferForm) {
+    console.log("boolean", getBooleanFromFormString(is_faragha_jahzeh));
     const updateCarOfferRequest: UpdateCarOfferRequestData = {
         name_ar: name_ar,
         miles_travelled_in_km: getEnglishNumbers(miles_travelled_in_km),
         car_price: getEnglishNumbers(car_price),
         transmission: transmission ? parseInt(transmission): null,
-        fuel_type:  1,
-        is_faragha_jahzeh: Boolean(is_faragha_jahzeh),
-        is_kassah: Boolean(is_kassah),
-        is_khalyeh: Boolean(is_khalyeh),
-        is_new_car: Boolean(is_new_car),
+        fuel_type:  fuel_type ? parseInt(fuel_type): null,
+        is_faragha_jahzeh: getBooleanFromFormString(is_faragha_jahzeh),
+        is_kassah: getBooleanFromFormString(is_kassah),
+        is_khalyeh: getBooleanFromFormString(is_khalyeh),
+        is_new_car: getBooleanFromFormString(is_new_car),
     }
     
     return updateCarOfferRequest;
