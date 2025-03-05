@@ -18,6 +18,7 @@ export type CarOfferDetailsRespnseData = {
     is_kassah: boolean | null;
     is_khalyeh: boolean | null;
     is_faragha_jahzeh: boolean | null;
+    is_favourite: boolean;
     shippable_to: Array<ShippableToCityData>;
     images:  Array<MediaData>;
     transmission: TransmissionKey | null;

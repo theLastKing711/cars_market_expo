@@ -1,3 +1,4 @@
+import { useFavouriteCar } from "@/hooks/api/car/mutations/useFavouriteCar";
 import { FUELTYPELOOKUP } from "@/types/enums/FuelType";
 import { SYRIANCITYLOOKUP } from "@/types/enums/SyrianCity";
 import { CarListData } from "@/types/home";
@@ -8,7 +9,7 @@ import { Card, IconButton, Text, Tooltip } from "react-native-paper";
 
 export type CardSearchResultProps = {
   item: CarListData;
-  onFavourite: (id: number) => void;
+  // onFavourite: (id: number) => void;
   onPress?: (id: number) => void;
 };
 
@@ -48,13 +49,15 @@ const CarSearchResultCard = ({
     is_new_car,
     shippable_to,
     image,
+    is_favourite,
   },
   onPress,
-  onFavourite,
 }: CardSearchResultProps) => {
-  // const heartIcon = is_favourite ? "heart" : "heart-outline";
+  const { favouriteCar } = useFavouriteCar(id);
 
-  const heartIcon = "heart";
+  const heartIcon = is_favourite ? "heart" : "heart-outline";
+
+  // const heartIcon = "heart";
 
   const is_new_car_text = is_new_car ? " جديدة" : " مستعملة";
 
@@ -135,7 +138,7 @@ const CarSearchResultCard = ({
         <Tooltip title="أضف إلى قائمة المفضلة">
           <IconButton
             icon={{ source: heartIcon, direction: "rtl" }}
-            onPress={(e) => onFavourite(id)}
+            onPress={(e) => favouriteCar()}
           />
         </Tooltip>
       </Card.Actions>

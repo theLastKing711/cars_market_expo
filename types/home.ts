@@ -16,6 +16,7 @@ export type CarListData = {
     is_faragha_jahzeh: boolean | null;
     is_new_car: boolean | null;
     shippable_to: Array<ShippableToCityData>;
+    is_favourite?: boolean;
     image: MediaData;
 };
 

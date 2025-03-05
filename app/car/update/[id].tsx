@@ -248,7 +248,8 @@ const UpdateCarOffer = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <View style={styles.textContainer}>
                 <TextInput
-                  placeholder="اسم السيارة. مثال: هيونداي سانتافي 2011,كيا ريو."
+                  label="اسم السيارة بالعربي"
+                  placeholder="اسم السيارة بالعربي. مثال: هيونداي سانتافي 2011,كيا ريو."
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -278,13 +279,25 @@ const UpdateCarOffer = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <View style={styles.textContainer}>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="سعر السيارة"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value?.toString()}
-                />
+                <View>
+                  <TextInput
+                    label="سعر السيارة بالدولار"
+                    keyboardType="numeric"
+                    placeholder="سعر السيارة بالدولار"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value?.toString()}
+                  />
+                  <Text
+                    style={{
+                      position: "absolute",
+                      right: 8,
+                      bottom: 8,
+                    }}
+                  >
+                    $
+                  </Text>
+                </View>
                 <HelperText type="error" visible={!!errors.car_price}>
                   {errors.car_price?.message}
                 </HelperText>
@@ -296,13 +309,25 @@ const UpdateCarOffer = () => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <View style={styles.textContainer}>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="كم كيلو متر قاطعة السيارة (العداد)"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
+                <View>
+                  <TextInput
+                    label="عدد الكيلومترات المقطوعة"
+                    keyboardType="numeric"
+                    placeholder="كم كيلو متر قاطعة السيارة (العداد)"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  <Text
+                    style={{
+                      position: "absolute",
+                      right: 8,
+                      bottom: 8,
+                    }}
+                  >
+                    كم
+                  </Text>
+                </View>
                 <HelperText
                   type="error"
                   visible={!!errors.miles_travelled_in_km}

@@ -10,7 +10,7 @@ export function useGetCarOfferDetails(id: string) {
     
    const {data, isLoading} = useQuery(
         {
-            queryKey: ['carOfferDet'],
+            queryKey: ['carOfferDetails', id.toString()],
             queryFn:() => GetCarOfferDetailsApi(id)
         }
     );

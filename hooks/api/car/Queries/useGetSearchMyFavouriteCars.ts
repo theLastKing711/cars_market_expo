@@ -7,7 +7,7 @@ import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { AxiosError } from 'axios';
 
-export function useGetSearchMyCars() {
+export function useGetSearchMyFavouriteCars() {
     
     const [search, setSearch] = useState('')
 
@@ -19,7 +19,7 @@ export function useGetSearchMyCars() {
             // queryKey: ['home', debouncedSearchTerm, debouncedPaginationCursor],
             queryKey: 
                 [
-                    'searchMyCars',
+                    'searchMyFavouriteCars',
                     search
                 ],
             // page param is in the defenition of queryfn and it takes its type from initalPageParam as seen below
@@ -55,7 +55,7 @@ async function getMyCarsSearchApi({
 }: SearchMyCarQueryParameterData) {
     try {
 
-        const search_url = `${HOME_URI}/searchMyCars`;
+        const search_url = `${HOME_URI}/searchMyFavouriteCars`;
 
         const response = await apiClient
                                 .get<SearchCarOfferPaginationResultData>

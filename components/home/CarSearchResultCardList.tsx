@@ -45,7 +45,11 @@ const CarSearchResultCardList = ({
         renderItem={renderItem}
         onEndReached={fetchNextPageIfThereIsNoPreviousOnGoingFetching}
         ListFooterComponent={loadingComponent}
-        style={{ paddingHorizontal: 16 }}
+        contentContainerStyle={{
+          paddingTop: 20,
+          paddingBottom: 124,
+          paddingHorizontal: 16,
+        }}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
       ></FlatList>
     </View>

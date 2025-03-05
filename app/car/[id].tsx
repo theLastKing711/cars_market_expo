@@ -31,6 +31,8 @@ const CarOfferDetails = () => {
     },
   });
 
+  console.log("is favourite", data?.data.is_favourite);
+
   const shippable_to_cites = data?.data.shippable_to || [];
 
   const haveFeaturesItems: HaveFeatureSectionProps["items"] = [
@@ -70,13 +72,22 @@ const CarOfferDetails = () => {
 
   const is_shippable = shippable_to_cites.length > 0;
 
+  if (isLoading) {
+    return;
+  }
+
   return (
     <ScrollView style={{ backgroundColor: theme.colors.surface }}>
       <View style={styles.container}>
         <ImagesCarouselSection
           imagesUrls={data?.data.images.map((image) => image.file_url) || []}
         />
-        <MainSection title={title} location={data?.data.car_sell_location} />
+        <MainSection
+          id={data!.data.id}
+          title={title}
+          location={data?.data.car_sell_location}
+          is_favourite={data!.data.is_favourite}
+        />
         <PriceSection price={data?.data.car_price} />
         <MainListSection items={mainListSectionItemProps} />
         <HaveFeatureSection items={haveFeaturesItems} />

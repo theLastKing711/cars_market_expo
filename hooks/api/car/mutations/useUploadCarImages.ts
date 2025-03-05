@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 // but can be achieved using a styling library like Nativewind.
 export function useUploadCarImages() {
 
-    
    const { mutate: uploadCarImages } = useMutation(
         {
             mutationFn:(carImagesFormData: FormData) => uploadCarImagesApi(carImagesFormData)

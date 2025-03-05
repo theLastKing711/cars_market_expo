@@ -2,15 +2,23 @@
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { DeletableMediaData } from "@/types/shared";
-import {  useMutation} from "@tanstack/react-query";
+import {  useMutation, useQueryClient} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 // but can be achieved using a styling library like Nativewind.
 export function useUpdateCarImages(id: string) {
 
+   const queryClient = useQueryClient();
+
    const { mutate: UpdateCarImages } = useMutation(
         {
-            mutationFn:(carImagesFormData: FormData) => UpdateCarImagesApi(carImagesFormData, id)
+            mutationFn:(carImagesFormData: FormData) => UpdateCarImagesApi(carImagesFormData, id),
+            onSuccess:
+                () =>
+                    {
+                        queryClient.invalidateQueries({queryKey: ['getUpdateCarOffer', id.toString()]})
+                        queryClient.invalidateQueries({queryKey: ['searchMyCars']})
+                    }
         }
     );
     

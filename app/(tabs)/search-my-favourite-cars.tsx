@@ -1,6 +1,8 @@
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
+import { useFavouriteCar } from "@/hooks/api/car/mutations/useFavouriteCar";
 import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
+import { useGetSearchMyFavouriteCars } from "@/hooks/api/car/Queries/useGetSearchMyFavouriteCars";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -9,7 +11,7 @@ import { Searchbar, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 
-const searchMyCars = () => {
+const SearchMyFavouriteCars = () => {
   const {
     data: paginatedSearchMyCarsData,
     fetchNextPage,
@@ -18,7 +20,7 @@ const searchMyCars = () => {
     isLoading,
     search,
     setSearch,
-  } = useGetSearchMyCars();
+  } = useGetSearchMyFavouriteCars();
 
   const theme = useTheme();
 
@@ -38,7 +40,7 @@ const searchMyCars = () => {
 
   const navigateToDetailsPage = (id: number) => {
     router.push({
-      pathname: "/car/update/[id]",
+      pathname: "/car/[id]",
       params: {
         id,
       },
@@ -48,7 +50,7 @@ const searchMyCars = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar
-        placeholder="ابحث عن سيارة"
+        placeholder="ابحث عن سيارة  مفضلة"
         value={search}
         onChangeText={setSearch}
       ></Searchbar>
@@ -67,4 +69,4 @@ const searchMyCars = () => {
   );
 };
 
-export default searchMyCars;
+export default SearchMyFavouriteCars;
