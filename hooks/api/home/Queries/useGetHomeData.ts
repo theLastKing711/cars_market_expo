@@ -231,9 +231,6 @@ async function getSearchSuggestionsApi({
             :
             null
 
-        console.log("data result", response.data.data);
-
-            
         return {
             data: response.data.data,
             next_page,

@@ -11,6 +11,7 @@ export type CardSearchResultProps = {
   item: CarListData;
   // onFavourite: (id: number) => void;
   onPress?: (id: number) => void;
+  actions?: React.ReactNode;
 };
 
 const styles = StyleSheet.create({
@@ -52,6 +53,7 @@ const CarSearchResultCard = ({
     is_favourite,
   },
   onPress,
+  actions,
 }: CardSearchResultProps) => {
   const { favouriteCar } = useFavouriteCar(id);
 
@@ -131,7 +133,14 @@ const CarSearchResultCard = ({
           <Text>{is_kassah_text}</Text>
         </View>
       </Card.Content>
-      <Card.Actions style={{ flexDirection: "row-reverse", paddingTop: 16 }}>
+      <Card.Actions
+        style={{
+          flexDirection: "column",
+          paddingTop: 16,
+          gap: 12,
+          alignItems: "flex-start",
+        }}
+      >
         {/* <Tooltip title="أضف إلى عربة التسوق">
           <IconButton icon={{ source: "cart-outline", direction: "rtl" }} />
         </Tooltip> */}
@@ -141,6 +150,7 @@ const CarSearchResultCard = ({
             onPress={(e) => favouriteCar()}
           />
         </Tooltip>
+        {actions}
       </Card.Actions>
     </Card>
   );

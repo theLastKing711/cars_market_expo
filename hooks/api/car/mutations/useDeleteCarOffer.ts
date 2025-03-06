@@ -1,44 +1,48 @@
 
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
-import { CreateCarOfferRequestData } from "@/types/car/createCarOffer";
-import {  useMutation, useQueryClient } from "@tanstack/react-query";
+import {  useMutation, useQueryClient} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 // but can be achieved using a styling library like Nativewind.
-export function useCreateCarOffer() {
+export function useDeleteCarOffer(id: number, onSuccess?: () => void) {
 
     const queryClient = useQueryClient();
-
-   const { mutate: createCarOffer } = useMutation(
+    
+   const { mutate: DeleteCarOffer } = useMutation(
         {
-            mutationFn:(createCarOfferRequestData: CreateCarOfferRequestData) => createCarOfferApi(createCarOfferRequestData),
+            mutationFn: 
+                () => 
+                    DeleteCarOfferApi(id),
             onSuccess:
                 () =>
                     {
+                        queryClient.removeQueries({queryKey: ['getUpdateCarOffer', id.toString()]});
+                        queryClient.removeQueries({queryKey: ['carOfferDetails', id.toString()]});
                         queryClient.invalidateQueries({queryKey: ['home']});
                         queryClient.invalidateQueries({queryKey: ['searchMyCars']});
                         queryClient.invalidateQueries({queryKey: ['searchMyFavouriteCars']});
+                        onSuccess?.();
                     }
         }
     );
     
     return {
-        createCarOffer,
+        DeleteCarOffer,
     }
     
 }
   
-export async function createCarOfferApi(createCarOfferRequestData: CreateCarOfferRequestData) {
+export async function DeleteCarOfferApi(id: number) {
     
     try {
-        const createCarOfferUrl = `${HOME_URI}`;
+        const DeleteCarOfferUrl = `${HOME_URI}/${id}`;
+        
         
         const response = await apiClient
-                                .post
+                                .delete
                                 (
-                                    createCarOfferUrl,
-                                    createCarOfferRequestData
+                                    DeleteCarOfferUrl,
                                 );
 
         return {

@@ -33,6 +33,8 @@ import { useUpdateCarOffer } from "@/hooks/api/car/mutations/useUpdateCar";
 import { useGetUpdateCarOffer } from "@/hooks/api/car/Queries/useGetUpdateCarOffer";
 import { router } from "expo-router";
 import { useUpdateCarImages } from "@/hooks/api/car/mutations/useUpdateCarImages";
+import DeleteButton from "@/components/ui/DeleteButton";
+import SoldButton from "@/components/ui/SoldButton";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -217,6 +219,11 @@ const UpdateCarOffer = () => {
 
   const onImageGridItemClicked = (selectedImage: string) => {
     openImageViewr();
+  };
+
+  const navigateToSearchMyCarsPage = () => {
+    alert("success");
+    router.navigate("/search-my-cars");
   };
 
   return (
@@ -436,6 +443,22 @@ const UpdateCarOffer = () => {
             )}
           />
           {submitText}
+          <View
+            style={{
+              marginTop: 16,
+              gap: 16,
+            }}
+          >
+            <SoldButton
+              id={parseInt(id)}
+              onSuccess={navigateToSearchMyCarsPage}
+            />
+
+            <DeleteButton
+              id={parseInt(id)}
+              onSuccess={navigateToSearchMyCarsPage}
+            />
+          </View>
         </View>
       </SafeAreaView>
       <Dialog visible={isErrorDialogVisible}>

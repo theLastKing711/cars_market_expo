@@ -1,44 +1,48 @@
 
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
-import { CreateCarOfferRequestData } from "@/types/car/createCarOffer";
-import {  useMutation, useQueryClient } from "@tanstack/react-query";
+import {  useMutation, useQueryClient} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 // but can be achieved using a styling library like Nativewind.
-export function useCreateCarOffer() {
+export function useSellCarOffer(id: number, onSuccess?: () => void) {
 
     const queryClient = useQueryClient();
-
-   const { mutate: createCarOffer } = useMutation(
+    
+   const { mutate: sellCarOffer } = useMutation(
         {
-            mutationFn:(createCarOfferRequestData: CreateCarOfferRequestData) => createCarOfferApi(createCarOfferRequestData),
+            mutationFn: 
+                () => 
+                    SellCarOfferApi(id),
             onSuccess:
                 () =>
                     {
+                        queryClient.removeQueries({queryKey: ['getUpdateCarOffer', id.toString()]});
+                        queryClient.removeQueries({queryKey: ['carOfferDetails', id.toString()]});
                         queryClient.invalidateQueries({queryKey: ['home']});
                         queryClient.invalidateQueries({queryKey: ['searchMyCars']});
                         queryClient.invalidateQueries({queryKey: ['searchMyFavouriteCars']});
+                        onSuccess?.();
                     }
         }
     );
     
     return {
-        createCarOffer,
+        sellCarOffer,
     }
     
 }
   
-export async function createCarOfferApi(createCarOfferRequestData: CreateCarOfferRequestData) {
+export async function SellCarOfferApi(id: number) {
     
     try {
-        const createCarOfferUrl = `${HOME_URI}`;
+        const SellCarOfferUrl = `${HOME_URI}/sell/${id}`;
+        
         
         const response = await apiClient
-                                .post
+                                .patch
                                 (
-                                    createCarOfferUrl,
-                                    createCarOfferRequestData
+                                    SellCarOfferUrl,
                                 );
 
         return {
