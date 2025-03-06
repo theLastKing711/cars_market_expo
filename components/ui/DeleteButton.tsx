@@ -12,7 +12,10 @@ export type DeleteButtonProps = {
 const DeleteButton = ({ id, onSuccess }: DeleteButtonProps) => {
   const { isOpen, closeDialog, openDialog } = useDialog();
 
-  const { DeleteCarOffer } = useDeleteCarOffer(id, onSuccess);
+  const { DeleteCarOffer } = useDeleteCarOffer(id, () => {
+    closeDialog();
+    onSuccess?.();
+  });
 
   const theme = useTheme();
 

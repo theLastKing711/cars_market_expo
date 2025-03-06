@@ -9,7 +9,10 @@ export type SoldButtonProps = {
 };
 
 const SoldButton = ({ id, onSuccess }: SoldButtonProps) => {
-  const { sellCarOffer } = useSellCarOffer(id, onSuccess);
+  const { sellCarOffer } = useSellCarOffer(id, () => {
+    closeDialog();
+    onSuccess?.();
+  });
 
   const { isOpen, closeDialog, openDialog } = useDialog();
 

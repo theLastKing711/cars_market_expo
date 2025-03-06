@@ -222,7 +222,6 @@ const UpdateCarOffer = () => {
   };
 
   const navigateToSearchMyCarsPage = () => {
-    alert("success");
     router.navigate("/search-my-cars");
   };
 

@@ -54,7 +54,6 @@ export async function UpdateCarImagesApi(carImagesFormData: FormData, id: string
         }
     }
     catch(err) {
-        alert('error');
 
         const result = (err as AxiosError);
 
