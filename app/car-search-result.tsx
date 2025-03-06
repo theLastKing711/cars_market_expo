@@ -62,7 +62,6 @@ const CarSearchResult = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      // paddingTop: 16,
       paddingBottom: 90,
       backgroundColor: theme.colors.surface,
     },
@@ -146,7 +145,7 @@ const CarSearchResult = () => {
       <CarSearchResultCardList
         items={carSearchSuggestions}
         renderItem={({ item }) => (
-          <CarSearchResultCard item={item} onFavourite={() => {}} />
+          <CarSearchResultCard key={item.id} item={item} />
         )}
         isFetching={isFetching}
         hasNextPage={hasNextPage}

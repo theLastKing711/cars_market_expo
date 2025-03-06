@@ -16,8 +16,10 @@ export function useFavouriteCar(id: number) {
                     {
                         queryClient.invalidateQueries({queryKey: ['getUpdateCarOffer', id.toString()]})
                         queryClient.invalidateQueries({queryKey: ['carOfferDetails', id.toString()]})
+                        queryClient.invalidateQueries({queryKey: ['home']})
                         queryClient.invalidateQueries({queryKey: ['searchMyFavouriteCars']})
                         queryClient.invalidateQueries({queryKey: ['searchMyCars']})
+
                     }
         }
     );

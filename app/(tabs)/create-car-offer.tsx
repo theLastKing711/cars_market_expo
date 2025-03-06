@@ -54,9 +54,12 @@ const CreateCarOfferAuthenticated = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CreateCarOfferForm>({
     defaultValues: {
-      //   car_price: null,
+      name_ar: "",
+      car_price: "",
+      miles_travelled_in_km: "",
       // fuel_type: "",
       is_faragha_jahzeh: "",
       is_kassah: "",
@@ -101,7 +104,7 @@ const CreateCarOfferAuthenticated = () => {
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
     createCarOffer(createCarOfferRequestData, {
-      onSuccess: () => alert("success"),
+      onSuccess: () => reset(),
       onError: () => alert("error"),
     });
   };
