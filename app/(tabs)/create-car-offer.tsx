@@ -65,10 +65,6 @@ const CreateCarOfferAuthenticated = () => {
       is_kassah: "",
       is_khalyeh: "",
       is_new_car: "",
-      //   name_ar: null,
-      //   name_en: null,
-      //   miles_travelled_in_km: null,
-      // transmission_type: "",
     },
   });
 
@@ -104,7 +100,10 @@ const CreateCarOfferAuthenticated = () => {
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
     createCarOffer(createCarOfferRequestData, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        reset();
+        setImages([]);
+      },
       onError: () => alert("error"),
     });
   };

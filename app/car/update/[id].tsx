@@ -61,9 +61,19 @@ const UpdateCarOffer = () => {
 
   const {
     control,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<UpdateCarOfferForm>({
+    defaultValues: {
+      name_ar: "",
+      car_price: "",
+      miles_travelled_in_km: "",
+      is_faragha_jahzeh: "",
+      is_kassah: "",
+      is_khalyeh: "",
+      is_new_car: "",
+    },
     values: {
       car_price: oldCarDetailsData?.data.car_price?.toString() || "",
       fuel_type: oldCarDetailsData?.data.fuel_type?.toString() || "",
@@ -102,7 +112,10 @@ const UpdateCarOffer = () => {
     setImages(updatedImagesList);
 
     deleteFile(fileToDelete, {
-      onSuccess: (data) => {},
+      onSuccess: (data) => {
+        // reset();
+        // setImages([]);
+      },
       onError: () => {},
     });
   };
