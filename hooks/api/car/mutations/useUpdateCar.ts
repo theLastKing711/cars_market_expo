@@ -16,7 +16,7 @@ export function useUpdateCarOffer() {
         id: string;
       }>();
     
-   const { mutate: updateCarOffer } = useMutation(
+   const { mutate: updateCarOffer, isPending } = useMutation(
         {
             mutationFn: 
                 (updateCarOfferRequestData: UpdateCarOfferRequestData,) => 
@@ -32,6 +32,7 @@ export function useUpdateCarOffer() {
     
     return {
         id,
+        isLoading: isPending,
         updateCarOffer,
     }
     

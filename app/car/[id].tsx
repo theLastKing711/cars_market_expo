@@ -13,7 +13,8 @@ import { FUELTYPELIST } from "@/types/enums/FuelType";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import { FAB, useTheme } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
@@ -28,6 +29,7 @@ const CarOfferDetails = () => {
     container: {
       flex: 1,
       position: "relative",
+      paddingBottom: 100,
     },
   });
 
@@ -77,23 +79,55 @@ const CarOfferDetails = () => {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: theme.colors.surface }}>
-      <View style={styles.container}>
-        <ImagesCarouselSection
-          imagesUrls={data?.data.images.map((image) => image.file_url) || []}
+    <View style={{ backgroundColor: theme.colors.surface }}>
+      <ScrollView>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <ImagesCarouselSection
+              imagesUrls={
+                data?.data.images.map((image) => image.file_url) || []
+              }
+            />
+            <MainSection
+              id={data!.data.id}
+              title={title}
+              location={data?.data.car_sell_location}
+              is_favourite={data!.data.is_favourite}
+            />
+            <PriceSection price={data?.data.car_price} />
+            <MainListSection items={mainListSectionItemProps} />
+            <HaveFeatureSection items={haveFeaturesItems} />
+            {is_shippable && <ShippableToSection cities={shippable_to_cites} />}
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+      <View
+        style={{
+          position: "fixed",
+          bottom: 100,
+          left: 0,
+          right: 0,
+          zIndex: 30000000,
+          marginHorizontal: 16,
+          flexDirection: "row",
+          gap: 16,
+          backgroundColor: theme.colors.surface,
+        }}
+      >
+        <FAB
+          label="اتصل بالبائع"
+          onPress={() => {}}
+          icon="phone"
+          style={{ flex: 1 }}
         />
-        <MainSection
-          id={data!.data.id}
-          title={title}
-          location={data?.data.car_sell_location}
-          is_favourite={data!.data.is_favourite}
+        <FAB
+          label="اتصل واتس بالبائع"
+          onPress={() => {}}
+          icon="whatsapp"
+          style={{ flex: 1 }}
         />
-        <PriceSection price={data?.data.car_price} />
-        <MainListSection items={mainListSectionItemProps} />
-        <HaveFeatureSection items={haveFeaturesItems} />
-        {is_shippable && <ShippableToSection cities={shippable_to_cites} />}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

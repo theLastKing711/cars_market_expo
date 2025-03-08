@@ -10,7 +10,7 @@ export function useCreateCarOffer() {
 
     const queryClient = useQueryClient();
 
-   const { mutate: createCarOffer } = useMutation(
+   const { mutate: createCarOffer,isPending } = useMutation(
         {
             mutationFn:(createCarOfferRequestData: CreateCarOfferRequestData) => createCarOfferApi(createCarOfferRequestData),
             onSuccess:
@@ -25,6 +25,7 @@ export function useCreateCarOffer() {
     
     return {
         createCarOffer,
+        isLoading: isPending
     }
     
 }

@@ -2,7 +2,7 @@ import ExpoImagesGrid from "@/components/ui/expo-image/ExpoImagesGrid";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -10,6 +10,8 @@ import {
   Button,
   Dialog,
   HelperText,
+  Portal,
+  Snackbar,
   Text,
   TextInput,
   useTheme,
@@ -35,6 +37,9 @@ import { router } from "expo-router";
 import { useUpdateCarImages } from "@/hooks/api/car/mutations/useUpdateCarImages";
 import DeleteButton from "@/components/ui/DeleteButton";
 import SoldButton from "@/components/ui/SoldButton";
+import { useDialog } from "@/hooks/ui/useDialog";
+import { useSnackBar } from "@/hooks/ui/useSnackBar";
+import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -43,17 +48,21 @@ const styles = StyleSheet.create({
 });
 
 const UpdateCarOffer = () => {
-  const { id, updateCarOffer } = useUpdateCarOffer();
+  const {
+    id,
+    updateCarOffer,
+    isLoading: isUpdatingCarOffer,
+  } = useUpdateCarOffer();
 
   const { data: oldCarDetailsData, isLoading } = useGetUpdateCarOffer(id);
-
-  const [images, setImages] = useState<DeletableMediaData[]>([]);
 
   const theme = useTheme();
 
   const { deleteFile } = useDeleteFileApi();
 
   const { UpdateCarImages } = useUpdateCarImages(id);
+
+  const [images, setImages] = useState<DeletableMediaData[]>([]);
 
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
 
@@ -66,6 +75,7 @@ const UpdateCarOffer = () => {
     reset,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm<UpdateCarOfferForm>({
     defaultValues: {
       name_ar: "",
@@ -96,6 +106,15 @@ const UpdateCarOffer = () => {
     },
   });
 
+  const {
+    isSnackBarOpen,
+    closeSnackBar,
+    openSnackBarSuccess,
+    openSnackBarError,
+    snackBarText,
+    snackBarStatus,
+  } = useSnackBar();
+
   const openImageViewr = () => {
     setIsImageViewerOpen(true);
   };
@@ -115,6 +134,7 @@ const UpdateCarOffer = () => {
 
     deleteFile(fileToDelete, {
       onSuccess: (data) => {
+        openSnackBarSuccess("تم تعديل بيانات العرض بنجاح");
         // reset();
         // setImages([]);
       },
@@ -139,22 +159,34 @@ const UpdateCarOffer = () => {
     const updateCarOfferRequestData = getUpdateCarOfferRequestFromForm(data);
 
     updateCarOffer(updateCarOfferRequestData, {
-      onSuccess: () => router.back(),
+      onSuccess: () => {
+        openSnackBarSuccess("تم تعديل بيانات العرض بنجاح");
+
+        router.back();
+      },
       onError: () => alert("error"),
     });
   };
 
   const userHasUploadedImages = getImages.length > 0;
 
-  const submitText = !isUploadingImage ? (
-    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
-  ) : (
+  const isLoadingVisible = isUploadingImage || isUpdatingCarOffer;
+
+  const loadingButtonText = isUploadingImage
+    ? "جاري تحميل الصور"
+    : "جاري تعديل بيانات العرض العرض";
+
+  console.log("is loading visible", isLoadingVisible);
+
+  const submitText = isLoadingVisible ? (
     <Button onPress={handleSubmit(onSubmit)}>
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
-        <Text>جاري تحميل الصور</Text>
+        <Text>{loadingButtonText}</Text>
       </View>
     </Button>
+  ) : (
+    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
   );
 
   const pickImage = async () => {
@@ -225,6 +257,10 @@ const UpdateCarOffer = () => {
     router.navigate("/search-my-cars");
   };
 
+  // useEffect(() => {
+  //   setFocus("name_ar");
+  // }, [setFocus]);
+
   return (
     <ScrollView>
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
@@ -264,11 +300,12 @@ const UpdateCarOffer = () => {
                 message: "يرجى إدخال قيمة في الحقل",
               },
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ...props } }) => (
               <View style={styles.textContainer}>
                 <TextInput
+                  {...props}
                   label="اسم السيارة بالعربي"
-                  placeholder="اسم السيارة بالعربي. مثال: هيونداي سانتافي 2011,كيا ريو."
+                  placeholder="مثال: هيونداي سانتافي 2011,كيا ريو."
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -283,6 +320,7 @@ const UpdateCarOffer = () => {
               </View>
             )}
           />
+
           <Controller
             name="car_price"
             control={control}
@@ -296,13 +334,14 @@ const UpdateCarOffer = () => {
                 message: "يرجى إدخال قيمة موجبة",
               },
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ...props } }) => (
               <View style={styles.textContainer}>
                 <View>
                   <TextInput
+                    {...props}
                     label="سعر السيارة بالدولار"
                     keyboardType="numeric"
-                    placeholder="سعر السيارة بالدولار"
+                    placeholder="مقال: 4000,10000."
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value?.toString()}
@@ -323,6 +362,7 @@ const UpdateCarOffer = () => {
               </View>
             )}
           />
+
           <Controller
             name="miles_travelled_in_km"
             control={control}
@@ -332,7 +372,7 @@ const UpdateCarOffer = () => {
                   <TextInput
                     label="عدد الكيلومترات المقطوعة"
                     keyboardType="numeric"
-                    placeholder="كم كيلو متر قاطعة السيارة (العداد)"
+                    placeholder="مثال: 10000, 300000."
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
@@ -468,6 +508,12 @@ const UpdateCarOffer = () => {
           <Button onPress={() => setIsErrorDialogVisible(false)}>موافق</Button>
         </Dialog.Actions>
       </Dialog>
+      <CustomSnackBar
+        visible={isSnackBarOpen}
+        onDismiss={closeSnackBar}
+        text={snackBarText}
+        status={snackBarStatus}
+      />
     </ScrollView>
   );
 };
