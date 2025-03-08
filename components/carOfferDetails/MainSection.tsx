@@ -34,13 +34,12 @@ export const MainSection = ({
 
   return (
     <SectionContainer>
-      {/* <View style={{ paddingTop: 16, gap: 16 }}> */}
       <View style={styles.container}>
         <View>
           <Text variant="headlineMedium" style={{ marginBottom: 8 }}>
             {title}
           </Text>
-          {location && (
+          {!!location && (
             <View
               style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
@@ -52,6 +51,7 @@ export const MainSection = ({
         <Tooltip title="أضف إلى قائمة المفضلة">
           <IconButton
             icon={{ source: heartIcon, direction: "rtl" }}
+            size={48}
             onPress={(e) => favouriteCar()}
           />
         </Tooltip>

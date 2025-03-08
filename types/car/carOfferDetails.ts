@@ -22,4 +22,5 @@ export type CarOfferDetailsRespnseData = {
     shippable_to: Array<ShippableToCityData>;
     images:  Array<MediaData>;
     transmission: TransmissionKey | null;
+    phone_number: string;
 };

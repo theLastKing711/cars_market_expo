@@ -15,6 +15,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { FAB, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import call from "react-native-phone-call";
 
 const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
@@ -32,8 +33,6 @@ const CarOfferDetails = () => {
       paddingBottom: 100,
     },
   });
-
-  console.log("is favourite", data?.data.is_favourite);
 
   const shippable_to_cites = data?.data.shippable_to || [];
 
@@ -68,15 +67,21 @@ const CarOfferDetails = () => {
     },
   ];
 
-  const title = `${data?.data.name_ar}${
-    data?.data.is_new_car ? " جديدة" : "مستعملة"
-  }`;
-
   const is_shippable = shippable_to_cites.length > 0;
 
   if (isLoading) {
     return;
   }
+
+  const title = `${data?.data.name_ar}${
+    data?.data.is_new_car ? " جديدة" : " مستعملة"
+  }`;
+
+  const phoneCallArgs = {
+    number: data?.data.phone_number, // String value with the number to call
+    prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+    skipCanOpen: false, // Skip the canOpenURL check
+  };
 
   return (
     <View style={{ backgroundColor: theme.colors.surface }}>
@@ -116,7 +121,7 @@ const CarOfferDetails = () => {
       >
         <FAB
           label="اتصل بالبائع"
-          onPress={() => {}}
+          onPress={() => call(phoneCallArgs).catch(console.error)}
           icon="phone"
           style={{ flex: 1 }}
         />
