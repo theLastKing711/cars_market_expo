@@ -7,14 +7,11 @@ import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
 import { router, useNavigation } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { Button, Searchbar, useTheme } from "react-native-paper";
+import { Searchbar, Surface, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 
 const searchMyCars = () => {
-  const navigation = useNavigation();
-
   const {
     data: paginatedSearchMyCarsData,
     fetchNextPage,
@@ -43,12 +40,6 @@ const searchMyCars = () => {
   const SearchMyCarsData =
     paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];
 
-  React.useEffect(() => {
-    navigation.setOptions({
-      title: paginatedSearchMyCarsData?.pages[0].total.toString() + " نتائج",
-    });
-  }, [navigation, paginatedSearchMyCarsData?.pages[0].total.toString()]);
-
   const navigateToDetailsPage = (id: number) => {
     router.push({
       pathname: "/car/update/[id]",
@@ -58,13 +49,29 @@ const searchMyCars = () => {
     });
   };
 
+  const totalText = paginatedSearchMyCarsData?.pages[0].total.toString()
+    ? paginatedSearchMyCarsData?.pages[0].total.toString() + " نتائج بحث"
+    : "نتائج بحث";
+
   return (
     <SafeAreaView style={styles.container}>
-      <Searchbar
-        placeholder="ابحث عن سيارة"
-        value={search}
-        onChangeText={setSearch}
-      ></Searchbar>
+      <View style={{ gap: 16 }}>
+        <Surface
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 16,
+          }}
+        >
+          <Text>{totalText}</Text>
+        </Surface>
+        <Searchbar
+          placeholder="ابحث عن سيارة"
+          value={search}
+          onChangeText={setSearch}
+        ></Searchbar>
+      </View>
       <CarSearchResultCardList
         items={SearchMyCarsData}
         renderItem={({ item }) => (
