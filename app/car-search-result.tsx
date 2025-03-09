@@ -40,8 +40,6 @@ const CarSearchResult = () => {
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    // Use `setOptions` to update the button that we previously specified
-    // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       title:
         paginatedCarSearchSuggestionData?.pages[0].total.toString() + " نتائج",

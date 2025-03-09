@@ -1,9 +1,10 @@
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import DeleteButton from "@/components/ui/DeleteButton";
+import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 import SoldButton from "@/components/ui/SoldButton";
 import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -12,6 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 
 const searchMyCars = () => {
+  const navigation = useNavigation();
+
   const {
     data: paginatedSearchMyCarsData,
     fetchNextPage,
@@ -21,6 +24,8 @@ const searchMyCars = () => {
     search,
     setSearch,
   } = useGetSearchMyCars();
+
+  const [isLoadingVisible, setIsLoadingVisible] = useState(false);
 
   const theme = useTheme();
 
@@ -37,6 +42,12 @@ const searchMyCars = () => {
 
   const SearchMyCarsData =
     paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      title: paginatedSearchMyCarsData?.pages[0].total.toString() + " نتائج",
+    });
+  }, [navigation, paginatedSearchMyCarsData?.pages[0].total.toString()]);
 
   const navigateToDetailsPage = (id: number) => {
     router.push({
@@ -68,8 +79,16 @@ const searchMyCars = () => {
                   gap: 16,
                 }}
               >
-                <DeleteButton id={item.id} />
-                <SoldButton id={item.id} />
+                <DeleteButton
+                  id={item.id}
+                  onPress={() => setIsLoadingVisible(true)}
+                  onSuccess={() => setIsLoadingVisible(false)}
+                />
+                <SoldButton
+                  id={item.id}
+                  onPress={() => setIsLoadingVisible(true)}
+                  onSuccess={() => setIsLoadingVisible(false)}
+                />
               </View>
             }
           />
@@ -80,6 +99,7 @@ const searchMyCars = () => {
         isLoading={isLoading}
         stickyHeaderComponent={SearchBar}
       />
+      <FullScreenLoading visible={isLoadingVisible} />
     </SafeAreaView>
   );
 };

@@ -6,10 +6,11 @@ import { useDialog } from "@/hooks/ui/useDialog";
 
 export type DeleteButtonProps = {
   onSuccess?: () => void;
+  onPress?: () => void;
   id: number;
 };
 
-const DeleteButton = ({ id, onSuccess }: DeleteButtonProps) => {
+const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
   const { isOpen, closeDialog, openDialog } = useDialog();
 
   const { DeleteCarOffer } = useDeleteCarOffer(id, () => {
@@ -33,7 +34,10 @@ const DeleteButton = ({ id, onSuccess }: DeleteButtonProps) => {
         message="سيتم حذف السيارة من قائمة بحث المستخدمين, هل أنت متأكد أنك تريد حذف السيارة؟"
         isOpen={isOpen}
         onClose={closeDialog}
-        onConfirm={DeleteCarOffer}
+        onConfirm={() => {
+          onPress?.();
+          DeleteCarOffer();
+        }}
       />
     </>
   );

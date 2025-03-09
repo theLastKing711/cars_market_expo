@@ -1,17 +1,16 @@
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
-import { useFavouriteCar } from "@/hooks/api/car/mutations/useFavouriteCar";
-import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
 import { useGetSearchMyFavouriteCars } from "@/hooks/api/car/Queries/useGetSearchMyFavouriteCars";
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { router, useNavigation } from "expo-router";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { Searchbar, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 
 const SearchMyFavouriteCars = () => {
+  const navigation = useNavigation();
+
   const {
     data: paginatedSearchMyCarsData,
     fetchNextPage,
@@ -31,12 +30,18 @@ const SearchMyFavouriteCars = () => {
     },
   });
 
+  const SearchMyCarsData =
+    paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];
+
   const searchResultTotal = paginatedSearchMyCarsData?.pages.length
     ? paginatedSearchMyCarsData?.pages[0].total
     : "0";
 
-  const SearchMyCarsData =
-    paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];
+  React.useEffect(() => {
+    navigation.setOptions({
+      title: paginatedSearchMyCarsData?.pages[0].total.toString() + " نتائج",
+    });
+  }, [navigation, paginatedSearchMyCarsData?.pages[0].total.toString()]);
 
   const navigateToDetailsPage = (id: number) => {
     router.push({

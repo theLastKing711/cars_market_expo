@@ -186,7 +186,7 @@ const UpdateCarOffer = () => {
       </View>
     </Button>
   ) : (
-    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
+    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
   );
 
   const pickImage = async () => {

@@ -6,9 +6,10 @@ import { useSellCarOffer } from "@/hooks/api/car/mutations/useSellCarOffer";
 export type SoldButtonProps = {
   onSuccess?: () => void;
   id: number;
+  onPress?: () => void;
 };
 
-const SoldButton = ({ id, onSuccess }: SoldButtonProps) => {
+const SoldButton = ({ id, onSuccess, onPress }: SoldButtonProps) => {
   const { sellCarOffer } = useSellCarOffer(id, () => {
     closeDialog();
     onSuccess?.();
@@ -32,7 +33,10 @@ const SoldButton = ({ id, onSuccess }: SoldButtonProps) => {
         message="سيتم حذف السيارة من قائمة بحث المستخدمين, هل أنت متأكد أنك تريد بيع السيارة؟"
         isOpen={isOpen}
         onClose={closeDialog}
-        onConfirm={sellCarOffer}
+        onConfirm={() => {
+          onPress?.();
+          sellCarOffer();
+        }}
       />
     </>
   );

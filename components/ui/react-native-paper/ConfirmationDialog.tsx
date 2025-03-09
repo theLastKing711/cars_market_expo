@@ -6,7 +6,6 @@ export type ConfirmationDialogProps = {
   isOpen: boolean;
   message: string;
   onClose: () => void;
-
   onConfirm: () => void;
 };
 

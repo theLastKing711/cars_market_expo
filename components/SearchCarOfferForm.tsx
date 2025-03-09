@@ -4,13 +4,12 @@ import CustomPaperTextInputRangeSection from "@/components/ui/react-native-paper
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
 import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
-import { SYRIANCITYCHIPLIST, SYRIANCITYlIST } from "@/types/enums/SyrianCity";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Portal, TextInput, useTheme } from "react-native-paper";
+import { TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   maximum_price_to,
