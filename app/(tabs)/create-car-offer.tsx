@@ -15,8 +15,7 @@ import {
   Button,
   Dialog,
   HelperText,
-  Portal,
-  Snackbar,
+  Surface,
   Text,
   TextInput,
   useTheme,
@@ -33,6 +32,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDialog } from "@/hooks/ui/useDialog";
 import { useSnackBar } from "@/hooks/ui/useSnackBar";
 import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
+import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUpload";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -41,11 +41,13 @@ const styles = StyleSheet.create({
 });
 
 const CreateCarOfferAuthenticated = () => {
+  const { data: maxCarUploadData, isLoading } = useGetmaxCarUpload();
+
   const [images, setImages] = useState<UploadFileResponseData[]>([]);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
+  const { openDialog, closeDialog, dialogText, isDialogOpen } = useDialog();
 
   const theme = useTheme();
 
@@ -108,7 +110,7 @@ const CreateCarOfferAuthenticated = () => {
 
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
     if (images.length === 0) {
-      setIsErrorDialogVisible(true);
+      openDialog("الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض");
       return;
     }
 
@@ -125,6 +127,11 @@ const CreateCarOfferAuthenticated = () => {
   };
 
   const pickImage = async () => {
+    if (maxCarUploadData?.data.max_number_of_car_upload === 0) {
+      openDialog("عدد السيارات المسموح تحميلها استنفذ, يرجى شحن الحساب.");
+      return;
+    }
+
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images", "videos"],
@@ -198,12 +205,29 @@ const CreateCarOfferAuthenticated = () => {
     <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
   );
 
-  // useEffect(() => {
-  //   setFocus("name_ar");
-  // }, [setFocus]);
+  useEffect(() => {
+    setFocus("name_ar");
+  }, [setFocus]);
+
+  if (isLoading) {
+    return;
+  }
+
+  const remaining_car_uploads_count = `عدد السيارات المتبقية المسموج تحميلها ${maxCarUploadData?.data.max_number_of_car_upload}`;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
+      <Surface
+        style={{
+          padding: 16,
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <Text>{remaining_car_uploads_count}</Text>
+      </Surface>
       <ScrollView>
         <ExpoImagesGrid
           isUploadingImages={isUploadingImage}
@@ -416,12 +440,12 @@ const CreateCarOfferAuthenticated = () => {
           {submitText}
         </View>
       </ScrollView>
-      <Dialog visible={isErrorDialogVisible}>
+      <Dialog visible={isDialogOpen}>
         <Dialog.Content>
-          <Text>الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض</Text>
+          <Text>{dialogText}</Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => setIsErrorDialogVisible(false)}>موافق</Button>
+          <Button onPress={closeDialog}>موافق</Button>
         </Dialog.Actions>
       </Dialog>
       <CustomSnackBar

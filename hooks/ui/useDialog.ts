@@ -1,24 +1,31 @@
 import { useState } from "react";
+import { measure } from "react-native-reanimated";
 
 export const useDialog = () => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [dialogText, setDialogText] = useState('');
     
 
     const closeDialog = () => {
-        setIsOpen(false);
+        setIsDialogOpen(false);
     }
 
 
-    const openDialog = () => {
-        setIsOpen(true);
+    const openDialog = (message?: string) => {
+        setIsDialogOpen(true);
+        if(message)
+        {
+            setDialogText(message);
+        }
     }
 
 
 
     return {
-        isOpen,
+        isDialogOpen,
         closeDialog,
-        openDialog
+        openDialog,
+        dialogText,
     }
 }

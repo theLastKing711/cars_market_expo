@@ -21,4 +21,5 @@ export type getUpdateCarOffersRespnseData = {
     shippable_to: Array<ShippableToCityData>;
     images:  Array<DeletableMediaData>;
     transmission: TransmissionKey | null;
+    max_number_of_car_upload: number
 };
