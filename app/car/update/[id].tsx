@@ -341,7 +341,7 @@ const UpdateCarOffer = () => {
                     {...props}
                     label="سعر السيارة بالدولار"
                     keyboardType="numeric"
-                    placeholder="مقال: 4000,10000."
+                    placeholder="مثال: 4000,10000."
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value?.toString()}
