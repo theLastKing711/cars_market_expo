@@ -2,7 +2,7 @@
 
 
 export type RegisterRequestData = {
-    phone_nubmer: string;
+    phone_number: string;
 };
 
 export type RegisterResponseData = {

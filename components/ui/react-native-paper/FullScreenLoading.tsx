@@ -1,12 +1,14 @@
 import React from "react";
 import { View } from "react-native";
-import { ActivityIndicator, Portal } from "react-native-paper";
+import { ActivityIndicator, Portal, useTheme } from "react-native-paper";
 
 export type FullScreenLoadingProps = {
   visible: boolean;
 };
 
 const FullScreenLoading = ({ visible }: FullScreenLoadingProps) => {
+  const theme = useTheme();
+
   return (
     <>
       {visible && (
@@ -17,6 +19,7 @@ const FullScreenLoading = ({ visible }: FullScreenLoadingProps) => {
               justifyContent: "center",
               alignItems: "center",
               zIndex: 10000,
+              backgroundColor: theme.colors.surface,
             }}
           >
             <ActivityIndicator size={48} />

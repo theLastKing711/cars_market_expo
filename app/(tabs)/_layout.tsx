@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
-
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
@@ -28,12 +27,11 @@ export default function TabLayout() {
         }),
       }}
     >
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
-            /* @tutinfo The <CODE>focused</CODE> param allows us to change a tab's icon and label behavior when it is active and inactive.*/
             <Ionicons
               name={focused ? "home-sharp" : "home-outline"}
               color={color}
@@ -41,27 +39,40 @@ export default function TabLayout() {
             />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
-        name="عرض جديد"
+        name="create-car-offer"
         options={{
-          title: "عرض جديد",
+          title: "إنشاء عرض",
           tabBarIcon: ({ color, focused }) => (
-            /* @tutinfo The <CODE>focused</CODE> param allows us to change a tab's icon and label behavior when it is active and inactive.*/
-            <Ionicons
-              name={focused ? "home-sharp" : "home-outline"}
-              color={color}
-              size={24}
-            />
+            <Ionicons name="add" color={color} size={24} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="search-my-favourite-cars"
         options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          title: "المفضلة",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="heart" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search-my-cars"
+        options={{
+          title: "بحث",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="search" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "الرئيسية",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="home" color={color} size={24} />
           ),
         }}
       />

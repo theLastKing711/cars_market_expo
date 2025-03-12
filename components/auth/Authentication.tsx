@@ -1,15 +1,16 @@
+import Register from "@/app/register";
 import useAuthStore from "@/state/useAuthStore";
 import React from "react";
 
 export type AuthenticationProps = {
   successPage?: React.ReactNode;
-  failurePage?: React.ReactNode;
+  // failurePage?: React.ReactNode;
 };
 
-const Authentication = ({ successPage, failurePage }: AuthenticationProps) => {
+const Authentication = ({ successPage }: AuthenticationProps) => {
   const {
     getToken,
-    params: { phone_number, token },
+    params: { token },
     saveToken,
   } = useAuthStore();
 
@@ -17,7 +18,7 @@ const Authentication = ({ successPage, failurePage }: AuthenticationProps) => {
     return successPage;
   }
 
-  return failurePage;
+  return <Register />;
 };
 
 export default Authentication;

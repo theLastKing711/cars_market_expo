@@ -1,10 +1,15 @@
+import { getTokenAsync } from "@/libs/axios/secureStorage";
+import useAuthStore from "@/state/useAuthStore";
 import useCarSearchStore from "@/state/useCarSearchStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import { useEffect } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Button, MD3DarkTheme, PaperProvider } from "react-native-paper";
+import React from "react";
+import { useInitializeAccessToken } from "@/state/useInitializeAccessToken";
 
 export const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },
@@ -27,6 +32,10 @@ export default function RootLayout() {
 
   const { resetAllFilters } = useCarSearchStore();
 
+  const { saveToken } = useAuthStore();
+
+  useInitializeAccessToken();
+
   return (
     <PaperProvider>
       <GestureHandlerRootView style={styles.container}>
@@ -47,6 +56,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="car-search-filter"
               options={{
+                title: "test",
                 headerRight: (prosp) => (
                   <View
                     style={{
@@ -81,7 +91,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen name="+not-found" />
-            <Stack.Screen name="index" />
+            <Stack.Screen name="home" />
           </Stack>
         </QueryClientProvider>
       </GestureHandlerRootView>

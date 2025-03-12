@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { BASE_URI } from "@/constants/api";
-import {  getTokenAsync } from "./secureStorage";
 import { router } from "expo-router";
+import { getTokenAsync } from "./secureStorage";
 
 
 export const apiClient = axios.create({
@@ -45,6 +45,6 @@ apiClient
         (response) => response,
         (error) => {
             console.log("error", (error as AxiosError).toJSON())
-            router.navigate("/home")
+            router.navigate("/(tabs)");
         }
     );

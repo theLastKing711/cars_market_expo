@@ -7,7 +7,7 @@ import {
 } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -15,6 +15,7 @@ import {
   Button,
   Dialog,
   HelperText,
+  Surface,
   Text,
   TextInput,
   useTheme,
@@ -22,14 +23,17 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useUploadCarImages } from "@/hooks/api/car/mutations/useUploadCarImages";
 import { getFormDataFromImages } from "@/libs/axios/helpers";
-// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useAuthStore from "@/state/useAuthStore";
+import { useDialog } from "@/hooks/ui/useDialog";
+import { useSnackBar } from "@/hooks/ui/useSnackBar";
+import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
+import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUpload";
+import FullScreenLoading from "../ui/react-native-paper/FullScreenLoading";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -38,11 +42,13 @@ const styles = StyleSheet.create({
 });
 
 const CreateCarOfferAuthenticated = () => {
+  const { data: maxCarUploadData, isLoading } = useGetmaxCarUpload();
+
   const [images, setImages] = useState<UploadFileResponseData[]>([]);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-  const [isErrorDialogVisible, setIsErrorDialogVisible] = useState(false);
+  const { openDialog, closeDialog, dialogText, isDialogOpen } = useDialog();
 
   const theme = useTheme();
 
@@ -50,26 +56,35 @@ const CreateCarOfferAuthenticated = () => {
 
   const { uploadCarImages } = useUploadCarImages();
 
-  const { createCarOffer } = useCreateCarOffer();
+  const { createCarOffer, isLoading: isCreatingOffer } = useCreateCarOffer();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
+    setFocus,
   } = useForm<CreateCarOfferForm>({
     defaultValues: {
-      //   car_price: null,
+      name_ar: "",
+      car_price: "",
+      miles_travelled_in_km: "",
       // fuel_type: "",
       is_faragha_jahzeh: "",
       is_kassah: "",
       is_khalyeh: "",
       is_new_car: "",
-      //   name_ar: null,
-      //   name_en: null,
-      //   miles_travelled_in_km: null,
-      // transmission_type: "",
     },
   });
+
+  const {
+    isSnackBarOpen,
+    closeSnackBar,
+    openSnackBarSuccess,
+    openSnackBarError,
+    snackBarText,
+    snackBarStatus,
+  } = useSnackBar();
 
   const openImageViewr = () => {
     setIsImageViewerOpen(true);
@@ -95,20 +110,34 @@ const CreateCarOfferAuthenticated = () => {
   };
 
   const onSubmit: SubmitHandler<CreateCarOfferForm> = (data) => {
+    // if (maxCarUploadData?.data.max_number_of_car_upload === 0) {
+    //   openDialog("عدد السيارات المسموح تحميلها استنفذ, يرجى شحن الحساب.");
+    //   return;
+    // }
+
     if (images.length === 0) {
-      setIsErrorDialogVisible(true);
+      openDialog("الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض");
       return;
     }
 
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
     createCarOffer(createCarOfferRequestData, {
-      onSuccess: () => alert("success"),
+      onSuccess: () => {
+        openSnackBarSuccess("تم إنشاء العرض بنجاح");
+        reset();
+        setImages([]);
+      },
       onError: () => alert("error"),
     });
   };
 
   const pickImage = async () => {
+    // if (maxCarUploadData?.data.max_number_of_car_upload === 0) {
+    //   openDialog("عدد السيارات المسموح تحميلها استنفذ, يرجى شحن الحساب.");
+    //   return;
+    // }
+
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images", "videos"],
@@ -164,19 +193,47 @@ const CreateCarOfferAuthenticated = () => {
   const imagesUris = images.map((image) => image.url);
 
   const userHasUploadedImages = images.length > 0;
-  const submitText = !isUploadingImage ? (
-    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
-  ) : (
+
+  const isLoadingVisible = isUploadingImage || isCreatingOffer;
+
+  const loadingButtonText = isUploadingImage
+    ? "جاري تحميل الصور"
+    : "جاري إنشاء العرض";
+
+  const submitText = isLoadingVisible ? (
     <Button onPress={handleSubmit(onSubmit)}>
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
-        <Text>جاري تحميل الصور</Text>
+        <Text>{loadingButtonText}</Text>
       </View>
     </Button>
+  ) : (
+    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
   );
+
+  useEffect(() => {
+    setFocus("name_ar");
+  }, [setFocus]);
+
+  if (isLoading) {
+    return <FullScreenLoading visible />;
+  }
+
+  const remaining_car_uploads_count = `عدد السيارات المتبقية المسموح تحميلها ${maxCarUploadData?.data.max_number_of_car_upload}`;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
+      <Surface
+        style={{
+          padding: 16,
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <Text>{remaining_car_uploads_count}</Text>
+      </Surface>
       <ScrollView>
         <ExpoImagesGrid
           isUploadingImages={isUploadingImage}
@@ -211,19 +268,17 @@ const CreateCarOfferAuthenticated = () => {
                 message: "يرجى إدخال قيمة في الحقل",
               },
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ...props } }) => (
               <View style={styles.textContainer}>
                 <TextInput
-                  placeholder="اسم السيارة. مثال: هيونداي سانتافي 2011,كيا ريو."
+                  {...props}
+                  label="اسم السيارة بالعربي"
+                  placeholder="مثال: هيونداي سانتافي 2011,كيا ريو."
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                 />
-                <HelperText
-                  type="error"
-                  visible={!!errors.name_ar}
-                  style={{ paddingBottom: 0 }}
-                >
+                <HelperText type="error" visible={!!errors.name_ar}>
                   {errors.name_ar?.message}
                 </HelperText>
               </View>
@@ -242,15 +297,28 @@ const CreateCarOfferAuthenticated = () => {
                 message: "يرجى إدخال قيمة موجبة",
               },
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({ field: { onChange, onBlur, value, ...props } }) => (
               <View style={styles.textContainer}>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="سعر السيارة"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value?.toString()}
-                />
+                <View>
+                  <TextInput
+                    {...props}
+                    label="سعر السيارة بالدولار"
+                    keyboardType="numeric"
+                    placeholder="مثال: 4000,10000."
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value?.toString()}
+                  />
+                  <Text
+                    style={{
+                      position: "absolute",
+                      right: 8,
+                      bottom: 8,
+                    }}
+                  >
+                    $
+                  </Text>
+                </View>
                 <HelperText type="error" visible={!!errors.car_price}>
                   {errors.car_price?.message}
                 </HelperText>
@@ -262,13 +330,25 @@ const CreateCarOfferAuthenticated = () => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <View style={styles.textContainer}>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="كم كيلو متر قاطعة السيارة (العداد)"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
+                <View>
+                  <TextInput
+                    label="عدد الكيلومترات المقطوعة"
+                    keyboardType="numeric"
+                    placeholder="مثال: 10000, 300000."
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  <Text
+                    style={{
+                      position: "absolute",
+                      right: 8,
+                      bottom: 8,
+                    }}
+                  >
+                    كم
+                  </Text>
+                </View>
                 <HelperText
                   type="error"
                   visible={!!errors.miles_travelled_in_km}
@@ -366,14 +446,20 @@ const CreateCarOfferAuthenticated = () => {
           {submitText}
         </View>
       </ScrollView>
-      <Dialog visible={isErrorDialogVisible}>
+      <Dialog visible={isDialogOpen}>
         <Dialog.Content>
-          <Text>الرجاء تحميل صورة واحدة على اﻷقل قبل إنشاء العرض</Text>
+          <Text>{dialogText}</Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => setIsErrorDialogVisible(false)}>موافق</Button>
+          <Button onPress={closeDialog}>موافق</Button>
         </Dialog.Actions>
       </Dialog>
+      <CustomSnackBar
+        visible={isSnackBarOpen}
+        onDismiss={closeSnackBar}
+        text={snackBarText}
+        status={snackBarStatus}
+      />
     </SafeAreaView>
   );
 };
