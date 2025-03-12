@@ -39,8 +39,8 @@ import SoldButton from "@/components/ui/SoldButton";
 import { useDialog } from "@/hooks/ui/useDialog";
 import { useSnackBar } from "@/hooks/ui/useSnackBar";
 import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
+import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 const styles = StyleSheet.create({
-  textContainer: {},
   textInput: {
     marginBottom: 16,
   },
@@ -234,17 +234,6 @@ const UpdateCarOffer = () => {
         onError: (data) => alert("faileds"),
         onSettled: (data) => setIsUploadingImage(false),
       });
-
-      // uploadCarImages(imagesFormData, {
-      //   onSuccess: (data) => {
-      //     const newImages = [...data.data];
-      //     // openImageViewr();
-      //     // setImages(newImages);
-      //     setIsUploadingImage(false);
-      //   },
-      //   onError: (data) => alert("failed"),
-      //   onSettled: (data) => setIsUploadingImage(false),
-      // });
     }
   };
 
@@ -256,9 +245,9 @@ const UpdateCarOffer = () => {
     router.navigate("/search-my-cars");
   };
 
-  // useEffect(() => {
-  //   setFocus("name_ar");
-  // }, [setFocus]);
+  if (isLoading) {
+    return <FullScreenLoading visible />;
+  }
 
   return (
     <ScrollView>
@@ -300,7 +289,7 @@ const UpdateCarOffer = () => {
               },
             }}
             render={({ field: { onChange, onBlur, value, ...props } }) => (
-              <View style={styles.textContainer}>
+              <View>
                 <TextInput
                   {...props}
                   label="اسم السيارة بالعربي"
@@ -334,7 +323,7 @@ const UpdateCarOffer = () => {
               },
             }}
             render={({ field: { onChange, onBlur, value, ...props } }) => (
-              <View style={styles.textContainer}>
+              <View>
                 <View>
                   <TextInput
                     {...props}
@@ -366,7 +355,7 @@ const UpdateCarOffer = () => {
             name="miles_travelled_in_km"
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <View style={styles.textContainer}>
+              <View>
                 <View>
                   <TextInput
                     label="عدد الكيلومترات المقطوعة"

@@ -27,19 +27,15 @@ export default function TabLayout() {
         }),
       }}
     >
-      {/* <Tabs.Screen
-        name="index"
+      <Tabs.Screen
+        name="search-my-cars"
         options={{
-          title: "Home",
+          title: "سياراتي",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "home-sharp" : "home-outline"}
-              color={color}
-              size={24}
-            />
+            <Ionicons name="car" color={color} size={24} />
           ),
         }}
-      /> */}
+      />
       <Tabs.Screen
         name="create-car-offer"
         options={{
@@ -55,15 +51,6 @@ export default function TabLayout() {
           title: "المفضلة",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name="heart" color={color} size={24} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="search-my-cars"
-        options={{
-          title: "بحث",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="search" color={color} size={24} />
           ),
         }}
       />
