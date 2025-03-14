@@ -16,6 +16,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { FAB, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import call from "react-native-phone-call";
+import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 
 const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
@@ -82,6 +83,10 @@ const CarOfferDetails = () => {
     prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
     skipCanOpen: false, // Skip the canOpenURL check
   };
+
+  if (isLoading) {
+    return <FullScreenLoading visible />;
+  }
 
   return (
     <View style={{ backgroundColor: theme.colors.surface }}>

@@ -19,6 +19,7 @@ export function useCreateCarOffer() {
                         queryClient.invalidateQueries({queryKey: ['home']});
                         queryClient.invalidateQueries({queryKey: ['searchMyCars']});
                         queryClient.invalidateQueries({queryKey: ['searchMyFavouriteCars']});
+                        queryClient.invalidateQueries({queryKey: ['maxCarUpload']});
                     }
         }
     );

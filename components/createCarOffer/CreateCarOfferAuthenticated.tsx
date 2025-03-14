@@ -272,7 +272,7 @@ const CreateCarOfferAuthenticated = () => {
               <View style={styles.textContainer}>
                 <TextInput
                   {...props}
-                  label="اسم السيارة بالعربي"
+                  label="اسم السيارة "
                   placeholder="مثال: هيونداي سانتافي 2011,كيا ريو."
                   onBlur={onBlur}
                   onChangeText={onChange}

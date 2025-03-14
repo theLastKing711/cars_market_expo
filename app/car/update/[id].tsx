@@ -245,6 +245,10 @@ const UpdateCarOffer = () => {
     router.navigate("/search-my-cars");
   };
 
+  useEffect(() => {
+    setFocus("name_ar");
+  }, [setFocus, isLoading]);
+
   if (isLoading) {
     return <FullScreenLoading visible />;
   }
@@ -292,7 +296,7 @@ const UpdateCarOffer = () => {
               <View>
                 <TextInput
                   {...props}
-                  label="اسم السيارة بالعربي"
+                  label="اسم السيارة "
                   placeholder="مثال: هيونداي سانتافي 2011,كيا ريو."
                   onBlur={onBlur}
                   onChangeText={onChange}
