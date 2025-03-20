@@ -1,5 +1,6 @@
+import Index from "@/app/(tabs)";
 import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { TextInput } from "react-native-paper";
 
 export type SegmentedPhoneInputProps = {
@@ -31,6 +32,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
     >
       {numbers.map((item, index) => (
         <TextInput
+          autoFocus={index === 0}
           key={index}
           ref={(el: any) => (inputsRefs.current[index] = el)}
           value={numbers[index]}

@@ -23,7 +23,7 @@ apiClient
 
         if(! access_token)
         {
-            router.navigate('/home');//after if code continue to run so we must return
+            router.navigate('/');//after if code continue to run so we must return
             return;
         }
 

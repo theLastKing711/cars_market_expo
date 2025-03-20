@@ -8,6 +8,8 @@ export type AuthenticationProps = {
 };
 
 const Authentication = ({ successPage }: AuthenticationProps) => {
+  return <Register />;
+
   const {
     getToken,
     params: { token },
