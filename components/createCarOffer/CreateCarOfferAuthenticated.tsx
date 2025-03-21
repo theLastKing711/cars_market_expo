@@ -211,10 +211,6 @@ const CreateCarOfferAuthenticated = () => {
     <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
   );
 
-  useEffect(() => {
-    setFocus("name_ar");
-  }, [setFocus]);
-
   if (isLoading) {
     return <FullScreenLoading visible />;
   }

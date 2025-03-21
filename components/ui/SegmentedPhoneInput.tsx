@@ -1,4 +1,5 @@
 import Index from "@/app/(tabs)";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
 import { TextInput } from "react-native-paper";
@@ -14,11 +15,18 @@ const inputs = [...new Array<string>(9).fill("")];
 const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
   const [numbers, setNumbers] = useState(inputs);
 
+  const navigation = useNavigation();
+
   const inputsRefs = useRef<any[]>([]);
 
   useEffect(() => {
-    inputsRefs.current[0].focus();
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      inputsRefs.current[0]?.focus();
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View
@@ -32,7 +40,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
     >
       {numbers.map((item, index) => (
         <TextInput
-          autoFocus={index === 0}
+          // autoFocus={index === 0}
           key={index}
           ref={(el: any) => (inputsRefs.current[index] = el)}
           value={numbers[index]}
@@ -42,7 +50,6 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
           }}
           keyboardType="numeric"
           style={{
-            // width: 40,
             flex: 1,
           }}
           onKeyPress={({ nativeEvent }) => {

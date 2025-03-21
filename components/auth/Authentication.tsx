@@ -1,6 +1,6 @@
 import Register from "@/app/register";
 import useAuthStore from "@/state/useAuthStore";
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 export type AuthenticationProps = {
   successPage?: React.ReactNode;
@@ -8,6 +8,8 @@ export type AuthenticationProps = {
 };
 
 const Authentication = ({ successPage }: AuthenticationProps) => {
+  const [count, setCount] = useState(0);
+
   return <Register />;
 
   const {

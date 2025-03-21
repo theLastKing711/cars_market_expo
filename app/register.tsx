@@ -1,7 +1,8 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
 import useAuthStore from "@/state/useAuthStore";
-import React, { useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Keyboard, TextInput } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
