@@ -2,7 +2,13 @@
   "expo": {
     "extra": {
       "supportsRTL": true,
-      "forcesRTL": true
+      "forcesRTL": true,
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3c6d941e-448d-415d-bc71-c58fa0242bf4"
+      }
     },
     "name": "cars_market_expo",
     "slug": "cars_market_expo",
@@ -13,13 +19,20 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ExpoLocalization_supportsRTL": true,
+        "ExpoLocalization_forcesRTL": true,
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.lastking711.cars-market-expo"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lastking711.cars_market_expo"
     },
     "web": {
       "bundler": "metro",
@@ -38,7 +51,9 @@
         }
       ],
       "expo-localization",
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ],
     "experiments": {
       "typedRoutes": true
