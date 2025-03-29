@@ -1,6 +1,6 @@
 import Index from "@/app/(tabs)";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
 import { TextInput } from "react-native-paper";
 
@@ -40,7 +40,7 @@ const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
     >
       {numbers.map((item, index) => (
         <TextInput
-          // autoFocus={index === 0}
+          autoFocus={index === 0}
           key={index}
           ref={(el: any) => (inputsRefs.current[index] = el)}
           value={numbers[index]}

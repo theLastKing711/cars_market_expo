@@ -24,15 +24,13 @@
         "ExpoLocalization_supportsRTL": true,
         "ExpoLocalization_forcesRTL": true,
         "ITSAppUsesNonExemptEncryption": false
-      },
-      "bundleIdentifier": "com.lastking711.cars-market-expo"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.lastking711.cars_market_expo"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -51,12 +49,7 @@
         }
       ],
       "expo-localization",
-      "expo-secure-store",
-      "@react-native-firebase/app",
-      "@react-native-firebase/auth"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
+      "expo-secure-store"
+    ]
   }
 }
