@@ -8,12 +8,18 @@ export type SegmentedPhoneInputProps = {
   // number: string[];
   // phoneNumber: React.Dispatch<React.SetStateAction<string[]>>;
   onInputFinish: (numberState: string) => void;
+  length?: number;
 };
 
 const inputs = [...new Array<string>(9).fill("")];
 
-const SegmentedPhoneInput = ({ onInputFinish }: SegmentedPhoneInputProps) => {
-  const [numbers, setNumbers] = useState(inputs);
+const SegmentedPhoneInput = ({
+  onInputFinish,
+  length = 9,
+}: SegmentedPhoneInputProps) => {
+  const [numbers, setNumbers] = useState([
+    ...new Array<string>(length).fill(""),
+  ]);
 
   const navigation = useNavigation();
 

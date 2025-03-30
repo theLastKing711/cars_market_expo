@@ -1,27 +1,34 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
+import { useCreatePassword } from "@/hooks/api/auth/mutations/useCreatePassword";
 import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
+import { useVerifyPassword } from "@/hooks/api/auth/mutations/useVerifyPassword";
 import useAuthStore from "@/state/useAuthStore";
 import { useNavigation } from "@react-navigation/native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Keyboard, TextInput } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Register = () => {
+const VerifyPassword = () => {
   const theme = useTheme();
 
-  const { register } = useRegister();
+  const { phone_number } = useLocalSearchParams();
+
+  alert(phone_number);
+
+  const { verifyPassword: verifyPasswordApi } = useVerifyPassword();
 
   const { saveToken } = useAuthStore();
 
-  const registerUser = (phone_number: string) => {
-    register(
-      { phone_number },
+  const verifyPassword = (password: string) => {
+    verifyPasswordApi(
+      { password, phone_number: phone_number as string },
       {
         onSuccess: ({ data: { token } }) => {
-          // router.back();
-          // saveToken(token);
+          saveToken(token);
+          router.back();
+          // router.push({pathname: "/"})
         },
         onError: (data) => {
           console.log("message", data.message);
@@ -41,11 +48,11 @@ const Register = () => {
       onTouchStart={Keyboard.dismiss}
     >
       <Text variant="titleLarge" style={{ marginBottom: 16 }}>
-        رقم الموبايل
+        أنشأ كلمة مرور لحسابك)يرجى حفظها في مكان آمن)
       </Text>
-      <SegmentedPhoneInput onInputFinish={registerUser} />
+      <SegmentedPhoneInput onInputFinish={verifyPassword} length={4} />
     </SafeAreaView>
   );
 };
 
-export default Register;
+export default VerifyPassword;
