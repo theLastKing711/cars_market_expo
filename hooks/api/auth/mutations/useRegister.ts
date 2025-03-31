@@ -3,6 +3,7 @@ import { AUTH_URL } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { setTokenAsync } from "@/libs/axios/secureStorage";
 import { RegisterRequestData, RegisterResponseData } from "@/types/auth/register";
+import { TokenResponse } from "@/types/auth/token";
 import {  useMutation } from "@tanstack/react-query";
 import { AxiosError, HttpStatusCode } from "axios";
 import { router } from "expo-router";
@@ -25,43 +26,42 @@ export function useRegister() {
 }
   
 export async function RegisterApi(registerRequestData: RegisterRequestData) {
+
+    const phone_number = registerRequestData.phone_number;
     
     try {
         const RegisterUrl = `${AUTH_URL}/register`;
         
         const response = await apiClient
-                                .post<RegisterResponseData>
+                                .post<TokenResponse>
                                 (
                                     RegisterUrl,
                                     registerRequestData
                                 );
 
-        const phone_number = registerRequestData.phone_number;
+        // alert(response.status);
+        // if(response.status == HttpStatusCode.Ok)
+        // {
+        //     router.push({
+        //         pathname: "/create-password/[phone_number]",
+        //         params: {
+        //             phone_number,
+        //         },
+        //     });
+        // }
+    
 
-        if(response.status === HttpStatusCode.Conflict)
-        {
-            
-                router.push({
-                    pathname: "/verify-password/[phone_number]",
-                    params: {
-                        phone_number,
-                    },
-                });
-        } 
+        // if(response.status == HttpStatusCode.Conflict)
+        // {
 
-        if(response.status === HttpStatusCode.Ok)
-        {
-
-            alert("hello world");
             
-            router.push({
-                pathname: "/create-password/[phone_number]",
-                params: {
-                    phone_number,
-                },
-            });
-            
-        }
+        //     router.push({
+        //         pathname: "/verify-password/[phone_number]",
+        //         params: {
+        //             phone_number,
+        //         },
+        //     });
+        // }  
 
         return {
             data: response.data,
@@ -69,9 +69,9 @@ export async function RegisterApi(registerRequestData: RegisterRequestData) {
     }
     catch(err) {
 
-        alert("error");
+        const error = (err as AxiosError);
 
-        console.log('error', (err as AxiosError).request);
+        console.log('error', error.request);
         
         return Promise.reject(false);
     }

@@ -10,8 +10,6 @@ export type AuthenticationProps = {
 const Authentication = ({ successPage }: AuthenticationProps) => {
   const [count, setCount] = useState(0);
 
-  return <Register />;
-
   const {
     getToken,
     params: { token },

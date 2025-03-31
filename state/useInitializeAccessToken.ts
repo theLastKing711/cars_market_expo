@@ -4,16 +4,16 @@ import useAuthStore from "./useAuthStore";
 
 
 
-
  
  export const useInitializeAccessToken = () => {
 
-  const { saveToken } = useAuthStore();
+  const { saveToken, emptyToken } = useAuthStore();
   
     useEffect(() => {
         const retriveToken = async () => {
           const access_token = await getTokenAsync();
-    
+
+          // saveToken('');
           if (access_token) {
             saveToken(access_token);
           }

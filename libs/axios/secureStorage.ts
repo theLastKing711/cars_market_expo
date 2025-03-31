@@ -18,6 +18,11 @@ export const getTokenAsync = async () => {
     
 }
 
+export const emptyTokenAsync = async () => {
+
+    const x = await SecureStore.deleteItemAsync(TOKEN_KEY);
+    
+}
 
 
 // export const getToken = async () => {

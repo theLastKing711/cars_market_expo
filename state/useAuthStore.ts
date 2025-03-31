@@ -1,9 +1,8 @@
-import { getTokenAsync, setTokenAsync } from "@/libs/axios/secureStorage";
+import { emptyTokenAsync, getTokenAsync, setTokenAsync } from "@/libs/axios/secureStorage";
 import { create } from "zustand";
 
 
 const emptyState: UseCarSearchStoreParams = {
- 
     phone_number: null,
     token: null,
 }
@@ -18,6 +17,7 @@ export type useAuthStoreState = {
     params: UseCarSearchStoreParams;
     saveToken: (token: string) => Promise<void>;
     getToken: () => Promise<void>;
+    emptyToken: () => Promise<void>;
 }
 
 
@@ -43,6 +43,22 @@ const useAuthStore = create<useAuthStoreState>((set, state) => ({
                 params: {
                     ...state.params,
                     token
+                }
+            })
+            
+        })
+    },
+    emptyToken: async () => {
+
+        await emptyTokenAsync();
+
+        set(state => {
+
+            return ({
+                ...state,
+                params: {
+                    ...state.params,
+                    token: null
                 }
             })
             

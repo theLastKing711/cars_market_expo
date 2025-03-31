@@ -1,10 +1,10 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
 import useAuthStore from "@/state/useAuthStore";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { router } from "expo-router";
-import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { Keyboard, TextInput } from "react-native";
+import React from "react";
+import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -15,16 +15,29 @@ const Register = () => {
 
   const { saveToken } = useAuthStore();
 
+  const route = useRoute();
   const registerUser = (phone_number: string) => {
     register(
       { phone_number },
       {
-        onSuccess: ({ data: { token } }) => {
-          // router.back();
-          // saveToken(token);
+        onSuccess: async () => {
+          router.push({
+            pathname: "/create-password/[phone_number]",
+            params: {
+              phone_number,
+            },
+          });
         },
         onError: (data) => {
-          console.log("message", data.message);
+          router.push({
+            pathname: "/verify-password/[phone_number]",
+            params: {
+              phone_number,
+              parentPage: `/${route.name}`,
+              // go back doesn't back in verify-password.tsx,
+              // because we push to it on onError on register.tsx
+            },
+          });
         },
       }
     );

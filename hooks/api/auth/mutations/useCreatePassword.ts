@@ -49,7 +49,6 @@ export async function createPasswordApi(createPasswordRequestData: CreatePasswor
         }
     }
     catch(err) {
-        alert("error");
 
         console.log('error', (err as AxiosError).request);
         

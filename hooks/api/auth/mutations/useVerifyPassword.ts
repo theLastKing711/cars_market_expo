@@ -36,11 +36,11 @@ export async function VerifyPasswordApi(verifyPasswordRequestData: VerifyPasswor
                                     verifyPasswordRequestData
                                 );
 
-        if(response.status == HttpStatusCode.Ok)
-        {
-            await setTokenAsync(response.data.token);
-            router.back();
-        }
+        // if(response.status == HttpStatusCode.Ok)
+        // {
+        //     await setTokenAsync(response.data.token);
+        //     router.back();
+        // }
 
         return {
             data: response.data,
@@ -48,7 +48,7 @@ export async function VerifyPasswordApi(verifyPasswordRequestData: VerifyPasswor
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
+        console.log('error', (err as AxiosError).status);
         
         return Promise.reject(false);
     }

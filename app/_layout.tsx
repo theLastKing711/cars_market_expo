@@ -32,8 +32,6 @@ export default function RootLayout() {
 
   const { resetAllFilters } = useCarSearchStore();
 
-  const { saveToken } = useAuthStore();
-
   useInitializeAccessToken();
 
   return (

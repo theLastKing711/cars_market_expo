@@ -23,7 +23,7 @@ const CreatePassword = () => {
       { password, phone_number: phone_number as string },
       {
         onSuccess: ({ data: { token } }) => {
-          saveToken(token);
+          // saveToken(token);
           router.back();
           // router.push({pathname: "/"})
         },
@@ -45,7 +45,7 @@ const CreatePassword = () => {
       onTouchStart={Keyboard.dismiss}
     >
       <Text variant="titleLarge" style={{ marginBottom: 16 }}>
-        أنشأ كلمة مرور لحسابك)يرجى حفظها في مكان آمن)
+        أنشأ كلمة مرور لحسابك
       </Text>
       <SegmentedPhoneInput onInputFinish={createPassword} length={4} />
     </SafeAreaView>

@@ -1,21 +1,19 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
-import { useCreatePassword } from "@/hooks/api/auth/mutations/useCreatePassword";
-import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
 import { useVerifyPassword } from "@/hooks/api/auth/mutations/useVerifyPassword";
 import useAuthStore from "@/state/useAuthStore";
-import { useNavigation } from "@react-navigation/native";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { Keyboard, TextInput } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import React from "react";
+import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const VerifyPassword = () => {
   const theme = useTheme();
 
-  const { phone_number } = useLocalSearchParams();
+  const route = useRoute();
 
-  alert(phone_number);
+  const { phone_number, parentPage } = useLocalSearchParams();
 
   const { verifyPassword: verifyPasswordApi } = useVerifyPassword();
 
@@ -25,13 +23,16 @@ const VerifyPassword = () => {
     verifyPasswordApi(
       { password, phone_number: phone_number as string },
       {
-        onSuccess: ({ data: { token } }) => {
-          saveToken(token);
-          router.back();
-          // router.push({pathname: "/"})
+        onSuccess: async ({ data: { token } }) => {
+          await saveToken(token);
+          // router.dismissAll();
+          router.push(parentPage as string);
+          // saveToken(token);
+          // navigation.goBack();
+          // router.back();
         },
         onError: (data) => {
-          console.log("message", data.message);
+          console.log("message", data);
         },
       }
     );
@@ -48,7 +49,7 @@ const VerifyPassword = () => {
       onTouchStart={Keyboard.dismiss}
     >
       <Text variant="titleLarge" style={{ marginBottom: 16 }}>
-        أنشأ كلمة مرور لحسابك)يرجى حفظها في مكان آمن)
+        كلمة المرور للرقم
       </Text>
       <SegmentedPhoneInput onInputFinish={verifyPassword} length={4} />
     </SafeAreaView>

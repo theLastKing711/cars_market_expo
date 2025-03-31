@@ -1,7 +1,6 @@
-import Index from "@/app/(tabs)";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Keyboard, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View } from "react-native";
 import { TextInput } from "react-native-paper";
 
 export type SegmentedPhoneInputProps = {
