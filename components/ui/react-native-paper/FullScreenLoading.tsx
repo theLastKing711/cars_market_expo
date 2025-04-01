@@ -19,7 +19,7 @@ const FullScreenLoading = ({ visible }: FullScreenLoadingProps) => {
               justifyContent: "center",
               alignItems: "center",
               zIndex: 10000,
-              backgroundColor: theme.colors.surface,
+              // backgroundColor: theme.colors.surface,
             }}
           >
             <ActivityIndicator size={48} />
