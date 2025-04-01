@@ -36,7 +36,6 @@ import { router } from "expo-router";
 import { useUpdateCarImages } from "@/hooks/api/car/mutations/useUpdateCarImages";
 import DeleteButton from "@/components/ui/DeleteButton";
 import SoldButton from "@/components/ui/SoldButton";
-import { useDialog } from "@/hooks/ui/useDialog";
 import { useSnackBar } from "@/hooks/ui/useSnackBar";
 import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
 import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";

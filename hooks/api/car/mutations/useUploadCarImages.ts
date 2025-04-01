@@ -36,8 +36,6 @@ export async function uploadCarImagesApi(carImagesFormData: FormData) {
                                     }
                                 );
                                 
-        console.log("success", response.data);
-
         return {
             data: response.data,
         }

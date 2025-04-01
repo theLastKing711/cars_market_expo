@@ -4,13 +4,15 @@ import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
 import useAuthStore from "@/state/useAuthStore";
 import { useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Keyboard, TextInput } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreatePassword = () => {
   const theme = useTheme();
+
+  const [numbers, setNumbers] = useState([...new Array<string>(4).fill("")]);
 
   const { phone_number } = useLocalSearchParams();
 
@@ -23,9 +25,8 @@ const CreatePassword = () => {
       { password, phone_number: phone_number as string },
       {
         onSuccess: ({ data: { token } }) => {
-          // saveToken(token);
           router.back();
-          // router.push({pathname: "/"})
+          saveToken(token);
         },
         onError: (data) => {
           console.log("message", data.message);
@@ -47,7 +48,12 @@ const CreatePassword = () => {
       <Text variant="titleLarge" style={{ marginBottom: 16 }}>
         أنشأ كلمة مرور لحسابك
       </Text>
-      <SegmentedPhoneInput onInputFinish={createPassword} length={4} />
+      <SegmentedPhoneInput
+        onInputFinish={createPassword}
+        length={4}
+        numbers={numbers}
+        setNumbers={setNumbers}
+      />
     </SafeAreaView>
   );
 };

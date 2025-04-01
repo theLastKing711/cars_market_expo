@@ -30,6 +30,7 @@ const SearchMyCarsAuthenticated = () => {
     container: {
       backgroundColor: theme.colors.surface,
       flex: 1,
+      paddingBottom: 71,
     },
   });
 

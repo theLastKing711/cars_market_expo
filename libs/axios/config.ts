@@ -40,13 +40,13 @@ export const apiClient = axios.create({
 //     }
 // );
 
-apiClient
-    .interceptors
-    .response
-    .use(
-        (response) => response,
-        (error) => {
-            console.log("error", (error as AxiosError).toJSON())
-            router.navigate("/(tabs)");
-        }
-    );
+// apiClient
+//     .interceptors
+//     .response
+//     .use(
+//         (response) => response,
+//         (error) => {
+//             console.log("error", (error as AxiosError).toJSON())
+//             router.navigate("/(tabs)");
+//         }
+//     );
