@@ -141,7 +141,6 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             style={{
               flex: 1,
               paddingHorizontal: 16,
-              // paddingTop: 32,
               paddingBottom: 100,
             }}
           >
