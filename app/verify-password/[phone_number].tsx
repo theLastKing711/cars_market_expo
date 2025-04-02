@@ -1,10 +1,9 @@
-import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useVerifyPassword } from "@/hooks/api/auth/mutations/useVerifyPassword";
-import { useSnackBar } from "@/hooks/ui/useSnackBar";
 import useAuthStore from "@/state/useAuthStore";
+import useSnackBarStore from "@/state/useSnackBarStore";
 import { useRoute } from "@react-navigation/native";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
@@ -21,14 +20,7 @@ const VerifyPassword = () => {
 
   const { phone_number, parentPage } = useLocalSearchParams();
 
-  const {
-    isSnackBarOpen,
-    closeSnackBar,
-    openSnackBarSuccess,
-    openSnackBarError,
-    snackBarText,
-    snackBarStatus,
-  } = useSnackBar();
+  const { openSnackBarError } = useSnackBarStore();
 
   const { verifyPassword: verifyPasswordApi } = useVerifyPassword();
 
@@ -77,13 +69,6 @@ const VerifyPassword = () => {
         length={4}
         ref={firstInputRef}
         isReset={isFirstInputFocused}
-      />
-      <CustomSnackBar
-        visible={isSnackBarOpen}
-        onDismiss={closeSnackBar}
-        text={snackBarText}
-        status={snackBarStatus}
-        position="center"
       />
     </SafeAreaView>
   );

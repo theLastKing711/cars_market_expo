@@ -1,7 +1,6 @@
 import CarSearchResultCard from "@/components/home/CarSearchResultCard";
 import CarSearchResultCardList from "@/components/home/CarSearchResultCardList";
 import DeleteButton from "@/components/ui/DeleteButton";
-import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 import SoldButton from "@/components/ui/SoldButton";
 import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
 import { router } from "expo-router";
@@ -10,6 +9,7 @@ import { StyleSheet, View } from "react-native";
 import { Searchbar, Surface, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
+import useSnackBarStore from "@/state/useSnackBarStore";
 
 const SearchMyCarsAuthenticated = () => {
   const {
@@ -21,8 +21,6 @@ const SearchMyCarsAuthenticated = () => {
     search,
     setSearch,
   } = useGetSearchMyCars();
-
-  const [isLoadingVisible, setIsLoadingVisible] = useState(false);
 
   const theme = useTheme();
 
@@ -87,16 +85,8 @@ const SearchMyCarsAuthenticated = () => {
                   gap: 16,
                 }}
               >
-                <DeleteButton
-                  id={item.id}
-                  onPress={() => setIsLoadingVisible(true)}
-                  onSuccess={() => setIsLoadingVisible(false)}
-                />
-                <SoldButton
-                  id={item.id}
-                  onPress={() => setIsLoadingVisible(true)}
-                  onSuccess={() => setIsLoadingVisible(false)}
-                />
+                <DeleteButton id={item.id} />
+                <SoldButton id={item.id} />
               </View>
             }
           />
@@ -107,7 +97,6 @@ const SearchMyCarsAuthenticated = () => {
         isLoading={isLoading}
         stickyHeaderComponent={SearchBar}
       />
-      <FullScreenLoading visible={isLoadingVisible} />
     </SafeAreaView>
   );
 };

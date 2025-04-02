@@ -1,9 +1,10 @@
 import { useDeleteCarOffer } from "@/hooks/api/car/mutations/useDeleteCarOffer";
-import React, { useState } from "react";
+import React from "react";
 import { Button, useTheme } from "react-native-paper";
 import ConfirmationDialog from "./react-native-paper/ConfirmationDialog";
 import { useDialog } from "@/hooks/ui/useDialog";
 import FullScreenLoading from "./react-native-paper/FullScreenLoading";
+import useSnackBarStore from "@/state/useSnackBarStore";
 
 export type DeleteButtonProps = {
   onSuccess?: () => void;
@@ -12,15 +13,21 @@ export type DeleteButtonProps = {
 };
 
 const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const { isDialogOpen, closeDialog, openDialog } = useDialog();
 
-  const { DeleteCarOffer } = useDeleteCarOffer(id, () => {
-    closeDialog();
-    setIsLoading(false);
-    onSuccess?.();
-  });
+  const { openSnackBarSuccess, openSnackBarError } = useSnackBarStore();
+
+  const { DeleteCarOffer, isLoading, setIsLoading } = useDeleteCarOffer(
+    id,
+    () => {
+      openSnackBarSuccess("تم حذف السيارة بنجاح");
+      closeDialog();
+      onSuccess?.();
+    },
+    () => {
+      openSnackBarError("فشل عملية الحذف, يرجى التأكد  من وجود اتصال بالشبكة");
+    }
+  );
 
   const theme = useTheme();
 

@@ -29,7 +29,8 @@ export async function deleteFileApi({ public_id }: FilePublicIdPathParameterData
         const response = await apiClient
                                 .delete(deleteFileUrl);
 
-        console.log("response data", response.data)
+        console.log("response data", response.data);
+        
         return {
             data: response.data,
         }

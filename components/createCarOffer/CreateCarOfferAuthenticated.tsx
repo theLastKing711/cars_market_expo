@@ -7,7 +7,7 @@ import {
 } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -31,9 +31,9 @@ import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-pap
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDialog } from "@/hooks/ui/useDialog";
 import { useSnackBar } from "@/hooks/ui/useSnackBar";
-import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
 import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUpload";
 import FullScreenLoading from "../ui/react-native-paper/FullScreenLoading";
+import useSnackBarStore from "@/state/useSnackBarStore";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -77,14 +77,7 @@ const CreateCarOfferAuthenticated = () => {
     },
   });
 
-  const {
-    isSnackBarOpen,
-    closeSnackBar,
-    openSnackBarSuccess,
-    openSnackBarError,
-    snackBarText,
-    snackBarStatus,
-  } = useSnackBar();
+  const { openSnackBarSuccess, openSnackBarError } = useSnackBarStore();
 
   const openImageViewr = () => {
     setIsImageViewerOpen(true);
@@ -128,7 +121,11 @@ const CreateCarOfferAuthenticated = () => {
         reset();
         setImages([]);
       },
-      onError: () => alert("error"),
+      onError: () => {
+        openSnackBarError(
+          "فشل عملية إنشاء العرض, يرجى التأكد من الاتصال بالشبكة, ثم المحاولة مرة اخرى."
+        );
+      },
     });
   };
 
@@ -450,12 +447,6 @@ const CreateCarOfferAuthenticated = () => {
           <Button onPress={closeDialog}>موافق</Button>
         </Dialog.Actions>
       </Dialog>
-      <CustomSnackBar
-        visible={isSnackBarOpen}
-        onDismiss={closeSnackBar}
-        text={snackBarText}
-        status={snackBarStatus}
-      />
     </SafeAreaView>
   );
 };

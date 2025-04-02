@@ -8,13 +8,13 @@ import useAuthStore from "./useAuthStore";
   
     useEffect(() => {
         const retriveToken = async () => {
-          // const access_token = await getTokenAsync();
+          const access_token = await getTokenAsync();
 
-          // // saveToken('');
-          // if (access_token) {
-          //   saveToken(access_token);
-          // }
-          emptyToken();
+          // saveToken('');
+          if (access_token) {
+            saveToken(access_token);
+          }
+          // emptyToken();
         };
     
         retriveToken();
