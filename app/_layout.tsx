@@ -52,7 +52,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="car-search-filter"
               options={{
-                title: "test",
+                title: "البحث والفلترة",
                 headerRight: (prosp) => (
                   <View
                     style={{
@@ -71,6 +71,7 @@ export default function RootLayout() {
             <Stack.Screen
               name="car-search-filter-modal"
               options={{
+                title: "البحث والفلترة",
                 headerRight: (prosp) => (
                   <View
                     style={{
@@ -84,6 +85,12 @@ export default function RootLayout() {
                   </View>
                 ),
                 headerBackTitle: "الرجوع",
+              }}
+            />
+            <Stack.Screen
+              name="car/[id]"
+              options={{
+                title: "",
               }}
             />
             <Stack.Screen name="+not-found" />

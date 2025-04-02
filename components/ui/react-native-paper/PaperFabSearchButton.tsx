@@ -13,8 +13,8 @@ const PaperFabSearchButton = ({
   return (
     <FAB
       style={{
-        position: "fixed",
-        bottom: 100,
+        position: "absolute",
+        bottom: 70,
         left: 0,
         right: 0,
         zIndex: 30000000,

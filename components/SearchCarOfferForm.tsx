@@ -141,7 +141,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             style={{
               flex: 1,
               paddingHorizontal: 16,
-              paddingTop: 32,
+              // paddingTop: 32,
               paddingBottom: 100,
             }}
           >
@@ -291,11 +291,11 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             />
           </View>
         </ScrollView>
+        <PaperFabSearchButton
+          label={searchButtonText}
+          onSearch={navigateToSearchResultPage}
+        />
       </SafeAreaView>
-      <PaperFabSearchButton
-        label={searchButtonText}
-        onSearch={navigateToSearchResultPage}
-      />
     </View>
   );
 };
