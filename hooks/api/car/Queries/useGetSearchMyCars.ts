@@ -11,7 +11,7 @@ export function useGetSearchMyCars() {
     
     const [search, setSearch] = useState('')
 
-    // //must be called manually in view
+    // //must be called manually in view 
     const {data, isLoading, hasNextPage, isFetching, fetchNextPage} = useInfiniteQuery(
         {
             //if one of debounced parameters change,then re-run the query with updated values
@@ -36,6 +36,8 @@ export function useGetSearchMyCars() {
             initialPageParam: null as InifinteQueryPageParam['pageParam'], // if we don't type it and initilaze it when its type becomes null and we can't assign other values to it
         },
     );
+
+    console.log("is fetching", isLoading);
 
     return {
         data,

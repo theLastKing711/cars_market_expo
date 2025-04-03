@@ -7,7 +7,7 @@ import {
 } from "@/types/car/createCarOffer";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -30,10 +30,9 @@ import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenIm
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDialog } from "@/hooks/ui/useDialog";
-import { useSnackBar } from "@/hooks/ui/useSnackBar";
 import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUpload";
-import FullScreenLoading from "../ui/react-native-paper/FullScreenLoading";
 import useSnackBarStore from "@/state/useSnackBarStore";
+import useLoadingStore from "@/state/useLoadingStore";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -50,6 +49,8 @@ const CreateCarOfferAuthenticated = () => {
 
   const { openDialog, closeDialog, dialogText, isDialogOpen } = useDialog();
 
+  const { setLoading } = useLoadingStore();
+
   const theme = useTheme();
 
   const { deleteFile } = useDeleteFileApi();
@@ -57,6 +58,9 @@ const CreateCarOfferAuthenticated = () => {
   const { uploadCarImages } = useUploadCarImages();
 
   const { createCarOffer, isLoading: isCreatingOffer } = useCreateCarOffer();
+
+  const { showTransparentLoading, showLoading, hideLoading } =
+    useLoadingStore();
 
   const {
     control,
@@ -208,8 +212,12 @@ const CreateCarOfferAuthenticated = () => {
     <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
   );
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
   if (isLoading) {
-    return <FullScreenLoading visible />;
+    return;
   }
 
   const remaining_car_uploads_count = `عدد السيارات المتبقية المسموح تحميلها ${maxCarUploadData?.data.max_number_of_car_upload}`;

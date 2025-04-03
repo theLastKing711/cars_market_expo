@@ -56,7 +56,6 @@ export type UseCarSearchStoreState = {
 }
 
 
-// create the bear store, implementing the BearStore interface
 const useCarSearchStore = create<UseCarSearchStoreState>((set, stae) => ({
     // set the initial value in the store to 0 bears
     params: emptySearchQuery,

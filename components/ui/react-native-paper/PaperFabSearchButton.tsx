@@ -14,7 +14,7 @@ const PaperFabSearchButton = ({
     <FAB
       style={{
         position: "absolute",
-        bottom: 70,
+        bottom: 95,
         left: 0,
         right: 0,
         zIndex: 30000000,

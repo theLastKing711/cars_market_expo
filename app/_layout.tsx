@@ -8,6 +8,7 @@ import { Button, MD3DarkTheme, PaperProvider } from "react-native-paper";
 import React from "react";
 import { useInitializeAccessToken } from "@/state/useInitializeAccessToken";
 import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
+import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 
 export const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },
@@ -48,7 +49,7 @@ export default function RootLayout() {
             }}
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="/car/[id]" />
+
             <Stack.Screen
               name="car-search-filter"
               options={{
@@ -93,10 +94,17 @@ export default function RootLayout() {
                 title: "",
               }}
             />
+            <Stack.Screen
+              name="car/update/[id]"
+              options={{
+                title: "",
+              }}
+            />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="home" />
           </Stack>
           <CustomSnackBar />
+          <FullScreenLoading />
         </QueryClientProvider>
       </GestureHandlerRootView>
     </PaperProvider>

@@ -26,8 +26,6 @@ export type UseSnackBarStoreState = {
     closeSnackBar: () => void,
 }
 
-
-// create the bear store, implementing the BearStore interface
 const useSnackBarStore = create<UseSnackBarStoreState>((set, state) => ({
     params: emptyState,
     openSnackBarSuccess: (message: string ,position: SnackBarPosition = "bottom") => {

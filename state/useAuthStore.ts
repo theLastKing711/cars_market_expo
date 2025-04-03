@@ -21,7 +21,6 @@ export type useAuthStoreState = {
 }
 
 
-// create the bear store, implementing the BearStore interface
 const useAuthStore = create<useAuthStoreState>((set, state) => ({
     params: emptyState,
     saveToken: async (token: string) => {

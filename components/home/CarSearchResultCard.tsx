@@ -144,12 +144,14 @@ const CarSearchResultCard = ({
         {/* <Tooltip title="أضف إلى عربة التسوق">
           <IconButton icon={{ source: "cart-outline", direction: "rtl" }} />
         </Tooltip> */}
-        <Tooltip title="أضف إلى قائمة المفضلة">
-          <IconButton
-            icon={{ source: heartIcon, direction: "rtl" }}
-            onPress={(e) => favouriteCar()}
-          />
-        </Tooltip>
+        {
+          <Tooltip title="أضف إلى قائمة المفضلة">
+            <IconButton
+              icon={{ source: heartIcon, direction: "rtl" }}
+              onPress={(e) => favouriteCar()}
+            />
+          </Tooltip>
+        }
         {actions}
       </Card.Actions>
     </Card>

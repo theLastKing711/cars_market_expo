@@ -8,11 +8,7 @@ const CarSearchFilterModal = () => {
     router.back();
   };
 
-  return (
-    <View style={{ flex: 1 }}>
-      <SearchCarOfferForm isModal />
-    </View>
-  );
+  return <SearchCarOfferForm isModal />;
 };
 
 export default CarSearchFilterModal;

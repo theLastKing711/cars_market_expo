@@ -4,12 +4,12 @@ import DeleteButton from "@/components/ui/DeleteButton";
 import SoldButton from "@/components/ui/SoldButton";
 import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Searchbar, Surface, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
-import useSnackBarStore from "@/state/useSnackBarStore";
+import useLoadingStore from "@/state/useLoadingStore";
 
 const SearchMyCarsAuthenticated = () => {
   const {
@@ -22,6 +22,8 @@ const SearchMyCarsAuthenticated = () => {
     setSearch,
   } = useGetSearchMyCars();
 
+  const { setLoading } = useLoadingStore();
+
   const theme = useTheme();
 
   const styles = StyleSheet.create({
@@ -31,10 +33,6 @@ const SearchMyCarsAuthenticated = () => {
       paddingBottom: 71,
     },
   });
-
-  const searchResultTotal = paginatedSearchMyCarsData?.pages.length
-    ? paginatedSearchMyCarsData?.pages[0].total
-    : "0";
 
   const SearchMyCarsData =
     paginatedSearchMyCarsData?.pages?.flatMap((item) => item.data) || [];

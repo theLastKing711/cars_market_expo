@@ -4,7 +4,7 @@ import { useGetSearchMyFavouriteCars } from "@/hooks/api/car/Queries/useGetSearc
 import { router } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Searchbar, useTheme } from "react-native-paper";
+import { Searchbar, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 
@@ -25,6 +25,7 @@ const SearchMyFavouriteCars = () => {
     container: {
       backgroundColor: theme.colors.surface,
       flex: 1,
+      paddingTop: 32,
     },
   });
 
@@ -44,6 +45,8 @@ const SearchMyFavouriteCars = () => {
     });
   };
 
+  const text = "honda " + "مسعملة";
+
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar
@@ -51,6 +54,7 @@ const SearchMyFavouriteCars = () => {
         value={search}
         onChangeText={setSearch}
       ></Searchbar>
+
       <CarSearchResultCardList
         items={SearchMyCarsData}
         renderItem={({ item }) => (

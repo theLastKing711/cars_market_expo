@@ -11,9 +11,9 @@ import useAuthStore from "./useAuthStore";
           const access_token = await getTokenAsync();
 
           // saveToken('');
-          if (access_token) {
-            saveToken(access_token);
-          }
+          // if (access_token) {
+          //   saveToken(access_token);
+          // }
           // emptyToken();
         };
     

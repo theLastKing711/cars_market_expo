@@ -129,31 +129,31 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.surface }}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: theme.colors.surface,
-        }}
-      >
-        <ScrollView>
-          <View
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.surface,
+        paddingTop: !isModal ? 32 : 0,
+      }}
+    >
+      <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: 16,
+            paddingBottom: 130,
+          }}
+        >
+          <TextInput
             style={{
-              flex: 1,
-              paddingHorizontal: 16,
-              paddingBottom: 100,
+              marginBottom: 16,
             }}
-          >
-            <TextInput
-              style={{
-                marginBottom: 16,
-              }}
-              placeholder="السيارة. مثال: كيا فورتي, هونداي سانتافي 2011."
-              value={search}
-              onChangeText={(text) => updateCarSearchParam({ search: text })}
-            />
+            placeholder="السيارة. مثال: كيا فورتي, هونداي سانتافي 2011."
+            value={search}
+            onChangeText={(text) => updateCarSearchParam({ search: text })}
+          />
 
-            {/* <CustomPaperChipsList
+          {/* <CustomPaperChipsList
               title="نواجد"
               items={SYRIANCITYCHIPLIST}
               selectedItems={car_sell_location}
@@ -171,131 +171,129 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               key={2}
             /> */}
 
-            <CustomPaperTextInputRangeSection
-              title="السعر بالدولار"
-              inputSuffix="$"
-              firstInputProps={{
-                value: price_from,
-                onChangeText: (text) =>
-                  updateCarSearchParam({ price_from: text }),
-              }}
-              secondInputProps={{
-                value: price_to,
-                onChangeText: (text) =>
-                  updateCarSearchParam({ price_to: text }),
-              }}
-              sliderProps={{
-                value: slider_prices || [minimum_price_from, maximum_price_to],
-                onValueChange: onSliderPriceChange,
-                step: 500,
-                minimumValue: minimum_price_from,
-                maximumValue: maximum_price_to,
-                animationType: "spring",
-              }}
-            />
+          <CustomPaperTextInputRangeSection
+            title="السعر بالدولار"
+            inputSuffix="$"
+            firstInputProps={{
+              value: price_from,
+              onChangeText: (text) =>
+                updateCarSearchParam({ price_from: text }),
+            }}
+            secondInputProps={{
+              value: price_to,
+              onChangeText: (text) => updateCarSearchParam({ price_to: text }),
+            }}
+            sliderProps={{
+              value: slider_prices || [minimum_price_from, maximum_price_to],
+              onValueChange: onSliderPriceChange,
+              step: 500,
+              minimumValue: minimum_price_from,
+              maximumValue: maximum_price_to,
+              animationType: "spring",
+            }}
+          />
 
-            <CustomPaperTextInputRangeSection
-              title="كيلو متر قاطعة"
-              inputSuffix="كم"
-              firstInputProps={{
-                value: miles_travelled_in_km_from,
-                onChangeText: (text) =>
-                  updateCarSearchParam({
-                    miles_travelled_in_km_from: text,
-                  }),
-              }}
-              secondInputProps={{
-                value: miles_travelled_in_km_to,
-                onChangeText: (text) =>
-                  updateCarSearchParam({
-                    miles_travelled_in_km_to: text,
-                  }),
-              }}
-              sliderProps={{
-                value: slider_miles_travelled_in_km || [
-                  minimum_miles_travelled_in_km_from,
-                  maximumm_miles_travelled_in_km_to,
-                ],
-                onValueChange: onSliderMilesTravelledInKmChange,
-                step: 5000,
-                minimumValue: minimum_miles_travelled_in_km_from,
-                maximumValue: maximumm_miles_travelled_in_km_to,
-                animationType: "spring",
-              }}
-            />
+          <CustomPaperTextInputRangeSection
+            title="كيلو متر قاطعة"
+            inputSuffix="كم"
+            firstInputProps={{
+              value: miles_travelled_in_km_from,
+              onChangeText: (text) =>
+                updateCarSearchParam({
+                  miles_travelled_in_km_from: text,
+                }),
+            }}
+            secondInputProps={{
+              value: miles_travelled_in_km_to,
+              onChangeText: (text) =>
+                updateCarSearchParam({
+                  miles_travelled_in_km_to: text,
+                }),
+            }}
+            sliderProps={{
+              value: slider_miles_travelled_in_km || [
+                minimum_miles_travelled_in_km_from,
+                maximumm_miles_travelled_in_km_to,
+              ],
+              onValueChange: onSliderMilesTravelledInKmChange,
+              step: 5000,
+              minimumValue: minimum_miles_travelled_in_km_from,
+              maximumValue: maximumm_miles_travelled_in_km_to,
+              animationType: "spring",
+            }}
+          />
 
-            <CustomPaperSegmentedButtonsSection
-              title="نوغ الوقود"
-              value={fuel_type}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  fuel_type: value,
-                })
-              }
-              buttons={FUELTYPELISTSEGMENTEDBUTTONS}
-            />
-            <CustomPaperSegmentedButtonsSection
-              title="نوع الناقل"
-              value={transmission}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  transmission: value,
-                })
-              }
-              buttons={TRANSMISSIONSEGMENTEDBUTTONS}
-            />
+          <CustomPaperSegmentedButtonsSection
+            title="نوغ الوقود"
+            value={fuel_type}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                fuel_type: value,
+              })
+            }
+            buttons={FUELTYPELISTSEGMENTEDBUTTONS}
+          />
+          <CustomPaperSegmentedButtonsSection
+            title="نوع الناقل"
+            value={transmission}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                transmission: value,
+              })
+            }
+            buttons={TRANSMISSIONSEGMENTEDBUTTONS}
+          />
 
-            <CustomPaperSegmentedButtonsSection
-              title="السيارة جديدة(غير مستعملة)؟"
-              value={is_new_car}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  is_new_car: value,
-                })
-              }
-              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-            />
+          <CustomPaperSegmentedButtonsSection
+            title="السيارة جديدة(غير مستعملة)؟"
+            value={is_new_car}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                is_new_car: value,
+              })
+            }
+            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+          />
 
-            <CustomPaperSegmentedButtonsSection
-              title="السيارة مقصوصة(قصة)؟"
-              value={is_kassah}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  is_kassah: value,
-                })
-              }
-              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-            />
+          <CustomPaperSegmentedButtonsSection
+            title="السيارة مقصوصة(قصة)؟"
+            value={is_kassah}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                is_kassah: value,
+              })
+            }
+            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+          />
 
-            <CustomPaperSegmentedButtonsSection
-              title="السيارة جاهزة للفراغة؟"
-              value={is_faragha_jahzeh}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  is_faragha_jahzeh: value,
-                })
-              }
-              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-            />
+          <CustomPaperSegmentedButtonsSection
+            title="السيارة جاهزة للفراغة؟"
+            value={is_faragha_jahzeh}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                is_faragha_jahzeh: value,
+              })
+            }
+            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+          />
 
-            <CustomPaperSegmentedButtonsSection
-              title="السيارة خالية العلام؟"
-              value={is_khalyeh}
-              onValueChange={(value) =>
-                updateCarSearchParam({
-                  is_khalyeh: value,
-                })
-              }
-              buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
-            />
-          </View>
-        </ScrollView>
-        <PaperFabSearchButton
-          label={searchButtonText}
-          onSearch={navigateToSearchResultPage}
-        />
-      </SafeAreaView>
-    </View>
+          <CustomPaperSegmentedButtonsSection
+            title="السيارة خالية العلام؟"
+            value={is_khalyeh}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                is_khalyeh: value,
+              })
+            }
+            buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+          />
+        </View>
+      </ScrollView>
+      <PaperFabSearchButton
+        label={searchButtonText}
+        onSearch={navigateToSearchResultPage}
+      />
+    </SafeAreaView>
   );
 };
 

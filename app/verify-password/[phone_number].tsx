@@ -1,6 +1,7 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useVerifyPassword } from "@/hooks/api/auth/mutations/useVerifyPassword";
 import useAuthStore from "@/state/useAuthStore";
+import useLoadingStore from "@/state/useLoadingStore";
 import useSnackBarStore from "@/state/useSnackBarStore";
 import { useRoute } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -22,6 +23,8 @@ const VerifyPassword = () => {
 
   const { openSnackBarError } = useSnackBarStore();
 
+  const { showTransparentLoading, hideLoading } = useLoadingStore();
+
   const { verifyPassword: verifyPasswordApi } = useVerifyPassword();
 
   const { saveToken } = useAuthStore();
@@ -31,6 +34,7 @@ const VerifyPassword = () => {
   const [isFirstInputFocused, toggleIsFirstInputFocused] = useState(false);
 
   const verifyPassword = (password: string) => {
+    showTransparentLoading();
     verifyPasswordApi(
       { password, phone_number: phone_number as string },
       {
@@ -44,6 +48,9 @@ const VerifyPassword = () => {
           openSnackBarError(
             "كلمة المرور غير صحيحة للرقم المدخل, يرجى المحاولة مرة أخرى."
           );
+        },
+        onSettled: () => {
+          hideLoading();
         },
       }
     );

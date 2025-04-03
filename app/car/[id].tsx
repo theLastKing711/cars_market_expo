@@ -11,17 +11,19 @@ import ShippableToSection from "@/components/carOfferDetails/ShippableToSection"
 import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
 import { FUELTYPELIST } from "@/types/enums/FuelType";
 import { useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { FAB, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import call from "react-native-phone-call";
-import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
+import useLoadingStore from "@/state/useLoadingStore";
 
 const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
     id: string;
   }>();
+
+  const { showLoading, hideLoading, setLoading } = useLoadingStore();
 
   const theme = useTheme();
 
@@ -70,6 +72,10 @@ const CarOfferDetails = () => {
 
   const is_shippable = shippable_to_cites.length > 0;
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
   if (isLoading) {
     return;
   }
@@ -83,10 +89,6 @@ const CarOfferDetails = () => {
     prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
     skipCanOpen: false, // Skip the canOpenURL check
   };
-
-  if (isLoading) {
-    return <FullScreenLoading visible />;
-  }
 
   return (
     <View style={{ backgroundColor: theme.colors.surface }}>

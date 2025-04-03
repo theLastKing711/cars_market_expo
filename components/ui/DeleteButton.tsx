@@ -3,8 +3,8 @@ import React from "react";
 import { Button, useTheme } from "react-native-paper";
 import ConfirmationDialog from "./react-native-paper/ConfirmationDialog";
 import { useDialog } from "@/hooks/ui/useDialog";
-import FullScreenLoading from "./react-native-paper/FullScreenLoading";
 import useSnackBarStore from "@/state/useSnackBarStore";
+import useLoadingStore from "@/state/useLoadingStore";
 
 export type DeleteButtonProps = {
   onSuccess?: () => void;
@@ -14,6 +14,8 @@ export type DeleteButtonProps = {
 
 const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
   const { isDialogOpen, closeDialog, openDialog } = useDialog();
+
+  const { showLoading, hideLoading } = useLoadingStore();
 
   const { openSnackBarSuccess, openSnackBarError } = useSnackBarStore();
 
@@ -26,6 +28,7 @@ const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
     },
     () => {
       openSnackBarError("فشل عملية الحذف, يرجى التأكد  من وجود اتصال بالشبكة");
+      hideLoading();
     }
   );
 
@@ -46,12 +49,11 @@ const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
         isOpen={isDialogOpen}
         onClose={closeDialog}
         onConfirm={() => {
-          setIsLoading(true);
+          showLoading();
           onPress?.();
           DeleteCarOffer();
         }}
       />
-      <FullScreenLoading visible={isLoading} />
     </>
   );
 };

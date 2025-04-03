@@ -4,9 +4,7 @@ import { apiClient } from "@/libs/axios/config";
 import { CarOfferDetailsRespnseData } from "@/types/car/carOfferDetails";
 import {  useQuery } from "@tanstack/react-query";
 
-// but can be achieved using a styling library like Nativewind.
 export function useGetCarOfferDetails(id: string) {
-
     
    const {data, isLoading} = useQuery(
         {

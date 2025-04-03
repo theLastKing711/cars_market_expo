@@ -30,8 +30,6 @@ export const MainSection = ({
   });
   const heartIcon = is_favourite ? "heart" : "heart-outline";
 
-  console.log("is favourite", is_favourite);
-
   return (
     <SectionContainer>
       <View style={styles.container}>

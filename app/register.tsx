@@ -1,6 +1,7 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
 import useAuthStore from "@/state/useAuthStore";
+import useLoadingStore from "@/state/useLoadingStore";
 import { useRoute } from "@react-navigation/native";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -18,7 +19,12 @@ const Register = () => {
   const { saveToken } = useAuthStore();
 
   const route = useRoute();
+
+  const { showTransparentLoading, hideLoading } = useLoadingStore();
+
   const registerUser = (phone_number: string) => {
+    showTransparentLoading();
+
     register(
       { phone_number },
       {
@@ -40,6 +46,9 @@ const Register = () => {
               // because we push to it on onError on register.tsx
             },
           });
+        },
+        onSettled: () => {
+          hideLoading();
         },
       }
     );

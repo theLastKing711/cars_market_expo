@@ -36,8 +36,8 @@ import { router } from "expo-router";
 import { useUpdateCarImages } from "@/hooks/api/car/mutations/useUpdateCarImages";
 import DeleteButton from "@/components/ui/DeleteButton";
 import SoldButton from "@/components/ui/SoldButton";
-import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 import useSnackBarStore from "@/state/useSnackBarStore";
+import useLoadingStore from "@/state/useLoadingStore";
 
 const UpdateCarOffer = () => {
   const {
@@ -47,6 +47,8 @@ const UpdateCarOffer = () => {
   } = useUpdateCarOffer();
 
   const { data: oldCarDetailsData, isLoading } = useGetUpdateCarOffer(id);
+
+  const { setLoading } = useLoadingStore();
 
   const theme = useTheme();
 
@@ -239,8 +241,12 @@ const UpdateCarOffer = () => {
     setFocus("name_ar");
   }, [setFocus, isLoading]);
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
   if (isLoading) {
-    return <FullScreenLoading visible />;
+    return;
   }
 
   return (
