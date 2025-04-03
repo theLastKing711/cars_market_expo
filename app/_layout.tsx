@@ -49,7 +49,7 @@ export default function RootLayout() {
             }}
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
+            {/* 
             <Stack.Screen
               name="car-search-filter"
               options={{
@@ -67,8 +67,9 @@ export default function RootLayout() {
                   </View>
                 ),
               }}
-            />
+            /> */}
             <Stack.Screen name="car-search-result" />
+
             <Stack.Screen
               name="car-search-filter-modal"
               options={{
@@ -98,6 +99,18 @@ export default function RootLayout() {
               name="car/update/[id]"
               options={{
                 title: "",
+              }}
+            />
+            <Stack.Screen
+              name="change-phone-number"
+              options={{
+                title: "تغيير رقم الهاتف",
+              }}
+            />
+            <Stack.Screen
+              name="change-password"
+              options={{
+                title: "تغيير كلمة المرور",
               }}
             />
             <Stack.Screen name="+not-found" />

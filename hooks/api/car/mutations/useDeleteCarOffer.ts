@@ -1,6 +1,7 @@
 
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
+import useLoadingStore from "@/state/useLoadingStore";
 import {  useMutation, useQueryClient} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useState } from "react";
@@ -10,19 +11,19 @@ export function useDeleteCarOffer(id: number, onSuccess?: () => void, onError?: 
 
     const queryClient = useQueryClient();
 
-    const [isLoading, setIsLoading] = useState(false);
+  const {  params: {isLoading} ,showTransparentLoading, hideLoading } = useLoadingStore();
+
+
     
    const { mutate: DeleteCarOffer } = useMutation(
         {
             mutationFn: 
                 () => {
-                    setIsLoading(true);
                     return  DeleteCarOfferApi(id);
                 },
             onSuccess:
                 () =>
                     {
-                        setIsLoading(false);
                         queryClient.removeQueries({queryKey: ['getUpdateCarOffer', id.toString()]});
                         queryClient.removeQueries({queryKey: ['carOfferDetails', id.toString()]});
                         queryClient.invalidateQueries({queryKey: ['home']});
@@ -36,14 +37,15 @@ export function useDeleteCarOffer(id: number, onSuccess?: () => void, onError?: 
                 },
             onSettled: 
                 () => {
-                setIsLoading(false);
+                    hideLoading();
              }
         }
     );
     
     return {
         isLoading,
-        setIsLoading,
+        showTransparentLoading,
+        hideLoading,
         DeleteCarOffer,
     }
     

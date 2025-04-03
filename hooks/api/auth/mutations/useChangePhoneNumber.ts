@@ -1,39 +1,38 @@
-import { CreatePasswordRequestData } from '@/types/auth/createPassword';
-
 import { AUTH_URL } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { setTokenAsync } from "@/libs/axios/secureStorage";
+import { ChangePhoneNumberRequestData } from "@/types/auth/changePhoneNumber";
 import { TokenResponse } from "@/types/auth/token";
 import {  useMutation } from "@tanstack/react-query";
 import { AxiosError, HttpStatusCode } from "axios";
 import { router } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 
-export function useCreatePassword() {
+export function useChangePhoneNumber() {
 
     
-   const { mutate: createPassword } = useMutation(
+   const { mutate: changePhoneNumber } = useMutation(
         {
-            mutationFn:(createPasswordRequestData: CreatePasswordRequestData) => createPasswordApi(createPasswordRequestData)
+            mutationFn:(ChangePhoneNumberRequestData: ChangePhoneNumberRequestData) => ChangePhoneNumberApi(ChangePhoneNumberRequestData)
         }
     );
     
     return {
-        createPassword,
+        changePhoneNumber,
     }
     
 }
   
-export async function createPasswordApi(createPasswordRequestData: CreatePasswordRequestData) {
+export async function ChangePhoneNumberApi(changePhoneNumberRequestData: ChangePhoneNumberRequestData) {
     
     try {
-        const createPasswordUrl = `${AUTH_URL}/create-password`;
+        const changePhoneNumberUrl = `${AUTH_URL}/change-phone-number`;
         
         const response = await apiClient
-                                .post<TokenResponse>
+                                .patch<TokenResponse>
                                 (
-                                    createPasswordUrl,
-                                    createPasswordRequestData
+                                    changePhoneNumberUrl,
+                                    changePhoneNumberRequestData
                                 );
 
 
@@ -52,7 +51,7 @@ export async function createPasswordApi(createPasswordRequestData: CreatePasswor
 
         console.log('error', (err as AxiosError).request);
         
-        return Promise.reject(false);
+        return Promise.reject(err);
     }
 
 }

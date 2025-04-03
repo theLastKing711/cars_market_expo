@@ -13,26 +13,27 @@ export type DeleteButtonProps = {
 };
 
 const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
-  const { isDialogOpen, closeDialog, openDialog } = useDialog();
+  const theme = useTheme();
 
-  const { showLoading, hideLoading } = useLoadingStore();
+  const { isDialogOpen, closeDialog, openDialog } = useDialog();
 
   const { openSnackBarSuccess, openSnackBarError } = useSnackBarStore();
 
-  const { DeleteCarOffer, isLoading, setIsLoading } = useDeleteCarOffer(
-    id,
-    () => {
-      openSnackBarSuccess("تم حذف السيارة بنجاح");
-      closeDialog();
-      onSuccess?.();
-    },
-    () => {
-      openSnackBarError("فشل عملية الحذف, يرجى التأكد  من وجود اتصال بالشبكة");
-      hideLoading();
-    }
-  );
-
-  const theme = useTheme();
+  const { DeleteCarOffer, isLoading, showTransparentLoading, hideLoading } =
+    useDeleteCarOffer(
+      id,
+      () => {
+        openSnackBarSuccess("تم حذف السيارة بنجاح");
+        closeDialog();
+        onSuccess?.();
+      },
+      () => {
+        openSnackBarError(
+          "فشل عملية الحذف, يرجى التأكد  من وجود اتصال بالشبكة"
+        );
+        hideLoading();
+      }
+    );
 
   return (
     <>
@@ -49,7 +50,7 @@ const DeleteButton = ({ id, onSuccess, onPress }: DeleteButtonProps) => {
         isOpen={isDialogOpen}
         onClose={closeDialog}
         onConfirm={() => {
-          showLoading();
+          showTransparentLoading();
           onPress?.();
           DeleteCarOffer();
         }}

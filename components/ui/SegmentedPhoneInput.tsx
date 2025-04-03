@@ -15,17 +15,13 @@ export type SegmentedPhoneInputProps = {
   numbers: string[];
   setNumbers: React.Dispatch<React.SetStateAction<string[]>>;
   onInputFinish: (numberState: string) => void;
-  length?: number;
   isReset?: boolean;
 };
-
-const inputs = [...new Array<string>(9).fill("")];
 
 const SegmentedPhoneInput = forwardRef(
   (
     {
       onInputFinish,
-      length = 9,
       isReset = false,
       numbers,
       setNumbers,

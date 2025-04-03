@@ -27,6 +27,15 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
+        name="my-profile"
+        options={{
+          title: "حسابي",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="person" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="search-my-cars"
         options={{
           title: "سياراتي",

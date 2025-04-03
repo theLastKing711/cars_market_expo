@@ -1,22 +1,21 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
-import { useVerifyPassword } from "@/hooks/api/auth/mutations/useVerifyPassword";
-import { useSegmentedPasswordInput } from "@/hooks/components/useSegmentedPhoneInput";
-import useAuthStore from "@/state/useAuthStore";
+import { useChangePassword } from "@/hooks/api/auth/mutations/useChangePassword";
+import {
+  useSegmentedPasswordInput,
+  useSegmentedPhoneInput,
+} from "@/hooks/components/useSegmentedPhoneInput";
 import useLoadingStore from "@/state/useLoadingStore";
 import useSnackBarStore from "@/state/useSnackBarStore";
-import { useRoute } from "@react-navigation/native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
 import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const emtpyNumbers = [...new Array<string>(4).fill("")];
-
-const VerifyPassword = () => {
+const ChangePassword = () => {
   const theme = useTheme();
 
-  const route = useRoute();
+  const { changePassword: changePasswordApi } = useChangePassword();
 
   const {
     firstInputRef,
@@ -27,27 +26,26 @@ const VerifyPassword = () => {
     toggleIsFirstInputFocused,
   } = useSegmentedPasswordInput();
 
-  const { phone_number, parentPage } = useLocalSearchParams();
-
-  const { openSnackBarError } = useSnackBarStore();
+  const { openSnackBarError, openSnackBarSuccess } = useSnackBarStore();
 
   const { showTransparentLoading, hideLoading } = useLoadingStore();
 
-  const { verifyPassword: verifyPasswordApi } = useVerifyPassword();
-
-  const { saveToken } = useAuthStore();
-
-  const verifyPassword = (password: string) => {
+  const changePassword = (password: string) => {
     showTransparentLoading();
-    verifyPasswordApi(
-      { password, phone_number: phone_number as string },
+    changePasswordApi(
+      { password },
       {
         onSuccess: async ({ data: { token } }) => {
-          router.push(parentPage as string);
-          saveToken(token);
+          //   router.push(parentPage as string);
+          //   saveToken(token);
+
+          openSnackBarSuccess("تم تغيير كلمة المرور بنجاج");
+          router.push({
+            pathname: "/my-profile",
+          });
         },
         onError: (data) => {
-          setNumbers(emtpyNumbers);
+          emptyNumbers();
           toggleIsFirstInputFocused((prev) => !prev);
           openSnackBarError(
             "كلمة المرور غير صحيحة للرقم المدخل, يرجى المحاولة مرة أخرى."
@@ -71,12 +69,12 @@ const VerifyPassword = () => {
       onTouchStart={Keyboard.dismiss}
     >
       <Text variant="titleLarge" style={{ marginBottom: 16 }}>
-        كلمة المرور للرقم
+        كلمة المرور الجديدة
       </Text>
       <SegmentedPhoneInput
         numbers={numbers}
         setNumbers={setNumbers}
-        onInputFinish={verifyPassword}
+        onInputFinish={changePassword}
         ref={firstInputRef}
         isReset={isFirstInputFocused}
       />
@@ -84,4 +82,4 @@ const VerifyPassword = () => {
   );
 };
 
-export default VerifyPassword;
+export default ChangePassword;

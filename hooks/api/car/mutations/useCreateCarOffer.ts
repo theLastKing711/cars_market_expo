@@ -51,7 +51,7 @@ export async function createCarOfferApi(createCarOfferRequestData: CreateCarOffe
 
         console.log('error', (err as AxiosError).request);
         
-        return Promise.reject(false);
+        return Promise.reject(err);
     }
 
 }

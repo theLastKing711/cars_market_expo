@@ -49,7 +49,7 @@ const useSnackBarStore = create<UseSnackBarStoreState>((set, state) => ({
                 ...state,
                 params: {
                     ...state.params,
-                    isSnackBarOpen: false,
+                    isSnackBarOpen: true,
                     snackBarText: message,
                     status: "error", 
                     position

@@ -1,18 +1,24 @@
 import SegmentedPhoneInput from "@/components/ui/SegmentedPhoneInput";
 import { useCreatePassword } from "@/hooks/api/auth/mutations/useCreatePassword";
-import { useRegister } from "@/hooks/api/auth/mutations/useRegister";
+import { useSegmentedPasswordInput } from "@/hooks/components/useSegmentedPhoneInput";
 import useAuthStore from "@/state/useAuthStore";
-import { useNavigation } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Keyboard, TextInput } from "react-native";
+import React from "react";
+import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreatePassword = () => {
   const theme = useTheme();
 
-  const [numbers, setNumbers] = useState([...new Array<string>(4).fill("")]);
+  const {
+    firstInputRef,
+    isFirstInputFocused,
+    numbers,
+    setNumbers,
+    emptyNumbers,
+    toggleIsFirstInputFocused,
+  } = useSegmentedPasswordInput();
 
   const { phone_number } = useLocalSearchParams();
 
@@ -49,10 +55,11 @@ const CreatePassword = () => {
         أنشأ كلمة مرور لحسابك
       </Text>
       <SegmentedPhoneInput
-        onInputFinish={createPassword}
-        length={4}
         numbers={numbers}
         setNumbers={setNumbers}
+        onInputFinish={createPassword}
+        ref={firstInputRef}
+        isReset={isFirstInputFocused}
       />
     </SafeAreaView>
   );
