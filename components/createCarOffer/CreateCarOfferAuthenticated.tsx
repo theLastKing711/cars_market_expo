@@ -33,6 +33,7 @@ import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUplo
 import useSnackBarStore from "@/state/useSnackBarStore";
 import useLoadingStore from "@/state/useLoadingStore";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CustomFormButton from "../ui/react-native-paper/CustomFormButton";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -202,14 +203,22 @@ const CreateCarOfferAuthenticated = () => {
     : "جاري إنشاء العرض";
 
   const submitText = isLoadingVisible ? (
-    <Button onPress={handleSubmit(onSubmit)}>
+    <CustomFormButton
+      onPress={handleSubmit(onSubmit)}
+      style={{ marginTop: 12, marginBottom: 24 }}
+    >
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
         <Text>{loadingButtonText}</Text>
       </View>
-    </Button>
+    </CustomFormButton>
   ) : (
-    <Button onPress={handleSubmit(onSubmit)}>إنشاء العرض</Button>
+    <CustomFormButton
+      onPress={handleSubmit(onSubmit)}
+      style={{ marginTop: 12, marginBottom: 24 }}
+    >
+      إنشاء العرض
+    </CustomFormButton>
   );
 
   useEffect(() => {

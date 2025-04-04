@@ -96,6 +96,12 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="verify-password/[phone_number]"
+              options={{
+                title: "تسجيل الدخول",
+              }}
+            />
+            <Stack.Screen
               name="car/update/[id]"
               options={{
                 title: "",

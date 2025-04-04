@@ -38,6 +38,7 @@ import DeleteButton from "@/components/ui/DeleteButton";
 import SoldButton from "@/components/ui/SoldButton";
 import useSnackBarStore from "@/state/useSnackBarStore";
 import useLoadingStore from "@/state/useLoadingStore";
+import CustomFormButton from "@/components/ui/react-native-paper/CustomFormButton";
 
 const UpdateCarOffer = () => {
   const {
@@ -168,14 +169,23 @@ const UpdateCarOffer = () => {
     : "جاري تعديل بيانات العرض العرض";
 
   const submitText = isLoadingVisible ? (
-    <Button onPress={handleSubmit(onSubmit)}>
+    <CustomFormButton
+      onPress={handleSubmit(onSubmit)}
+      style={{ marginTop: 20 }}
+    >
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
         <Text>{loadingButtonText}</Text>
       </View>
-    </Button>
+    </CustomFormButton>
   ) : (
-    <Button onPress={handleSubmit(onSubmit)}>تعديل العرض</Button>
+    <CustomFormButton
+      onPress={handleSubmit(onSubmit)}
+      mode="contained"
+      style={{ marginTop: 20 }}
+    >
+      تعديل العرض
+    </CustomFormButton>
   );
 
   const pickImage = async () => {
@@ -274,7 +284,7 @@ const UpdateCarOffer = () => {
             paddingHorizontal: 16,
             backgroundColor: theme.colors.surface,
             paddingTop: 16,
-            paddingBottom: 90,
+            paddingBottom: 32,
           }}
         >
           <Controller
@@ -472,6 +482,7 @@ const UpdateCarOffer = () => {
             style={{
               marginTop: 16,
               gap: 16,
+              marginBottom: 24,
             }}
           >
             <SoldButton

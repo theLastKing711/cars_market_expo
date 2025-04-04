@@ -50,7 +50,8 @@ const VerifyPassword = () => {
           setNumbers(emtpyNumbers);
           toggleIsFirstInputFocused((prev) => !prev);
           openSnackBarError(
-            "كلمة المرور غير صحيحة للرقم المدخل, يرجى المحاولة مرة أخرى."
+            "كلمة المرور غير صحيحة للرقم المدخل, يرجى المحاولة مرة أخرى.",
+            "center"
           );
         },
         onSettled: () => {
