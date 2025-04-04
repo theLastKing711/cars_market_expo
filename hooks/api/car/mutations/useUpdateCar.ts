@@ -59,8 +59,6 @@ export async function updateCarOfferApi(updateCarOfferRequestData: UpdateCarOffe
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(false);
     }
 

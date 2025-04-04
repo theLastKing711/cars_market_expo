@@ -29,14 +29,11 @@ export async function deleteFileApi({ public_id }: FilePublicIdPathParameterData
         const response = await apiClient
                                 .delete(deleteFileUrl);
 
-        console.log("response data", response.data);
-        
         return {
             data: response.data,
         }
     }
     catch(err) {
-        console.log('error', (err as AxiosError).request);
                 
         return Promise.reject(false);
     }

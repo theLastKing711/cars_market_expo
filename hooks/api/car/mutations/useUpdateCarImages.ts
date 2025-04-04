@@ -34,9 +34,6 @@ export async function UpdateCarImagesApi(carImagesFormData: FormData, id: string
 
         const UpdateCarImagesUrl = `${HOME_URI}/${id}/images`;
 
-        console.log("request data", carImagesFormData);
-
-
         const response = await apiClient
                                 .postForm<DeletableMediaData[]>
                                 (
@@ -47,8 +44,6 @@ export async function UpdateCarImagesApi(carImagesFormData: FormData, id: string
                                     }
                                 );
                                 
-        console.log("success response", response.data);
-
         return {
             data: response.data,
         }
@@ -58,9 +53,6 @@ export async function UpdateCarImagesApi(carImagesFormData: FormData, id: string
         const result = (err as AxiosError);
 
 
-        console.log('error', (err as AxiosError).toJSON());
-
-        
         return Promise.reject(result);
     }
 

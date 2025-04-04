@@ -49,8 +49,6 @@ export async function createCarOfferApi(createCarOfferRequestData: CreateCarOffe
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(err);
     }
 

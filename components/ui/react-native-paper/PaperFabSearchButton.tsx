@@ -6,6 +6,8 @@ export type PaperFabSearchButtonProps = {
   onSearch?: () => void;
 };
 
+export const FLOATING_BUTTON_BOTTOM = 32;
+
 const PaperFabSearchButton = ({
   label,
   onSearch,
@@ -14,7 +16,7 @@ const PaperFabSearchButton = ({
     <FAB
       style={{
         position: "absolute",
-        bottom: 95,
+        bottom: FLOATING_BUTTON_BOTTOM,
         left: 0,
         right: 0,
         zIndex: 30000000,

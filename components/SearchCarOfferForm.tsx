@@ -141,7 +141,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
           style={{
             flex: 1,
             paddingHorizontal: 16,
-            paddingBottom: 130,
+            paddingBottom: 88,
           }}
         >
           <TextInput

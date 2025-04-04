@@ -51,8 +51,6 @@ export async function SellCarOfferApi(id: number) {
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(false);
     }
 

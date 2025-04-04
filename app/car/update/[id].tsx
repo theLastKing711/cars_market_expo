@@ -167,8 +167,6 @@ const UpdateCarOffer = () => {
     ? "جاري تحميل الصور"
     : "جاري تعديل بيانات العرض العرض";
 
-  console.log("is loading visible", isLoadingVisible);
-
   const submitText = isLoadingVisible ? (
     <Button onPress={handleSubmit(onSubmit)}>
       <View style={{ gap: 8 }}>

@@ -71,8 +71,6 @@ export async function RegisterApi(registerRequestData: RegisterRequestData) {
 
         const error = (err as AxiosError);
 
-        console.log('error', error.request);
-        
         return Promise.reject(false);
     }
 

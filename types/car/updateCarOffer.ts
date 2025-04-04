@@ -38,7 +38,6 @@ export function getUpdateCarOfferRequestFromForm({
     is_khalyeh,
     transmission
 }: UpdateCarOfferForm) {
-    console.log("boolean", getBooleanFromFormString(is_faragha_jahzeh));
     const updateCarOfferRequest: UpdateCarOfferRequestData = {
         name_ar: name_ar,
         miles_travelled_in_km: getEnglishNumbers(miles_travelled_in_km),

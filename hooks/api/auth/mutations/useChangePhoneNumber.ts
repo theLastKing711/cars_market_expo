@@ -49,8 +49,6 @@ export async function ChangePhoneNumberApi(changePhoneNumberRequestData: ChangeP
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(err);
     }
 

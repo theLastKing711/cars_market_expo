@@ -48,8 +48,6 @@ export async function VerifyPasswordApi(verifyPasswordRequestData: VerifyPasswor
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).status);
-        
         return Promise.reject(false);
     }
 

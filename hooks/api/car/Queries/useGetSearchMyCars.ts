@@ -37,8 +37,6 @@ export function useGetSearchMyCars() {
         },
     );
 
-    console.log("is fetching", isLoading);
-
     return {
         data,
         isLoading,
@@ -86,7 +84,6 @@ async function getMyCarsSearchApi({
         
     }
     catch(err) {
-        console.log((err as AxiosError).request);
         return Promise.reject(false);
     }
 

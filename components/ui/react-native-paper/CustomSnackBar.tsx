@@ -26,8 +26,6 @@ const CustomSnackBar = () => {
         }
       : {};
 
-  console.log("is snack bar open", isSnackBarOpen);
-
   return (
     <Portal>
       <Snackbar

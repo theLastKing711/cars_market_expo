@@ -36,9 +36,6 @@ const SegmentedPhoneInput = forwardRef(
 
     const inputsRefs = useRef<any[]>([]);
 
-    console.log("ref in child", inputsRefs.current[1]);
-    console.log("ref in child 2", ref);
-
     useEffect(() => {
       const unsubscribe = navigation.addListener("focus", () => {
         inputsRefs.current[0]?.focus();
@@ -67,13 +64,6 @@ const SegmentedPhoneInput = forwardRef(
             autoFocus={index === 0}
             key={index}
             ref={useCallback((el: any) => {
-              // if (index === 1) {
-              //   // console.log("index", index);
-              //   // ref = inputsRefs;
-              //   // console.log("ref in assignment", ref);
-
-              //   return (inputsRefs.current[index] = el);
-              // }
               return (inputsRefs.current[index] = el);
             }, [])}
             value={numbers[index]}

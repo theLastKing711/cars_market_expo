@@ -50,8 +50,6 @@ export async function createPasswordApi(createPasswordRequestData: CreatePasswor
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(false);
     }
 

@@ -29,8 +29,6 @@ export const getCarFilterChipList =(items: {key: keyof typeof carFilterLookup, t
         .filter(item => item.text != '')
         .map(({ key, text, onClose, suffix}) => {
 
-            console.log("text", text);
-
             const suffixText =  suffix ? ` ${suffix}` : '';
             
             if(typeof text == "boolean")

@@ -48,8 +48,6 @@ const ChangePhoneNumber = () => {
         onError: (err) => {
           const error = err as AxiosError;
 
-          // console.log("error", error.response?.data?.message);
-
           emptyNumbers();
           toggleIsFirstInputFocused((prev) => !prev);
 

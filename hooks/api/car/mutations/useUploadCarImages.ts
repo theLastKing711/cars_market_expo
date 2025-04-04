@@ -44,10 +44,6 @@ export async function uploadCarImagesApi(carImagesFormData: FormData) {
 
         const result = (err as AxiosError);
 
-
-        console.log('error', (err as AxiosError).request);
-
-        
         return Promise.reject(result);
     }
 

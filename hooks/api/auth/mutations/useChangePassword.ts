@@ -49,8 +49,6 @@ export async function changePasswordApi(ChangePasswordRequestData: ChangePasswor
     }
     catch(err) {
 
-        console.log('error', (err as AxiosError).request);
-        
         return Promise.reject(false);
     }
 

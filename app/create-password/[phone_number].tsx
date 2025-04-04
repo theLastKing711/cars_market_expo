@@ -34,9 +34,7 @@ const CreatePassword = () => {
           router.back();
           saveToken(token);
         },
-        onError: (data) => {
-          console.log("message", data.message);
-        },
+        onError: (data) => {},
       }
     );
   };

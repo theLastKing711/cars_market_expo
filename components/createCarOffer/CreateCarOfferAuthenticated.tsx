@@ -28,11 +28,11 @@ import { useDeleteFileApi } from "@/hooks/api/shared/mutations/useDeleteFile";
 import { UploadFileResponseData } from "@/types/shared";
 import FullScreenImageViewerModal from "@/components/createCarOffer/FullScreenImageViewerModal";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useDialog } from "@/hooks/ui/useDialog";
 import { useGetmaxCarUpload } from "@/hooks/api/car/Queries/useGetUserMaxCarUpload";
 import useSnackBarStore from "@/state/useSnackBarStore";
 import useLoadingStore from "@/state/useLoadingStore";
+import { SafeAreaView } from "react-native-safe-area-context";
 const styles = StyleSheet.create({
   textContainer: {},
   textInput: {
@@ -257,7 +257,7 @@ const CreateCarOfferAuthenticated = () => {
             paddingHorizontal: 16,
             backgroundColor: theme.colors.surface,
             paddingTop: 16,
-            paddingBottom: 90,
+            // paddingBottom: 90,
           }}
         >
           <Controller
