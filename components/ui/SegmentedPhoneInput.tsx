@@ -1,17 +1,10 @@
+import { getEnglishNumbers } from "@/libs/axios/helpers";
 import { useNavigation } from "@react-navigation/native";
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useCallback, useEffect, useRef } from "react";
 import { View } from "react-native";
 import { TextInput } from "react-native-paper";
 
 export type SegmentedPhoneInputProps = {
-  // number: string[];
-  // phoneNumber: React.Dispatch<React.SetStateAction<string[]>>;
   numbers: string[];
   setNumbers: React.Dispatch<React.SetStateAction<string[]>>;
   onInputFinish: (numberState: string) => void;
@@ -117,7 +110,9 @@ const SegmentedPhoneInput = forwardRef(
               const isLastNumber = index === numbers.length - 1;
 
               if (isLastNumber && text !== "") {
-                onInputFinish(newNumbers.join(""));
+                onInputFinish(
+                  getEnglishNumbers(newNumbers.join("")).toString()
+                );
               }
 
               setNumbers(newNumbers);

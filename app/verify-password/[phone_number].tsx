@@ -11,8 +11,6 @@ import { Keyboard } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const emtpyNumbers = [...new Array<string>(4).fill("")];
-
 const VerifyPassword = () => {
   const theme = useTheme();
 
@@ -47,7 +45,7 @@ const VerifyPassword = () => {
           saveToken(token);
         },
         onError: (data) => {
-          setNumbers(emtpyNumbers);
+          emptyNumbers();
           toggleIsFirstInputFocused((prev) => !prev);
           openSnackBarError(
             "كلمة المرور غير صحيحة للرقم المدخل, يرجى المحاولة مرة أخرى.",

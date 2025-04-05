@@ -147,8 +147,10 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
           <TextInput
             style={{
               marginBottom: 16,
+              textAlign: "right",
             }}
-            placeholder="السيارة. مثال: كيا فورتي, هونداي سانتافي 2011."
+            label="اسم السيارة"
+            placeholder=" مثال: كيا فورتي, هونداي سانتافي 2011."
             value={search}
             onChangeText={(text) => updateCarSearchParam({ search: text })}
           />

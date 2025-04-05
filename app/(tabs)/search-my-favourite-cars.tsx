@@ -45,8 +45,6 @@ const SearchMyFavouriteCars = () => {
     });
   };
 
-  const text = "honda " + "مسعملة";
-
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar
