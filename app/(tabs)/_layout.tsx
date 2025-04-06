@@ -27,29 +27,11 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="my-profile"
+        name="index"
         options={{
-          title: "حسابي",
+          title: "الرئيسية",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="person" color={color} size={24} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="search-my-cars"
-        options={{
-          title: "سياراتي",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="car" color={color} size={24} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="create-car-offer"
-        options={{
-          title: "إنشاء عرض",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="add" color={color} size={24} />
+            <Ionicons name="home" color={color} size={24} />
           ),
         }}
       />
@@ -63,11 +45,30 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="index"
+        name="create-car-offer"
         options={{
-          title: "الرئيسية",
+          title: "إنشاء عرض",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="home" color={color} size={24} />
+            <Ionicons name="add" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search-my-cars"
+        options={{
+          title: "سياراتي",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="car" color={color} size={24} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="my-profile"
+        options={{
+          title: "حسابي",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="person" color={color} size={24} />
           ),
         }}
       />

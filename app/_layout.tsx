@@ -1,8 +1,7 @@
 import useCarSearchStore from "@/state/useCarSearchStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
-import { View } from "react-native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Button, MD3DarkTheme, PaperProvider } from "react-native-paper";
 import React from "react";

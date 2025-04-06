@@ -7,7 +7,7 @@ import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { I18nManager, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,8 +25,6 @@ export type SearchCarOfferFormProps = {
 };
 
 const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
-  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
-
   const {
     data: paginatedCarSearchSuggestionData,
     search,
@@ -224,28 +222,6 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               animationType: "spring",
             }}
           />
-
-          <CustomPaperSegmentedButtonsSection
-            title="نوغ الوقود"
-            value={fuel_type}
-            onValueChange={(value) =>
-              updateCarSearchParam({
-                fuel_type: value,
-              })
-            }
-            buttons={FUELTYPELISTSEGMENTEDBUTTONS}
-          />
-          <CustomPaperSegmentedButtonsSection
-            title="نوع الناقل"
-            value={transmission}
-            onValueChange={(value) =>
-              updateCarSearchParam({
-                transmission: value,
-              })
-            }
-            buttons={TRANSMISSIONSEGMENTEDBUTTONS}
-          />
-
           <CustomPaperSegmentedButtonsSection
             title="السيارة جديدة(غير مستعملة)؟"
             value={is_new_car}
@@ -256,7 +232,6 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             }
             buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
           />
-
           <CustomPaperSegmentedButtonsSection
             title="السيارة مقصوصة(قصة)؟"
             value={is_kassah}
@@ -288,6 +263,26 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
               })
             }
             buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
+          />
+          <CustomPaperSegmentedButtonsSection
+            title="نوغ الوقود"
+            value={fuel_type}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                fuel_type: value,
+              })
+            }
+            buttons={FUELTYPELISTSEGMENTEDBUTTONS}
+          />
+          <CustomPaperSegmentedButtonsSection
+            title="نوع الناقل"
+            value={transmission}
+            onValueChange={(value) =>
+              updateCarSearchParam({
+                transmission: value,
+              })
+            }
+            buttons={TRANSMISSIONSEGMENTEDBUTTONS}
           />
         </View>
       </ScrollView>
