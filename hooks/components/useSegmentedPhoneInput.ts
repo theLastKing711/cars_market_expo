@@ -16,6 +16,7 @@ function useSegmentedNumberInput(length: number) {
     const emptyNumbers = () => {
         const emptyNumbers = 
             numbers.map(item => "");
+        setNumbers(emptyNumbers);
     }
 
     return {

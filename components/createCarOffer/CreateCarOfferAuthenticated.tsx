@@ -202,19 +202,18 @@ const CreateCarOfferAuthenticated = () => {
     ? "جاري تحميل الصور"
     : "جاري إنشاء العرض";
 
+  const submit = handleSubmit(onSubmit);
+
   const submitText = isLoadingVisible ? (
-    <CustomFormButton
-      onPress={handleSubmit(onSubmit)}
-      style={{ marginTop: 12, marginBottom: 24 }}
-    >
+    <Button onPress={submit} style={{ marginTop: 12, marginBottom: 24 }}>
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
         <Text>{loadingButtonText}</Text>
       </View>
-    </CustomFormButton>
+    </Button>
   ) : (
     <CustomFormButton
-      onPress={handleSubmit(onSubmit)}
+      onPress={submit}
       style={{ marginTop: 12, marginBottom: 24 }}
     >
       إنشاء العرض

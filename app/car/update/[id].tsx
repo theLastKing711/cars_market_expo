@@ -10,7 +10,6 @@ import {
   Button,
   Dialog,
   HelperText,
-  Surface,
   Text,
   TextInput,
   useTheme,
@@ -112,7 +111,11 @@ const UpdateCarOffer = () => {
   };
 
   const onFileDelete = (fileIndex: number) => {
-    const fileToDelete = images.find((item, index) => index === fileIndex)!;
+    console.log("images", oldCarDetailsData?.data.images);
+
+    const fileToDelete = oldCarDetailsData?.data.images.find(
+      (item, index) => index === fileIndex
+    )!;
 
     const updatedImagesList = images.filter(
       (image) => image.file_url !== fileToDelete.file_url

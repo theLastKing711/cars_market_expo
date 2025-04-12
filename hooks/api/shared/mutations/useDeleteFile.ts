@@ -23,6 +23,7 @@ export function useDeleteFileApi() {
 }
 
 export async function deleteFileApi({ public_id }: FilePublicIdPathParameterData) {
+    
     try {
         const deleteFileUrl = `${FILES_URL}/${public_id}`;
         
@@ -34,7 +35,6 @@ export async function deleteFileApi({ public_id }: FilePublicIdPathParameterData
         }
     }
     catch(err) {
-                
         return Promise.reject(false);
     }
 

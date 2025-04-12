@@ -95,6 +95,12 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
+              name="create-password/[phone_number]"
+              options={{
+                title: "تسجيل حساب جديد",
+              }}
+            />
+            <Stack.Screen
               name="verify-password/[phone_number]"
               options={{
                 title: "تسجيل الدخول",
@@ -118,6 +124,7 @@ export default function RootLayout() {
                 title: "تغيير كلمة المرور",
               }}
             />
+
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="home" />
           </Stack>

@@ -1,5 +1,5 @@
-import React from "react";
 import SearchCarOfferForm from "@/components/SearchCarOfferForm";
+import React from "react";
 
 const Index = () => {
   return <SearchCarOfferForm />;

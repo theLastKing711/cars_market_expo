@@ -15,30 +15,31 @@ export const apiClient = axios.create({
     // xsrfCookieName: "XSRF-TOKEN",
     // xsrfHeaderName: "X-XSRF-TOKEN",
 });
-// apiClient
-//     .interceptors
-//     .request
-//     .use(async (config: any) => {
-//         const access_token =  await getTokenAsync();
 
-//         alert(access_token)
+apiClient
+    .interceptors
+    .request
+    .use(async (config: any) => {
+        const access_token =  await getTokenAsync();
 
-//         if(! access_token)
-//         {
-//             router.navigate('/');//after if code continue to run so we must return
-//             return;
-//         }
+        // alert(access_token)
 
-//         return {
-//             ...config,
-//             headers: {
-//                 ...config.headers,
-//                 Authorization: `Bearer ${access_token}`
-//             }
-//         };
+        // if(! access_token)
+        // {
+        //     router.navigate('/');//after if code continue to run so we must return
+        //     return;
+        // }
+
+        return {
+            ...config,
+            headers: {
+                ...config.headers,
+                Authorization: `Bearer ${access_token}`
+            }
+        };
     
-//     }
-// );
+    }
+);
 
 // apiClient
 //     .interceptors
