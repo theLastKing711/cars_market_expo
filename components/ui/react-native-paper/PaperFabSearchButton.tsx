@@ -24,8 +24,9 @@ const PaperFabSearchButton = ({
         zIndex: 30000000,
         marginHorizontal: 16,
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
+        flex: 1,
+        // justifyContent: "center",
+        alignItems: "center",
       }}
       label={isLoading ? "" : label}
       // label={label}

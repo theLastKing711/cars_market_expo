@@ -2,7 +2,6 @@
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import {  useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 
 export function useFavouriteCar(id: number) {
 

@@ -53,12 +53,8 @@ export function useGetHomeData() {
     const debouncedKmFrom = useDebounce(miles_travelled_in_km_from, 500);
     
     const debouncedKmTo = useDebounce(miles_travelled_in_km_to, 500);
-    
-
 
     //must be called manually in view
-
-    // //must be called manually in view
     const {data, isLoading, hasNextPage, isFetching, fetchNextPage} = useInfiniteQuery(
         {
             //if one of debounced parameters change,then re-run the query with updated values

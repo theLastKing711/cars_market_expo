@@ -40,7 +40,7 @@ const CarSearchResult = () => {
   React.useEffect(() => {
     navigation.setOptions({
       title:
-        "عدد نتائج البحث" +
+        "عدد نتائج البحث " +
         paginatedCarSearchSuggestionData?.pages[0].total.toString(),
     });
   }, [navigation, paginatedCarSearchSuggestionData?.pages[0].total.toString()]);

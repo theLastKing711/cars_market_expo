@@ -4,17 +4,21 @@ import { AUTH_URL } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import { setTokenAsync } from "@/libs/axios/secureStorage";
 import { TokenResponse } from "@/types/auth/token";
-import {  useMutation } from "@tanstack/react-query";
+import {  useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, HttpStatusCode } from "axios";
 import { router } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 
 export function useCreatePassword() {
 
+   const queryClient = useQueryClient();
     
    const { mutate: createPassword } = useMutation(
         {
-            mutationFn:(createPasswordRequestData: CreatePasswordRequestData) => createPasswordApi(createPasswordRequestData)
+            mutationFn:(createPasswordRequestData: CreatePasswordRequestData) => createPasswordApi(createPasswordRequestData),
+            onSuccess: () => {
+                queryClient.clear();
+            }
         }
     );
     

@@ -10,7 +10,12 @@ import CustomSnackBar from "@/components/ui/react-native-paper/CustomSnackBar";
 import FullScreenLoading from "@/components/ui/react-native-paper/FullScreenLoading";
 
 export const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 2 } },
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 60000,
+    },
+  },
 });
 
 const styles = StyleSheet.create({
