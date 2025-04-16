@@ -24,15 +24,13 @@ const PaperFabSearchButton = ({
         zIndex: 30000000,
         marginHorizontal: 16,
         display: "flex",
-        flex: 1,
-        // justifyContent: "center",
-        alignItems: "center",
+        alignItems: isLoading ? "center" : "stretch",
+        // alignItems: "center",
       }}
       label={isLoading ? "" : label}
-      // label={label}
       onPress={onSearch}
-      icon={isLoading ? ActivityIndicator : ""}
-    />
+      loading={isLoading}
+    ></FAB>
   );
 };
 
