@@ -10,7 +10,7 @@ import { TRANSMISSIONLOOKUP } from "@/types/enums/TransmissionType";
 import { router, useNavigation } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 const CarSearchResult = () => {
   const {
@@ -19,7 +19,6 @@ const CarSearchResult = () => {
     isFetching,
     hasNextPage,
     car_sell_location,
-    car_label_origin,
     is_faragha_jahzeh,
     is_kassah,
     is_new_car,
@@ -29,7 +28,6 @@ const CarSearchResult = () => {
     price_from,
     price_to,
     search,
-    shippable_to,
     transmission,
     fuel_type,
     import_type,
@@ -42,7 +40,8 @@ const CarSearchResult = () => {
   React.useEffect(() => {
     navigation.setOptions({
       title:
-        paginatedCarSearchSuggestionData?.pages[0].total.toString() + " نتائج",
+        "عدد نتائج البحث" +
+        paginatedCarSearchSuggestionData?.pages[0].total.toString(),
     });
   }, [navigation, paginatedCarSearchSuggestionData?.pages[0].total.toString()]);
 

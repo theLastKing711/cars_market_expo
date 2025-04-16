@@ -120,6 +120,8 @@ const CreateCarOfferAuthenticated = () => {
 
     const createCarOfferRequestData = getCarOfferRequestFromForm(data);
 
+    console.log("submit data", createCarOfferRequestData);
+
     createCarOffer(createCarOfferRequestData, {
       onSuccess: () => {
         openSnackBarSuccess("تم إنشاء العرض بنجاح");
@@ -228,7 +230,7 @@ const CreateCarOfferAuthenticated = () => {
     return;
   }
 
-  const remaining_car_uploads_count = `عدد السيارات المتبقية المسموح تحميلها ${maxCarUploadData?.data.max_number_of_car_upload}`;
+  const remaining_car_uploads_count = `عدد السيارات المتبقية المسموح تحميلها 1`;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>

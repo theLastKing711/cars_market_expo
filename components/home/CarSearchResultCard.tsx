@@ -78,12 +78,12 @@ const CarSearchResultCard = ({
     : "-";
 
   const is_kassah_text =
-    is_kassah == null ? "-" : is_kassah == false ? "قصة" : "غير مقصوصة";
+    is_kassah == null ? "-" : is_kassah == true ? "قصة" : "غير مقصوصة";
 
   const is_khalyeh_text =
     is_kassah == null
       ? "-"
-      : is_khalyeh == false
+      : is_khalyeh == true
       ? "خالية العلام"
       : "غير خالية العلام";
 

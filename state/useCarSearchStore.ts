@@ -56,8 +56,7 @@ export type UseCarSearchStoreState = {
 }
 
 
-const useCarSearchStore = create<UseCarSearchStoreState>((set, stae) => ({
-    // set the initial value in the store to 0 bears
+const useCarSearchStore = create<UseCarSearchStoreState>((set, state) => ({
     params: emptySearchQuery,
     updateCarSearchParam: (param: Partial<UseCarSearchStoreParams>) => set((state) => ({...state, params: {
         ...state.params, ...param

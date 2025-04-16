@@ -1,4 +1,3 @@
-import CustomPaperChipsList from "@/components/ui/react-native-paper/CustomPaperChipsList";
 import CustomPaperSegmentedButtonsSection from "@/components/ui/react-native-paper/CustomPaperSegmentedButtonsSection";
 import CustomPaperTextInputRangeSection from "@/components/ui/react-native-paper/CustomPaperTextInputRangeSectionProps";
 import { REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION } from "@/constants/libs";
@@ -6,8 +5,7 @@ import { useGetHomeData } from "@/hooks/api/home/Queries/useGetHomeData";
 import { FUELTYPELISTSEGMENTEDBUTTONS } from "@/types/enums/FuelType";
 import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import { I18nManager, View } from "react-native";
+import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,6 +16,8 @@ import {
   minimum_price_from,
 } from "@/constants/variables";
 import PaperFabSearchButton from "./ui/react-native-paper/PaperFabSearchButton";
+import { getEnglishNumbers } from "@/libs/axios/helpers";
+import { View } from "react-native";
 
 export type SearchCarOfferFormProps = {
   onSearch?: () => void;
@@ -27,19 +27,13 @@ export type SearchCarOfferFormProps = {
 const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
   const {
     data: paginatedCarSearchSuggestionData,
+    isLoading,
     search,
-    car_label_origin,
-    car_sell_location,
     fuel_type,
-    import_type,
     miles_travelled_in_km_from,
     miles_travelled_in_km_to,
     price_from,
     price_to,
-    shippable_to,
-    user_current_syrian_city,
-    user_has_legal_car_papers,
-    year_manufactured,
     transmission,
     is_new_car,
     is_faragha_jahzeh,
@@ -55,26 +49,46 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
 
   const theme = useTheme();
 
-  const slider_miles_travelled_in_km =
-    miles_travelled_in_km_from || miles_travelled_in_km_to
-      ? [
-          parseInt(miles_travelled_in_km_from) || 0,
-          parseInt(miles_travelled_in_km_to) || 0,
-        ]
-      : undefined;
+  const getSliderValues = (
+    from: string,
+    to: string,
+    min: number,
+    max: number
+  ) => {
+    if (from === "" && to === "") {
+      return undefined;
+    }
+
+    if (from && !to) {
+      return [getEnglishNumbers(from), getEnglishNumbers(max.toString())];
+    }
+
+    if (to && !from) {
+      return [getEnglishNumbers(min.toString()), getEnglishNumbers(to)];
+    }
+
+    return [getEnglishNumbers(from), getEnglishNumbers(to)];
+  };
+
+  const slider_miles_travelled_in_km = getSliderValues(
+    miles_travelled_in_km_from,
+    miles_travelled_in_km_to,
+    minimum_miles_travelled_in_km_from,
+    maximumm_miles_travelled_in_km_to
+  );
 
   const onSliderMilesTravelledInKmChange = (value: number[]) => {
     //component returns undefined for second array item, first item is the end value
     const isFirstSlide = value.length === 1;
 
-    if (isFirstSlide) {
-      updateCarSearchParam({
-        miles_travelled_in_km_from: "0",
-        miles_travelled_in_km_to: value[0].toString(),
-      });
+    // if (isFirstSlide) {
+    //   updateCarSearchParam({
+    //     miles_travelled_in_km_from: "0",
+    //     miles_travelled_in_km_to: value[0].toString(),===============
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const [slider_miles_from, slider_miles_to] = value;
 
@@ -84,22 +98,24 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
     });
   };
 
-  const slider_prices =
-    price_from || price_to
-      ? [parseInt(price_from) || 0, parseInt(price_to) || 0]
-      : undefined;
+  const slider_prices = getSliderValues(
+    price_from,
+    price_to,
+    minimum_price_from,
+    maximum_price_to
+  );
 
   const onSliderPriceChange = (value: number[]) => {
     const isFirstSlide = value.length === 1;
 
-    if (isFirstSlide) {
-      updateCarSearchParam({
-        price_from: "0",
-        price_to: value[0].toString(),
-      });
+    // if (isFirstSlide) {
+    //   updateCarSearchParam({
+    //     price_from: "0",
+    //     price_to: value[0].toString(),
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const [slider_price_from, slider_price_to] = value;
 
@@ -267,21 +283,21 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
           <CustomPaperSegmentedButtonsSection
             title="نوغ الوقود"
             value={fuel_type}
-            onValueChange={(value) =>
+            onValueChange={(value) => {
               updateCarSearchParam({
                 fuel_type: value,
-              })
-            }
+              });
+            }}
             buttons={FUELTYPELISTSEGMENTEDBUTTONS}
           />
           <CustomPaperSegmentedButtonsSection
             title="نوع الناقل"
             value={transmission}
-            onValueChange={(value) =>
+            onValueChange={(value) => {
               updateCarSearchParam({
                 transmission: value,
-              })
-            }
+              });
+            }}
             buttons={TRANSMISSIONSEGMENTEDBUTTONS}
           />
         </View>
@@ -289,6 +305,7 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
       <PaperFabSearchButton
         label={searchButtonText}
         onSearch={navigateToSearchResultPage}
+        isLoading={isLoading}
       />
     </SafeAreaView>
   );

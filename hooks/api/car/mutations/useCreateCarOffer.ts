@@ -35,6 +35,8 @@ export async function createCarOfferApi(createCarOfferRequestData: CreateCarOffe
     
     try {
         const createCarOfferUrl = `${HOME_URI}`;
+
+        console.log("createCarOfferRequestData", createCarOfferRequestData)
         
         const response = await apiClient
                                 .post

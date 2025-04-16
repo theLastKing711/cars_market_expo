@@ -12,7 +12,7 @@ const carFilterLookup =  {
     fuel_type: "نوع الناقل",
     import_type: "استيراد",
     is_faragha_jahzeh: "جاهزة للفراغة",
-    is_kassah: "مقضوصة",
+    is_kassah: "مقصوصة",
     is_khalyeh: "خالبة العلام",
     is_new_car: "جديدة",
     miles_travelled_in_km_from: "قاطعة من",

@@ -1,9 +1,10 @@
 import React from "react";
-import { FAB } from "react-native-paper";
+import { ActivityIndicator, FAB } from "react-native-paper";
 
 export type PaperFabSearchButtonProps = {
   label: string;
   onSearch?: () => void;
+  isLoading?: boolean;
 };
 
 export const FLOATING_BUTTON_BOTTOM = 32;
@@ -11,6 +12,7 @@ export const FLOATING_BUTTON_BOTTOM = 32;
 const PaperFabSearchButton = ({
   label,
   onSearch,
+  isLoading = false,
 }: PaperFabSearchButtonProps) => {
   return (
     <FAB
@@ -21,9 +23,14 @@ const PaperFabSearchButton = ({
         right: 0,
         zIndex: 30000000,
         marginHorizontal: 16,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
       }}
-      label={label}
+      label={isLoading ? "" : label}
+      // label={label}
       onPress={onSearch}
+      icon={isLoading ? ActivityIndicator : ""}
     />
   );
 };

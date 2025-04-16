@@ -441,3 +441,15 @@ export const getBooleanFromFormString = (value: any) => {
             break;
     }
 }
+
+
+export const getIntFromEnum = (value: string | undefined) => {
+
+    if(! value)
+    {
+        return null;
+    }
+
+    return parseInt(value)
+        
+}

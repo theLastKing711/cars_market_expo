@@ -47,8 +47,8 @@ const SearchMyCarsAuthenticated = () => {
   };
 
   const totalText = paginatedSearchMyCarsData?.pages[0].total.toString()
-    ? paginatedSearchMyCarsData?.pages[0].total.toString() + " نتائج بحث"
-    : "نتائج بحث";
+    ? "عدد نتائج البحث " + paginatedSearchMyCarsData?.pages[0].total.toString()
+    : "عدد نتائج البحث 0";
 
   return (
     <SafeAreaView style={styles.container}>

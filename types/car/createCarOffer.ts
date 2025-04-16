@@ -1,5 +1,5 @@
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
-import { getEnglishNumbers, getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
+import { getBooleanFromFormString, getEnglishNumbers, getIntFromEnum, getListItemsFirstValue, getListItemsFirstValueAsBoolean, getListItemsFirstValueAsBooleanOrNull, getListItemsFirstValueAsNumber, getListItemsFirstValueAsNumberOrNull } from "@/libs/axios/helpers";
 import { PaperSegmentedButtonItem } from "../shared";
 
 export type CreateCarOfferForm = {
@@ -18,12 +18,12 @@ export type CreateCarOfferForm = {
 export type CreateCarOfferRequestData = {
     name_ar: string;
     name_en?: string;
-    is_new_car: boolean;
     car_price: number;
     fuel_type: number | null;
     transmission: number | null;
     miles_travelled_in_km: number | null;
     is_faragha_jahzeh: boolean | null;
+    is_new_car: boolean | null;
     is_kassah: boolean | null;
     is_khalyeh: boolean | null;
 }
@@ -44,12 +44,12 @@ export function getCarOfferRequestFromForm({
         name_ar: name_ar,
         miles_travelled_in_km: getEnglishNumbers(miles_travelled_in_km),
         car_price: getEnglishNumbers(car_price),
-        transmission: transmission ? parseInt(transmission): null,
-        fuel_type:  1,
-        is_faragha_jahzeh: Boolean(is_faragha_jahzeh),
-        is_kassah: Boolean(is_kassah),
-        is_khalyeh: Boolean(is_khalyeh),
-        is_new_car: Boolean(is_new_car),
+        transmission: getIntFromEnum(transmission),
+        fuel_type:  getIntFromEnum(fuel_type),
+        is_new_car: getBooleanFromFormString(is_new_car),
+        is_faragha_jahzeh: getBooleanFromFormString(is_faragha_jahzeh),
+        is_kassah: getBooleanFromFormString(is_kassah),
+        is_khalyeh: getBooleanFromFormString(is_khalyeh),
     }
     
     return createCarOfferRequest;

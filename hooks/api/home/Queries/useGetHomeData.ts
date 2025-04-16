@@ -1,12 +1,12 @@
 import { HOME_URI } from '@/constants/api';
 import { maximum_price_to, maximumm_miles_travelled_in_km_to, minimum_miles_travelled_in_km_from, minimum_price_from } from '@/constants/variables';
 import { apiClient } from "@/libs/axios/config";
+import { getEnglishNumbers } from '@/libs/axios/helpers';
 import useCarSearchStore, { UseCarSearchStoreParams } from '@/state/useCarSearchStore';
 import {SearchCarOfferPaginationResultData } from "@/types/home";
 import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
-import { AxiosError } from 'axios';
 
 var qs = require('qs');
 
@@ -187,6 +187,17 @@ async function getSearchSuggestionsApi({
             &&
             price_to == maximum_price_to.toString(); 
 
+
+        const miles_travelled_in_km_from_en = miles_travelled_in_km_from ? getEnglishNumbers(miles_travelled_in_km_from) : '';
+
+
+        const miles_travelled_in_km_to_en = miles_travelled_in_km_to ? getEnglishNumbers(miles_travelled_in_km_to) : '';
+
+        const price_from_en = price_from ? getEnglishNumbers(price_from) : '';
+
+
+        const price_to_en = price_to ? getEnglishNumbers(price_to) : '';
+        
         const response = await apiClient
                                 .get<SearchCarOfferPaginationResultData>
                                 (
@@ -198,10 +209,10 @@ async function getSearchSuggestionsApi({
                                             car_sell_location: car_sell_location == "-1" ? "" : car_sell_location,
                                             fuel_type,
                                             import_type,
-                                            miles_travelled_in_km_from: are_miles_travelled_unchanged ? '' : miles_travelled_in_km_from,
-                                            miles_travelled_in_km_to: are_miles_travelled_unchanged ? '' : miles_travelled_in_km_to,
-                                            price_from: are_prices_unchanged ? '' : price_from,
-                                            price_to: are_prices_unchanged ? '' : price_to,
+                                            miles_travelled_in_km_from: are_miles_travelled_unchanged ? '' : miles_travelled_in_km_from_en,
+                                            miles_travelled_in_km_to: are_miles_travelled_unchanged ? '' : miles_travelled_in_km_to_en,
+                                            price_from: are_prices_unchanged ? '' : price_from_en,
+                                            price_to: are_prices_unchanged ? '' : price_to_en,
                                             user_current_syrian_city,
                                             user_has_legal_car_papers,
                                             year_manufactured,
