@@ -11,8 +11,8 @@ import ShippableToSection from "@/components/carOfferDetails/ShippableToSection"
 import { useGetCarOfferDetails } from "@/hooks/api/car/Queries/useGetCarOfferDetails";
 import { FUELTYPELIST } from "@/types/enums/FuelType";
 import { useLocalSearchParams } from "expo-router";
-import React, { useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Linking, ScrollView, StyleSheet, View } from "react-native";
 import { FAB, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import call from "react-native-phone-call";
@@ -22,6 +22,8 @@ const CarOfferDetails = () => {
   const { id } = useLocalSearchParams<{
     id: string;
   }>();
+
+  const [userHasWhatsApp, setUserHasWhatsApp] = useState(false);
 
   const { showLoading, hideLoading, setLoading } = useLoadingStore();
 
@@ -75,6 +77,21 @@ const CarOfferDetails = () => {
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    console.log("hello world");
+
+    const test = async () => {
+      const canOpenWhatsApp = await Linking.canOpenURL(
+        "http://api.whatsapp.com/send?phone=+9639682598512"
+      );
+      if (canOpenWhatsApp) {
+        setUserHasWhatsApp(true);
+      }
+    };
+
+    test();
+  }, []);
 
   if (isLoading) {
     return;
@@ -133,8 +150,14 @@ const CarOfferDetails = () => {
           style={{ flex: 1 }}
         />
         <FAB
+          disabled={!userHasWhatsApp}
           label="اتصل واتس بالبائع"
-          onPress={() => {}}
+          onPress={() => {
+            Linking.openURL(
+              `http://api.whatsapp.com/send?phone=+9639682598512`
+            );
+            // Linking.openURL("https://wa.me/963968259851");
+          }}
           icon="whatsapp"
           style={{ flex: 1 }}
         />
