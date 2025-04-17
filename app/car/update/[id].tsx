@@ -18,26 +18,12 @@ const UpdateCarOffer = () => {
 
   const theme = useTheme();
 
-  // useEffect(() => {
-  //   setLoading(isLoading);
-  // }, [isLoading]);
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   if (!oldCarDetailsData) {
-    return (
-      <Portal>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 10000,
-            backgroundColor: theme.colors.surface,
-          }}
-        >
-          <ActivityIndicator size={48} />
-        </View>
-      </Portal>
-    );
+    return;
   }
 
   return <UpdateCarDetailsForm oldCarDetailsData={oldCarDetailsData.data} />;

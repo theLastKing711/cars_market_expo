@@ -24,8 +24,8 @@ export function useUpdateCarOffer() {
             onSuccess:
                 () =>
                     {
-                        queryClient.invalidateQueries({queryKey: ['getUpdateCarOffer', id.toString()]})
-                        queryClient.invalidateQueries({queryKey: ['searchMyCars']})
+                        queryClient.invalidateQueries({queryKey: ['getUpdateCarOffer', id.toString()]});
+                        queryClient.invalidateQueries({queryKey: ['searchMyCars']});
                     }
         }
     );

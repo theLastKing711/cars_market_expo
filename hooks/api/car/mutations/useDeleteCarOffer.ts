@@ -3,10 +3,8 @@ import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
 import useLoadingStore from "@/state/useLoadingStore";
 import {  useMutation, useQueryClient} from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { useState } from "react";
 
-// but can be achieved using a styling library like Nativewind.
+
 export function useDeleteCarOffer(id: number, onSuccess?: () => void, onError?: () => void) {
 
     const queryClient = useQueryClient();

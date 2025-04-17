@@ -156,7 +156,10 @@ export const UpdateCarDetailsForm = ({
 
         router.back();
       },
-      onError: () => alert("error"),
+      onError: () =>
+        openSnackBarError(
+          "فشل عملية تعديل البيانات, يرجى التأكد من وجود اتصال بالشبكة."
+        ),
     });
   };
 
@@ -164,23 +167,31 @@ export const UpdateCarDetailsForm = ({
 
   const isLoadingVisible = isUploadingImage || isUpdatingCarOffer;
 
+  const submit = handleSubmit(onSubmit);
+
   const loadingButtonText = isUploadingImage
     ? "جاري تحميل الصور"
     : "جاري تعديل بيانات العرض العرض";
 
   const submitText = isLoadingVisible ? (
-    <CustomFormButton
-      onPress={handleSubmit(onSubmit)}
-      style={{ marginTop: 20 }}
-    >
+    // <CustomFormButton
+    //   onPress={handleSubmit(onSubmit)}
+    //   style={{ marginTop: 20 }}
+    // >
+    //   <View style={{ gap: 8 }}>
+    //     <ActivityIndicator ؤخم />
+    //     <Text>جاري تعديل العرض</Text>
+    //   </View>
+    // </CustomFormButton>
+    <Button onPress={submit} style={{ marginTop: 12, marginBottom: 24 }}>
       <View style={{ gap: 8 }}>
         <ActivityIndicator />
         <Text>{loadingButtonText}</Text>
       </View>
-    </CustomFormButton>
+    </Button>
   ) : (
     <CustomFormButton
-      onPress={handleSubmit(onSubmit)}
+      onPress={submit}
       mode="contained"
       style={{ marginTop: 20 }}
     >
