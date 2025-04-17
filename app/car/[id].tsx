@@ -151,7 +151,7 @@ const CarOfferDetails = () => {
         />
         <FAB
           disabled={!userHasWhatsApp}
-          label="اتصل واتس بالبائع"
+          label="تواصل واتس"
           onPress={() => {
             Linking.openURL(
               `http://api.whatsapp.com/send?phone=+9639682598512`
