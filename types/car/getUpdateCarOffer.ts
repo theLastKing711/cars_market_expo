@@ -3,7 +3,7 @@ import { TransmissionKey } from '../enums/TransmissionType';
 // import { FuelType } from '../enums/FuelType';
 import { ShippableToCityData } from '../home';
 import { DeletableMediaData } from '../shared';
-export type getUpdateCarOffersRespnseData = {
+export type getUpdateCarOffersResponseData = {
     id: number;
     manufacturer_name_en: string | null;
     name_ar: string | null;

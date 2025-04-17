@@ -1,7 +1,7 @@
 
 import { HOME_URI } from "@/constants/api";
 import { apiClient } from "@/libs/axios/config";
-import { getUpdateCarOffersRespnseData } from "@/types/car/getUpdateCarOffer";
+import { getUpdateCarOffersResponseData } from "@/types/car/getUpdateCarOffer";
 import {  useQuery } from "@tanstack/react-query";
 
 // but can be achieved using a styling library like Nativewind.
@@ -11,7 +11,8 @@ export function useGetUpdateCarOffer(id: string) {
    const {data, isLoading} = useQuery(
         {
             queryKey: ['getUpdateCarOffer', id.toString()],
-            queryFn:() => getUpdateCarOfferApi(id)
+            queryFn:() => getUpdateCarOfferApi(id),
+            staleTime: Infinity
         }
     );
     
@@ -28,7 +29,7 @@ export async function getUpdateCarOfferApi(id: string) {
         const getCarOfferDetailsUrl = `${HOME_URI}/updateDetails/${id}`;
         
         const response = await apiClient
-                                .get<getUpdateCarOffersRespnseData>
+                                .get<getUpdateCarOffersResponseData>
                                 (getCarOfferDetailsUrl);
 
         return {

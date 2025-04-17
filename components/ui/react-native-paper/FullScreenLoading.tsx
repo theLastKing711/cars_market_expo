@@ -19,7 +19,7 @@ const FullScreenLoading = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              zIndex: -10000,
+              zIndex: 10000,
               backgroundColor: isTransparent
                 ? "transparent"
                 : theme.colors.surface,

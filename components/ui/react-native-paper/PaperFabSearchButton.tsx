@@ -25,7 +25,6 @@ const PaperFabSearchButton = ({
         marginHorizontal: 16,
         display: "flex",
         alignItems: isLoading ? "center" : "stretch",
-        // alignItems: "center",
       }}
       label={isLoading ? "" : label}
       onPress={onSearch}
