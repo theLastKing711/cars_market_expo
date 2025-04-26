@@ -4,9 +4,9 @@ import { FlatList, ListRenderItem, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import ChipsFilterSection from "../carSearchResult/ChipsFilterSection";
 
-export type CarSearchResultCardList = {
-  items: CarListData[];
-  renderItem: ListRenderItem<CarListData> | null | undefined;
+export type CarSearchResultCardList<T> = {
+  items: T[];
+  renderItem: ListRenderItem<T> | null | undefined;
   hasNextPage: boolean;
   isFetching: boolean;
   fetchNextPage: () => void;
@@ -14,7 +14,7 @@ export type CarSearchResultCardList = {
   stickyHeaderComponent?: React.ComponentType<any> | undefined;
 };
 
-const CarSearchResultCardList = ({
+const CarSearchResultCardList = <T,>({
   items,
   renderItem,
   hasNextPage,
@@ -22,7 +22,7 @@ const CarSearchResultCardList = ({
   fetchNextPage,
   isLoading,
   stickyHeaderComponent,
-}: CarSearchResultCardList) => {
+}: CarSearchResultCardList<T>) => {
   const loadingComponent = isLoading ? ActivityIndicator : undefined;
 
   const fetchNextPageIfThereIsNoPreviousOnGoingFetching = () => {

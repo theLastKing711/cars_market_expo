@@ -91,3 +91,12 @@ export type CarSearchFilterChipItem = {
     text: string;
     onClose: () => void;
 }
+
+
+export type PaginationResultData<T> = {
+    data: T[];
+    current_page: number;
+    per_page: number;
+    next_page_url: string | null;
+    total: number;
+}

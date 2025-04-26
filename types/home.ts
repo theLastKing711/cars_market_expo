@@ -1,13 +1,11 @@
-import { SYRIANCITY, SyrianCityKey } from '@/types/enums/SyrianCity';
+import {  SyrianCityKey } from '@/types/enums/SyrianCity';
 import { ListItem } from "react-native-paper-select/lib/typescript/interface/paperSelect.interface";
-import { MediaData, PagiantionQueryParameter } from "./shared";
+import { MediaData, PaginationResultData } from "./shared";
 
 export type CarListData = {
     id: number;
     name_ar: string | null;
-    year_manufactured: number | null;
     car_price: number | null;
-    // car_import_type: ImportType | null;
     miles_travelled_in_km: number | null;
     fuel_type: number | null;
     car_sell_location: SyrianCityKey | null,
@@ -15,7 +13,7 @@ export type CarListData = {
     is_khalyeh: boolean | null;
     is_faragha_jahzeh: boolean | null;
     is_new_car: boolean | null;
-    shippable_to: Array<ShippableToCityData>;
+    // shippable_to: Array<ShippableToCityData>; 
     is_favourite?: boolean;
     image: MediaData;
 };
@@ -26,13 +24,9 @@ export type ManufacturerListResponseData = {
     logo: string;
 };
 
-export type SearchCarOfferPaginationResultData = {
-    data: Array<CarListData>;
-    current_page: number;
-    per_page: number;
-    next_page_url: string | null;
-    total: number;
-};
+export type SearchCarOfferPaginationResultData = 
+ PaginationResultData<CarListData>;
+
 
 export type SearchCarOfferResponseData = {
     paginated_cars_search_result: SearchCarOfferPaginationResultData;

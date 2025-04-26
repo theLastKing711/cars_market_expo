@@ -41,14 +41,12 @@ const CarSearchResultCard = ({
     id,
     name_ar,
     miles_travelled_in_km,
-    year_manufactured,
     fuel_type,
     car_sell_location,
     is_kassah,
     is_khalyeh,
     is_faragha_jahzeh,
     is_new_car,
-    shippable_to,
     image,
     is_favourite,
   },
@@ -138,7 +136,7 @@ const CarSearchResultCard = ({
           flexDirection: "column",
           paddingTop: 16,
           gap: 12,
-          alignItems: "flex-start",
+          alignItems: "stretch",
         }}
       >
         {/* <Tooltip title="أضف إلى عربة التسوق">

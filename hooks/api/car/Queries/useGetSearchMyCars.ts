@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HOME_URI } from '@/constants/api';
 import { apiClient } from "@/libs/axios/config";
-import { SearchMyCarQueryParameterData } from '@/types/car/searchMyCars';
+import { SearchMyCarPaginationResultData, SearchMyCarQueryParameterData } from '@/types/car/searchMyCars';
 import {SearchCarOfferPaginationResultData } from "@/types/home";
 import { InifinteQueryPageParam } from '@/types/shared';
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 
 export function useGetSearchMyCars() {
     
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('');
 
     // //must be called manually in view 
     const {data, isLoading, hasNextPage, isFetching, fetchNextPage} = useInfiniteQuery(
@@ -58,7 +58,7 @@ async function getMyCarsSearchApi({
         const search_url = `${HOME_URI}/searchMyCars`;
 
         const response = await apiClient
-                                .get<SearchCarOfferPaginationResultData>
+                                .get<SearchMyCarPaginationResultData>
                                 (
                                     search_url, {
                                         params: {

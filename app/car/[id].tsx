@@ -79,8 +79,6 @@ const CarOfferDetails = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    console.log("hello world");
-
     const test = async () => {
       const canOpenWhatsApp = await Linking.canOpenURL(
         "http://api.whatsapp.com/send?phone=+9639682598512"

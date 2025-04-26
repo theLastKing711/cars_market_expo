@@ -6,7 +6,7 @@ import { useGetSearchMyCars } from "@/hooks/api/car/Queries/useGetSearchMyCars";
 import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Searchbar, Surface, Text, useTheme } from "react-native-paper";
+import { Icon, Searchbar, Surface, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "react-native-screens";
 import useLoadingStore from "@/state/useLoadingStore";
@@ -76,15 +76,31 @@ const SearchMyCarsAuthenticated = () => {
             item={item}
             onPress={navigateToDetailsPage}
             actions={
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  gap: 16,
-                }}
-              >
-                <DeleteButton id={item.id} />
-                <SoldButton id={item.id} />
+              <View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginBottom: 16,
+                    gap: 8,
+                  }}
+                >
+                  <Icon size={24} source="eye" />
+                  <Text variant="titleMedium">
+                    {/* {" "}
+                    عدد المشاهدات: {item.views} */}
+                    {item.views}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    gap: 16,
+                  }}
+                >
+                  <DeleteButton id={item.id} />
+                  <SoldButton id={item.id} />
+                </View>
               </View>
             }
           />

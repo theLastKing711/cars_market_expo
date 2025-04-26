@@ -21,5 +21,6 @@ export type getUpdateCarOffersResponseData = {
     shippable_to: Array<ShippableToCityData>;
     images:  Array<DeletableMediaData>;
     transmission: TransmissionKey | null;
-    max_number_of_car_upload: number
+    max_number_of_car_upload: number;
+    views: number;
 };
