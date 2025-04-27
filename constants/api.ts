@@ -8,7 +8,7 @@
 
 // export const BASE_URI = 'http://192.168.1.100:8000'; 
 
-export const BASE_URI = 'http://digitaldomain.site';
+export const BASE_URI = 'https://digitaldomain.site';
 
 
 //FOR WINDOWS 11 NEW PC

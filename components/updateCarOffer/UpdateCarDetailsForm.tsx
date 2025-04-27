@@ -10,7 +10,6 @@ import {
   Button,
   Dialog,
   HelperText,
-  Icon,
   Text,
   TextInput,
   useTheme,
@@ -264,23 +263,6 @@ export const UpdateCarDetailsForm = ({
   return (
     <ScrollView>
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.surface }}>
-        <View
-          style={{
-            flexDirection: "row",
-            marginBottom: 16,
-            gap: 8,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Icon size={48} source="eye" />
-          <Text variant="titleLarge">
-            {/* {" "}
-                    عدد المشاهدات: {item.views} */}
-            عدد المشاهدات: {oldCarDetailsData.views}
-          </Text>
-        </View>
-
         <ExpoImagesGrid
           isUploadingImages={isUploadingImage}
           imagesUris={imagesUris}

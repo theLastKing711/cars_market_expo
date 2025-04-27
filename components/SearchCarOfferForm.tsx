@@ -7,7 +7,7 @@ import { TRANSMISSIONSEGMENTEDBUTTONS } from "@/types/enums/TransmissionType";
 import { router } from "expo-router";
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { TextInput, useTheme } from "react-native-paper";
+import { SegmentedButtons, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   maximum_price_to,
@@ -147,7 +147,8 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
       style={{
         flex: 1,
         backgroundColor: theme.colors.surface,
-        paddingTop: !isModal ? 32 : 0,
+        // paddingTop: !isModal ? 32 : 0,
+        paddingTop: 16,
       }}
     >
       <ScrollView>
@@ -280,6 +281,40 @@ const SearchCarOfferForm = ({ onSearch, isModal }: SearchCarOfferFormProps) => {
             }
             buttons={REACTPAPERBOOLSEGMENTEDBUTTONSWITHUNSPECIFEDOPTION}
           />
+
+          {/* <SegmentedButtons fix problem in production android(fixed by row reverse and reverse array), waiting for ios version to ppaly
+            value="walk"
+            onValueChange={() => console.log("asldkj")}
+            // theme={{ roundness: 0, borderRadius: 0 }}
+            theme={{ roundness: 2 }}
+            buttons={[
+              {
+                style: {
+                  borderLeftWidth: 0,
+                },
+                value: "walk",
+                label: "Walking",
+              },
+              {
+                value: "train",
+                label: "Transit",
+              },
+              { value: "drive", label: "Driving" },
+            ]}
+            style={{
+              flexDirection: "row-reverse",
+              // borderRadius: 0,
+              // backgroundColor: "red",
+              borderWidth: 0,
+              borderTopWidth: 0,
+              borderRadius: 0,
+              padding: 0,
+              borderEndWidth: 0,
+              borderEndEndRadius: 0,
+              borderStartWidth: 0,
+              borderEndColor: "red",
+            }}
+          /> */}
           <CustomPaperSegmentedButtonsSection
             title="نوغ الوقود"
             value={fuel_type}
